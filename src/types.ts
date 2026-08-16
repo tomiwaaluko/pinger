@@ -21,3 +21,14 @@ export type AppConfig = {
   llm: { model: string };
   companies: CompanyConfig[];
 };
+
+export type SeenJob = {
+  title: string;
+  firstSeenAt: string;
+};
+
+export type SeenStore = {
+  [companyId: string]: {
+    [greenhouseId: string]: SeenJob;
+  };
+};
