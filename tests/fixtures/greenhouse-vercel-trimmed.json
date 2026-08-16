@@ -1,0 +1,120 @@
+{
+  "jobs": [
+    {
+      "id": 6136160004,
+      "title": "Account Executive, Commercial",
+      "absolute_url": "https://job-boards.greenhouse.io/vercel/jobs/6136160004",
+      "location": { "name": "Hybrid - London" },
+      "metadata": [
+        {
+          "id": 18783104004,
+          "name": "Career Site Categories",
+          "value": "Sales",
+          "value_type": "single_select"
+        }
+      ],
+      "departments": [
+        {
+          "id": 4085775004,
+          "name": "Account Executive",
+          "child_ids": [],
+          "parent_id": null
+        }
+      ],
+      "content": "&lt;p&gt;Sales role.&lt;/p&gt;"
+    },
+    {
+      "id": 6134374004,
+      "title": "Member of the Technical Staff, Internal Agent ",
+      "absolute_url": "https://job-boards.greenhouse.io/vercel/jobs/6134374004",
+      "location": { "name": "Remote - United States" },
+      "metadata": [
+        {
+          "id": 18783104004,
+          "name": "Career Site Categories",
+          "value": "Engineering",
+          "value_type": "single_select"
+        }
+      ],
+      "departments": [
+        {
+          "id": 4042495004,
+          "name": "Engineering",
+          "child_ids": [],
+          "parent_id": null
+        }
+      ],
+      "content": "&lt;p&gt;Internal agent.&lt;/p&gt;"
+    },
+    {
+      "id": 6093255004,
+      "title": "Security Software Engineer, IAM",
+      "absolute_url": "https://job-boards.greenhouse.io/vercel/jobs/6093255004",
+      "location": { "name": "Remote - United States" },
+      "metadata": [
+        {
+          "id": 18783104004,
+          "name": "Career Site Categories",
+          "value": "Security & IT",
+          "value_type": "single_select"
+        }
+      ],
+      "departments": [
+        {
+          "id": 4086320004,
+          "name": "Security",
+          "child_ids": [],
+          "parent_id": null
+        }
+      ],
+      "content": "&lt;p&gt;IAM.&lt;/p&gt;"
+    },
+    {
+      "id": 5474915004,
+      "title": "Software Engineer, AI SDK",
+      "absolute_url": "https://job-boards.greenhouse.io/vercel/jobs/5474915004",
+      "location": { "name": "Hybrid - San Francisco, New York City" },
+      "metadata": [
+        {
+          "id": 18783104004,
+          "name": "Career Site Categories",
+          "value": "Engineering",
+          "value_type": "single_select"
+        }
+      ],
+      "departments": [
+        {
+          "id": 4042495004,
+          "name": "Engineering",
+          "child_ids": [],
+          "parent_id": null
+        }
+      ],
+      "content": "&lt;p&gt;AI SDK.&lt;/p&gt;"
+    },
+    {
+      "id": 5788954004,
+      "title": "Software Engineer, Trust & Safety",
+      "absolute_url": "https://job-boards.greenhouse.io/vercel/jobs/5788954004",
+      "location": { "name": "Remote - United States" },
+      "metadata": [
+        {
+          "id": 18783104004,
+          "name": "Career Site Categories",
+          "value": "Engineering",
+          "value_type": "single_select"
+        }
+      ],
+      "departments": [
+        {
+          "id": 4086320004,
+          "name": "Security",
+          "child_ids": [],
+          "parent_id": null
+        }
+      ],
+      "content": "&lt;p&gt;Trust and Safety.&lt;/p&gt;"
+    }
+  ],
+  "meta": { "total": 5 }
+}

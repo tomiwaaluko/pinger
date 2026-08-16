@@ -32,3 +32,5 @@ export type SeenStore = {
     [greenhouseId: string]: SeenJob;
   };
 };
+
+export type FetchLike = typeof fetch;
