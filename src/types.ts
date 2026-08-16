@@ -34,3 +34,8 @@ export type SeenStore = {
 };
 
 export type FetchLike = typeof fetch;
+
+export type VaultContents = {
+  empty: boolean;
+  text: string;
+};
