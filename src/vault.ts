@@ -7,7 +7,7 @@ export function resolveCareerDir(vaultDir: string, careerPath: string): string {
   const vaultRoot = path.resolve(vaultDir);
   const resolved = path.resolve(vaultRoot, careerPath);
   const rel = path.relative(vaultRoot, resolved);
-  const normalized = rel.split(path.sep).join("/");
+  const normalized = rel.replace(/\\/g, "/");
   if (
     path.isAbsolute(rel) ||
     normalized === ".." ||

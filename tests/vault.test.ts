@@ -17,6 +17,17 @@ describe("resolveCareerDir", () => {
     expect(() => resolveCareerDir(vaultDir, "../")).toThrow(/escapes VAULT_DIR/);
   });
 
+  it("rejects .. escape with Windows-style and mixed separators", () => {
+    const vaultDir = mkdtempSync(path.join(tmpdir(), "pinger-vault-"));
+    expect(() => resolveCareerDir(vaultDir, "..\\")).toThrow(/escapes VAULT_DIR/);
+    expect(() => resolveCareerDir(vaultDir, "..\\outside")).toThrow(
+      /escapes VAULT_DIR/,
+    );
+    expect(() => resolveCareerDir(vaultDir, "../outside\\nested")).toThrow(
+      /escapes VAULT_DIR/,
+    );
+  });
+
   it("rejects an absolute path outside VAULT_DIR", () => {
     const vaultDir = mkdtempSync(path.join(tmpdir(), "pinger-vault-"));
     const outside = mkdtempSync(path.join(tmpdir(), "pinger-outside-"));
