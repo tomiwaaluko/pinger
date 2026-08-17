@@ -1,4 +1,4 @@
-import { mkdtempSync } from "node:fs";
+import { mkdtempSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
@@ -81,5 +81,16 @@ describe("readSeen / writeSeen / recordJob", () => {
       "Member of the Technical Staff, Internal Agent ",
     );
     expect(newMatchingJobs([intern, other], loaded.vercel)).toEqual([]);
+  });
+
+  it("rejects malformed JSON and a non-object company map", async () => {
+    const dir = mkdtempSync(join(tmpdir(), "pinger-seen-"));
+    const path = join(dir, "seen-jobs.json");
+    writeFileSync(path, "not-json");
+    await expect(readSeen(path)).rejects.toThrow();
+    writeFileSync(path, "[]");
+    await expect(readSeen(path)).rejects.toThrow(/object/);
+    writeFileSync(path, '{"vercel": null}');
+    await expect(readSeen(path)).rejects.toThrow(/vercel/);
   });
 });

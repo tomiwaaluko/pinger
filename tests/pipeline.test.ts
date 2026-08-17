@@ -498,4 +498,76 @@ describe("runWatcher", () => {
     expect(postDiscord).not.toHaveBeenCalled();
     expect(await readSeen(seenPath)).toEqual({ vercel: {} });
   });
+
+  it("dry run on a first run prints no pings and does not write seen", async () => {
+    const dir = vaultDirWithCareer();
+    const seenPath = join(dir, "seen-jobs.json");
+    const write = vi.fn(writeSeen);
+    const postDiscord = vi.fn(async () => undefined);
+    const generateFitNote = vi.fn(async () => "nope");
+    const result = await runWatcher(
+      baseOpts({
+        vaultDir: dir,
+        seenPath,
+        dryRun: true,
+        fetchJobs: async () => [internA],
+        writeSeen: write,
+        postDiscord,
+        generateFitNote,
+      }),
+    );
+    expect(result.exitCode).toBe(0);
+    expect(result.dryRunPings).toEqual([]);
+    expect(write).not.toHaveBeenCalled();
+    expect(postDiscord).not.toHaveBeenCalled();
+    expect(generateFitNote).not.toHaveBeenCalled();
+    expect(await readSeen(seenPath)).toEqual({});
+  });
+
+  it("writes seen for a posted company when a later company throws", async () => {
+    const dir = vaultDirWithCareer();
+    const seenPath = join(dir, "seen-jobs.json");
+    await writeSeen(seenPath, { a: {}, b: {} });
+    const twoCompanies: AppConfig = {
+      ...config,
+      companies: [
+        {
+          id: "a",
+          name: "A",
+          ats: "greenhouse",
+          boardToken: "a",
+          careerSiteCategory: "Engineering",
+        },
+        {
+          id: "b",
+          name: "B",
+          ats: "greenhouse",
+          boardToken: "b",
+          careerSiteCategory: "Engineering",
+        },
+      ],
+    };
+    let vaultReads = 0;
+    await expect(
+      runWatcher(
+        baseOpts({
+          vaultDir: dir,
+          seenPath,
+          config: twoCompanies,
+          fetchJobs: async (company) =>
+            company.id === "a" ? [internA] : [internB],
+          readVaultMarkdown: async () => {
+            vaultReads += 1;
+            if (vaultReads === 2) {
+              throw new Error("ENOENT");
+            }
+            return { empty: false, text: "## resume.md\nNext.js internships" };
+          },
+        }),
+      ),
+    ).rejects.toThrow(/ENOENT/);
+    const seen = await readSeen(seenPath);
+    expect(seen.a["20"]).toBeDefined();
+    expect(seen.b["100"]).toBeUndefined();
+  });
 });

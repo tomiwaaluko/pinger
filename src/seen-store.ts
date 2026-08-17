@@ -8,7 +8,15 @@ export async function readSeen(seenPath: string): Promise<SeenStore> {
     if (parsed === null || typeof parsed !== "object" || Array.isArray(parsed)) {
       throw new Error("seen-jobs.json must be an object");
     }
-    return parsed as SeenStore;
+    const store = parsed as SeenStore;
+    for (const [companyId, value] of Object.entries(store)) {
+      if (value === null || typeof value !== "object" || Array.isArray(value)) {
+        throw new Error(
+          `seen-jobs.json company ${companyId} must be an object`,
+        );
+      }
+    }
+    return store;
   } catch (err) {
     const code = (err as NodeJS.ErrnoException).code;
     if (code === "ENOENT") {

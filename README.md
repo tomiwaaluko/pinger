@@ -21,7 +21,7 @@ There is no web UI and no always-on host.
 | `VAULT_TOKEN` | PAT or fine-grained token with `contents: read` on that repo |
 | `GEMINI_API_KEY` | Gemini API key |
 
-Set all four before the first watch run. `test.yml` does not receive them.
+Set all four before the first watch run. `test.yml` does not receive them and sets `permissions: contents: read`, so the test workflow cannot push even if the repo default token is write-capable.
 
 The watch workflow needs to push `seen-jobs.json`. Repo **Settings → Actions → General → Workflow permissions** must be **Read and write**. `permissions: contents: write` in `watch.yml` is not enough if the org/repo default is read-only; the `chore: record seen jobs` push will fail.
 

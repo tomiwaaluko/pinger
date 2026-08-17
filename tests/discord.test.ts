@@ -108,5 +108,15 @@ describe("postDiscord", () => {
         return new Response("bad", { status: 400 });
       }),
     ).rejects.toThrow(/400/);
+    await expect(
+      postDiscord("https://discord.test/webhook", embed, async () => {
+        return new Response("nope", { status: 500 });
+      }),
+    ).rejects.toThrow(/500/);
+    await expect(
+      postDiscord("https://discord.test/webhook", embed, async () => {
+        throw new DOMException("The operation was aborted.", "TimeoutError");
+      }),
+    ).rejects.toThrow(/Discord request failed/);
   });
 });

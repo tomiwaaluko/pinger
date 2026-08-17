@@ -34,10 +34,10 @@ async function main(): Promise<void> {
   if (dryRun) {
     console.log(JSON.stringify(result.dryRunPings, null, 2));
   }
-  process.exit(result.exitCode);
+  process.exitCode = result.exitCode;
 }
 
 main().catch((err: unknown) => {
   console.error(err);
-  process.exit(1);
+  process.exitCode = 1;
 });

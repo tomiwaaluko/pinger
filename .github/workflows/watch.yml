@@ -26,8 +26,6 @@ jobs:
       # Do not switch to `inputs.dry_run` here — that is unset / errors on cron.
       DRY_RUN: ${{ github.event.inputs.dry_run == 'true' && 'true' || 'false' }}
       VAULT_DIR: ./vault
-      DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
-      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
     steps:
       - name: Checkout pinger
         uses: actions/checkout@v4
@@ -58,6 +56,9 @@ jobs:
       - name: Run watcher
         id: watch
         continue-on-error: true
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: npm start
 
       - name: Commit seen-jobs.json only

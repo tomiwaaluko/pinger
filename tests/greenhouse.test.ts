@@ -84,6 +84,21 @@ describe("mapGreenhouseJob", () => {
       }),
     ).toThrow(/absolute_url/);
   });
+
+  it("trims absolute_url whitespace and rejects a missing id", () => {
+    const base = fixture.jobs[1] as Record<string, unknown>;
+    const job = mapGreenhouseJob({
+      ...base,
+      absolute_url: " https://job-boards.greenhouse.io/vercel/jobs/6134374004 ",
+    });
+    expect(job.absoluteUrl).toBe(
+      "https://job-boards.greenhouse.io/vercel/jobs/6134374004",
+    );
+    expect(() => mapGreenhouseJob({ ...base, id: undefined })).toThrow(/id/);
+    expect(() => mapGreenhouseJob({ ...base, id: "not-a-number" })).toThrow(
+      /id/,
+    );
+  });
 });
 
 describe("fetchGreenhouseJobs", () => {
@@ -140,5 +155,34 @@ describe("fetchGreenhouseJobs", () => {
         throw new DOMException("The operation was aborted.", "TimeoutError");
       }),
     ).rejects.toThrow();
+  });
+
+  it("rejects a next URL on a different origin", async () => {
+    await expect(
+      fetchGreenhouseJobs("vercel", async (input) => {
+        if (String(input) === page1Url) {
+          return jsonResponse(
+            { jobs: [fixture.jobs[0]], meta: { total: 2 } },
+            {
+              headers: {
+                link: '<https://evil.example/next>; rel="next"',
+              },
+            },
+          );
+        }
+        throw new Error(`unexpected url ${String(input)}`);
+      }),
+    ).rejects.toThrow(/left https:\/\/boards-api.greenhouse.io/);
+  });
+
+  it("rejects a pagination cycle", async () => {
+    await expect(
+      fetchGreenhouseJobs("vercel", async () =>
+        jsonResponse(
+          { jobs: [fixture.jobs[0]], meta: { total: 2 } },
+          { headers: { link: `<${page1Url}>; rel="next"` } },
+        ),
+      ),
+    ).rejects.toThrow(/pagination cycle/);
   });
 });
