@@ -1,0 +1,98 @@
+name: watch
+
+on:
+  schedule:
+    - cron: "0 12,17,23 * * *"
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Print would-be pings; do not call Discord, the LLM, or write seen-jobs.json"
+        type: boolean
+        default: false
+
+concurrency:
+  group: watch
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    env:
+      # workflow_dispatch inputs.dry_run is a boolean; github.event.inputs.* is always
+      # a string. Schedule runs have no inputs, so this expression must be false then.
+      # Do not switch to `inputs.dry_run` here — that is unset / errors on cron.
+      DRY_RUN: ${{ github.event.inputs.dry_run == 'true' && 'true' || 'false' }}
+      VAULT_DIR: ./vault
+      DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+    steps:
+      - name: Checkout pinger
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+          fetch-depth: 0
+
+      - name: Checkout vault Career folder
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ secrets.VAULT_REPO }}
+          token: ${{ secrets.VAULT_TOKEN }}
+          persist-credentials: false
+          path: vault
+          sparse-checkout: |
+            Career
+          sparse-checkout-cone-mode: true
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+
+      - run: npm ci
+
+      - run: npm run build
+
+      - name: Run watcher
+        id: watch
+        continue-on-error: true
+        run: npm start
+
+      - name: Commit seen-jobs.json only
+        if: success() && env.DRY_RUN != 'true'
+        run: |
+          set -euo pipefail
+          extra="$(git status --porcelain | awk '$2 != "seen-jobs.json" && $2 != "vault" && $2 !~ /^vault\// { print }' || true)"
+          if [ -n "$extra" ]; then
+            echo "Unexpected dirty paths:"
+            echo "$extra"
+            exit 1
+          fi
+          if [ ! -f seen-jobs.json ]; then
+            echo "seen-jobs.json not present; skip commit"
+          else
+            git add -- seen-jobs.json
+            staged_extra="$(git diff --cached --name-only | grep -v '^seen-jobs.json$' || true)"
+            if [ -n "$staged_extra" ]; then
+              echo "Refusing to commit extra paths:"
+              echo "$staged_extra"
+              exit 1
+            fi
+            if git diff --cached --quiet -- seen-jobs.json; then
+              echo "seen-jobs.json unchanged"
+            else
+              git config user.name "github-actions[bot]"
+              git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+              git commit -m "chore: record seen jobs"
+              if ! git push; then
+                git pull --rebase origin "${GITHUB_REF_NAME}"
+                git push
+              fi
+            fi
+          fi
+
+      - name: Fail job if watcher failed
+        if: always() && steps.watch.outcome == 'failure'
+        run: exit 1
