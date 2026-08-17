@@ -53,3 +53,34 @@ export type DiscordEmbed = {
   fields: Array<{ name: string; value: string }>;
   footer: { text: string };
 };
+
+export type DryRunPing = {
+  companyId: string;
+  jobId: string;
+  title: string;
+  absoluteUrl: string;
+  location: string;
+};
+
+export type RunWatcherResult = {
+  exitCode: 0 | 2;
+  dryRunPings: DryRunPing[];
+};
+
+export type RunWatcherOptions = {
+  config: AppConfig;
+  vaultDir: string;
+  seenPath: string;
+  dryRun: boolean;
+  env: {
+    DISCORD_WEBHOOK_URL?: string;
+    GEMINI_API_KEY?: string;
+  };
+  now: () => Date;
+  fetchJobs: (company: CompanyConfig) => Promise<Job[]>;
+  readVaultMarkdown: (careerDir: string) => Promise<VaultContents>;
+  generateFitNote: (input: FitNoteInput) => Promise<string>;
+  postDiscord: (webhookUrl: string, embed: DiscordEmbed) => Promise<void>;
+  readSeen: (path: string) => Promise<SeenStore>;
+  writeSeen: (path: string, store: SeenStore) => Promise<void>;
+};
