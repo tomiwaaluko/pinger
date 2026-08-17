@@ -39,3 +39,10 @@ export type VaultContents = {
   empty: boolean;
   text: string;
 };
+
+export type FitNoteInput = {
+  careerText: string;
+  job: Job;
+  model: string;
+  apiKey: string;
+};
