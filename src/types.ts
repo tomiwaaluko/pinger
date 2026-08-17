@@ -46,3 +46,10 @@ export type FitNoteInput = {
   model: string;
   apiKey: string;
 };
+
+export type DiscordEmbed = {
+  title: string;
+  url: string;
+  fields: Array<{ name: string; value: string }>;
+  footer: { text: string };
+};
