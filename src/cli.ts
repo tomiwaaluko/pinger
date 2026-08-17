@@ -1,0 +1,43 @@
+import { loadConfig } from "./config.js";
+import { postDiscord } from "./discord.js";
+import { generateFitNote } from "./fit-note.js";
+import { fetchGreenhouseJobs } from "./greenhouse.js";
+import { runWatcher } from "./pipeline.js";
+import { readSeen, writeSeen } from "./seen-store.js";
+import { readVaultMarkdown } from "./vault.js";
+
+async function main(): Promise<void> {
+  const vaultDir = process.env.VAULT_DIR;
+  if (!vaultDir) {
+    console.error("VAULT_DIR is required");
+    process.exit(1);
+  }
+  const dryRun = process.env.DRY_RUN === "true";
+  const config = loadConfig("companies.yaml");
+  const result = await runWatcher({
+    config,
+    vaultDir,
+    seenPath: "seen-jobs.json",
+    dryRun,
+    env: {
+      DISCORD_WEBHOOK_URL: process.env.DISCORD_WEBHOOK_URL,
+      GEMINI_API_KEY: process.env.GEMINI_API_KEY,
+    },
+    now: () => new Date(),
+    fetchJobs: (company) => fetchGreenhouseJobs(company.boardToken),
+    readVaultMarkdown,
+    generateFitNote,
+    postDiscord,
+    readSeen,
+    writeSeen,
+  });
+  if (dryRun) {
+    console.log(JSON.stringify(result.dryRunPings, null, 2));
+  }
+  process.exit(result.exitCode);
+}
+
+main().catch((err: unknown) => {
+  console.error(err);
+  process.exit(1);
+});
