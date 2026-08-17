@@ -5,7 +5,8 @@ import type { VaultContents } from "./types.js";
 
 export function resolveCareerDir(vaultDir: string, careerPath: string): string {
   const vaultRoot = path.resolve(vaultDir);
-  const resolved = path.resolve(vaultRoot, careerPath);
+  const normalizedCareerPath = careerPath.replace(/[/\\]/g, path.sep);
+  const resolved = path.resolve(vaultRoot, normalizedCareerPath);
   const rel = path.relative(vaultRoot, resolved);
   const normalized = rel.replace(/\\/g, "/");
   if (

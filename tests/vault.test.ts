@@ -28,6 +28,13 @@ describe("resolveCareerDir", () => {
     );
   });
 
+  it("rejects internal Windows-style parent segments", () => {
+    const vaultDir = mkdtempSync(path.join(tmpdir(), "pinger-vault-"));
+    expect(() => resolveCareerDir(vaultDir, "Career\\..\\..\\outside")).toThrow(
+      /escapes VAULT_DIR/,
+    );
+  });
+
   it("rejects an absolute path outside VAULT_DIR", () => {
     const vaultDir = mkdtempSync(path.join(tmpdir(), "pinger-vault-"));
     const outside = mkdtempSync(path.join(tmpdir(), "pinger-outside-"));
