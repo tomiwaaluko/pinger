@@ -299,6 +299,7 @@ describe("runWatcher", () => {
     const seenPath = join(dir, "seen-jobs.json");
     await writeSeen(seenPath, { vercel: {} });
     let calls = 0;
+    const consoleError = vi.spyOn(console, "error").mockImplementation(() => {});
     const result = await runWatcher(
       baseOpts({
         vaultDir: dir,
@@ -313,6 +314,11 @@ describe("runWatcher", () => {
       }),
     );
     expect(result.exitCode).toBe(2);
+    expect(consoleError).toHaveBeenCalledWith(
+      "Discord post failed for job 10:",
+      "Error: Discord HTTP 400",
+    );
+    consoleError.mockRestore();
     const seen = await readSeen(seenPath);
     expect(Object.keys(seen.vercel)).toEqual(["20"]);
     expect(seen.vercel["10"]).toBeUndefined();

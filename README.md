@@ -29,6 +29,8 @@ The watch workflow needs to push `seen-jobs.json`. Repo **Settings → Actions �
 
 Use **Actions → watch → Run workflow**. Leave `dry_run` unchecked for the silent snapshot, or check it to print would-be pings without writing `seen-jobs.json`.
 
+A dry run before the first snapshot always prints `[]` because first runs never ping; run a real (non-dry) watch once to write `"vercel": {}`, then later dry runs will list would-be pings.
+
 The first non-dry run **snapshots currently-open matching jobs without pinging them**. That is intentional. If the live board already has an intern role, you will not get a Discord embed for it; only jobs that appear *after* that snapshot ping. If the board has no matching roles (typical today), the commit is `"vercel": {}`.
 
 ## Local

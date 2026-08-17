@@ -115,7 +115,8 @@ export async function runWatcher(
         );
         recordJob(store, company.id, job, opts.now().toISOString());
         seenDirty = true;
-      } catch {
+      } catch (err) {
+        console.error(`Discord post failed for job ${job.id}:`, String(err));
         anyDiscordFailure = true;
         // Continue to the next job. Do not break: a later 2xx must still be recorded.
       }
