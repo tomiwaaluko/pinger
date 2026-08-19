@@ -1,0 +1,12 @@
+vault:
+  careerPath: Career/
+
+llm:
+  model: gemini-2.5-flash   # starting guess; change if the API rejects it
+
+companies:
+  - id: vercel
+    name: Vercel
+    ats: greenhouse
+    boardToken: vercel
+    careerSiteCategory: Engineering
