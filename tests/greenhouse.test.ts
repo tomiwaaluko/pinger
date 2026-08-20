@@ -63,7 +63,7 @@ describe("mapGreenhouseJob", () => {
 
   it("does not match any captured live fixture job as intern/new-grad SWE", () => {
     const mapped = fixture.jobs.map((row) => mapGreenhouseJob(row));
-    expect(mapped.filter((job) => matchesJob(job, "Engineering"))).toEqual([]);
+    expect(mapped.filter((job) => matchesJob(job))).toEqual([]);
   });
 
   it("throws when absolute_url is missing, empty, or not https", () => {

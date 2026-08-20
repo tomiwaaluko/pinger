@@ -59,9 +59,7 @@ export async function runWatcher(
   try {
     for (const company of opts.config.companies) {
       const jobs = await opts.fetchJobs(company);
-      const matched = jobs.filter((job) =>
-        matchesJob(job, company.careerSiteCategory),
-      );
+      const matched = jobs.filter((job) => matchesJob(job));
 
       if (isFirstRun(store, company.id)) {
         if (!opts.dryRun) {
