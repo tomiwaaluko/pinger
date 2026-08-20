@@ -4,7 +4,7 @@ Personal GitHub Actions watcher. It polls a fleet of Greenhouse job boards a few
 
 There is no web UI and no always-on host.
 
-Design and fleet rollout notes: [Multi-company Greenhouse expansion spec](../docs/superpowers/specs/2026-08-20-multi-company-greenhouse-expansion-design.md).
+Design and fleet rollout notes: [Multi-company Greenhouse expansion spec](docs/superpowers/specs/2026-08-20-multi-company-greenhouse-expansion-design.md).
 
 ## What it does
 
