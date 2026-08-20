@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { DISCORD_TITLE_CAP } from "../src/constants.js";
 import { buildDiscordEmbed, postDiscord } from "../src/discord.js";
 import { makeJob } from "./helpers.js";
@@ -75,6 +75,11 @@ describe("buildDiscordEmbed", () => {
   });
 });
 
+afterEach(() => {
+  vi.useRealTimers();
+  vi.restoreAllMocks();
+});
+
 describe("postDiscord", () => {
   it("POSTs embeds JSON and throws on 4xx", async () => {
     const embed = buildDiscordEmbed({
@@ -118,5 +123,63 @@ describe("postDiscord", () => {
         throw new DOMException("The operation was aborted.", "TimeoutError");
       }),
     ).rejects.toThrow(/Discord request failed/);
+  });
+
+  it("retries HTTP 429 and resolves on a subsequent 204", async () => {
+    const embed = buildDiscordEmbed({
+      job: makeJob(),
+      companyName: "Vercel",
+      companyId: "vercel",
+      fit: "ok",
+    });
+    let calls = 0;
+    await postDiscord("https://discord.test/webhook", embed, async () => {
+      calls += 1;
+      if (calls === 1) {
+        return new Response("rate limited", {
+          status: 429,
+          headers: { "retry-after": "0" },
+        });
+      }
+      return new Response(null, { status: 204 });
+    });
+    expect(calls).toBe(2);
+  });
+
+  it("does not retry HTTP 400", async () => {
+    const embed = buildDiscordEmbed({
+      job: makeJob(),
+      companyName: "Vercel",
+      companyId: "vercel",
+      fit: "ok",
+    });
+    let calls = 0;
+    await expect(
+      postDiscord("https://discord.test/webhook", embed, async () => {
+        calls += 1;
+        return new Response("bad", { status: 400 });
+      }),
+    ).rejects.toThrow(/400/);
+    expect(calls).toBe(1);
+  });
+
+  it("throws after two HTTP 429 retries", async () => {
+    const embed = buildDiscordEmbed({
+      job: makeJob(),
+      companyName: "Vercel",
+      companyId: "vercel",
+      fit: "ok",
+    });
+    let calls = 0;
+    await expect(
+      postDiscord("https://discord.test/webhook", embed, async () => {
+        calls += 1;
+        return new Response("rate limited", {
+          status: 429,
+          headers: { "retry-after": "0" },
+        });
+      }),
+    ).rejects.toThrow(/429/);
+    expect(calls).toBe(3);
   });
 });

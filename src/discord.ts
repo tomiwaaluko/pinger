@@ -2,6 +2,8 @@ import {
   DISCORD_FIELD_CAP,
   DISCORD_TITLE_CAP,
   FIT_NOTE_CAP,
+  HTTP_429_MAX_RETRIES,
+  HTTP_429_RETRY_AFTER_CAP_MS,
   REQUEST_TIMEOUT_MS,
 } from "./constants.js";
 import { truncate } from "./text.js";
@@ -35,6 +37,41 @@ export function buildDiscordEmbed(input: {
   };
 }
 
+async function fetchWith429Retries(
+  url: string,
+  init: RequestInit,
+  fetchImpl: FetchLike,
+): Promise<Response> {
+  let attempt = 0;
+  for (;;) {
+    let response: Response;
+    try {
+      response = await fetchImpl(url, {
+        ...init,
+        signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
+      });
+    } catch (err) {
+      throw new Error(`Discord request failed: ${(err as Error).message}`);
+    }
+    if (response.status !== 429) {
+      return response;
+    }
+    if (attempt >= HTTP_429_MAX_RETRIES) {
+      return response;
+    }
+    const retryAfter = response.headers.get("retry-after");
+    let waitMs = 1000 * 2 ** attempt;
+    if (retryAfter) {
+      const secs = Number(retryAfter);
+      if (Number.isFinite(secs) && secs >= 0) {
+        waitMs = Math.min(secs * 1000, HTTP_429_RETRY_AFTER_CAP_MS);
+      }
+    }
+    await new Promise((r) => setTimeout(r, waitMs));
+    attempt += 1;
+  }
+}
+
 export async function postDiscord(
   webhookUrl: string,
   embed: DiscordEmbed,
@@ -42,17 +79,15 @@ export async function postDiscord(
 ): Promise<void> {
   const url = new URL(webhookUrl);
   url.searchParams.set("wait", "true");
-  let response: Response;
-  try {
-    response = await fetchImpl(url.toString(), {
+  const response = await fetchWith429Retries(
+    url.toString(),
+    {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ embeds: [embed] }),
-      signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
-    });
-  } catch (err) {
-    throw new Error(`Discord request failed: ${(err as Error).message}`);
-  }
+    },
+    fetchImpl,
+  );
   if (!response.ok) {
     throw new Error(`Discord HTTP ${response.status}`);
   }
