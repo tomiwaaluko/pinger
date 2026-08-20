@@ -58,3 +58,13 @@ Do not point local `npm start` at production Discord unless you intend to ping. 
 ## Config
 
 Company list and Gemini model id live in `companies.yaml`. Title matching rules are code in `src/matcher.ts`. If Gemini rejects `gemini-2.5-flash`, change `llm.model`.
+
+`companies.yaml` was built from 532 Greenhouse boards that returned HTTP 200 on 2026-08-20, with 100 boards enabled. The first non-dry watch run after enabling new companies silently snapshots matching jobs for each new company before any Discord pings; if Actions runtime approaches the job timeout, reduce the enabled set and stage more companies later.
+
+Manual Greenhouse re-probe:
+
+```bash
+node scripts/probe-greenhouse-boards.mjs > probe-gh-boards.tsv
+```
+
+The probe is intentionally not wired into npm scripts or CI. It writes `companies.generated.yaml` for HTTP 200 boards and `probe-gh-boards.tsv` via shell redirection; both are gitignored probe artifacts.

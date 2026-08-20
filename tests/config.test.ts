@@ -23,18 +23,41 @@ const baseCompany = `
 `;
 
 describe("loadConfig", () => {
-  it("parses the committed Vercel company entry", () => {
+  it("parses the committed Greenhouse company fleet", () => {
     const config = loadConfig(join(repoRoot, "companies.yaml"));
     expect(config.vault.careerPath).toBe("Career/");
     expect(config.llm.model).toBe("gemini-2.5-flash");
-    expect(config.companies).toHaveLength(1);
-    expect(config.companies[0]).toEqual({
-      id: "vercel",
-      name: "Vercel",
-      ats: "greenhouse",
-      boardToken: "vercel",
-      enabled: true,
-    });
+    expect(config.companies.length).toBeGreaterThanOrEqual(500);
+
+    const ids = config.companies.map((company) => company.id);
+    const boardTokens = config.companies.map((company) => company.boardToken);
+    expect(new Set(ids).size).toBe(ids.length);
+    expect(new Set(boardTokens).size).toBe(boardTokens.length);
+
+    const enabled = config.companies.filter((company) => company.enabled);
+    expect(enabled.length).toBeGreaterThanOrEqual(80);
+    expect(enabled.length).toBeLessThanOrEqual(120);
+
+    const enabledTokens = new Set(enabled.map((company) => company.boardToken));
+    for (const requiredToken of [
+      "vercel",
+      "cloudflare",
+      "stripe",
+      "figma",
+      "datadog",
+      "postman",
+      "anthropic",
+      "discord",
+      "planetscale",
+      "launchdarkly",
+      "grafanalabs",
+      "mongodb",
+      "gitlab",
+      "airbnb",
+      "roblox",
+    ]) {
+      expect(enabledTokens.has(requiredToken)).toBe(true);
+    }
   });
 
   it("parses enabled true and false", () => {
