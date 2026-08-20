@@ -1,7 +1,7 @@
 import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import {
   fetchGreenhouseJobs,
   mapGreenhouseJob,
@@ -22,6 +22,11 @@ const page1Url =
   "https://boards-api.greenhouse.io/v1/boards/vercel/jobs?content=true";
 const page2Url =
   "https://boards-api.greenhouse.io/v1/boards/vercel/jobs?content=true&page=2";
+
+afterEach(() => {
+  vi.useRealTimers();
+  vi.restoreAllMocks();
+});
 
 function jsonResponse(
   body: unknown,
@@ -63,26 +68,24 @@ describe("mapGreenhouseJob", () => {
 
   it("does not match any captured live fixture job as intern/new-grad SWE", () => {
     const mapped = fixture.jobs.map((row) => mapGreenhouseJob(row));
-    expect(mapped.filter((job) => matchesJob(job, "Engineering"))).toEqual([]);
+    expect(mapped.filter((job) => matchesJob(job))).toEqual([]);
   });
 
-  it("throws when absolute_url is missing, empty, or not https", () => {
+  it("returns null when absolute_url is missing, empty, or not https", () => {
     const base = fixture.jobs[1] as Record<string, unknown>;
-    expect(() =>
-      mapGreenhouseJob({ ...base, absolute_url: undefined }),
-    ).toThrow(/absolute_url/);
-    expect(() => mapGreenhouseJob({ ...base, absolute_url: "" })).toThrow(
-      /absolute_url/,
-    );
-    expect(() => mapGreenhouseJob({ ...base, absolute_url: "   " })).toThrow(
-      /absolute_url/,
-    );
-    expect(() =>
+    const consoleError = vi
+      .spyOn(console, "error")
+      .mockImplementation(() => undefined);
+    expect(mapGreenhouseJob({ ...base, absolute_url: undefined })).toBeNull();
+    expect(mapGreenhouseJob({ ...base, absolute_url: "" })).toBeNull();
+    expect(mapGreenhouseJob({ ...base, absolute_url: "   " })).toBeNull();
+    expect(
       mapGreenhouseJob({
         ...base,
         absolute_url: "http://job-boards.greenhouse.io/vercel/jobs/1",
       }),
-    ).toThrow(/absolute_url/);
+    ).toBeNull();
+    expect(consoleError).toHaveBeenCalledTimes(4);
   });
 
   it("trims absolute_url whitespace and rejects a missing id", () => {
@@ -141,6 +144,90 @@ describe("fetchGreenhouseJobs", () => {
         jsonResponse({ jobs: [fixture.jobs[0]], meta: { total: 83 } }),
       ),
     ).rejects.toThrow(/pagination incomplete/);
+  });
+
+  it("drops jobs with bad absolute_url without treating pagination as incomplete", async () => {
+    const base = fixture.jobs[0] as Record<string, unknown>;
+    const consoleError = vi
+      .spyOn(console, "error")
+      .mockImplementation(() => undefined);
+
+    const jobs = await fetchGreenhouseJobs("vercel", async () =>
+      jsonResponse({
+        jobs: [fixture.jobs[0], { ...base, id: 9999999999, absolute_url: "" }],
+        meta: { total: 2 },
+      }),
+    );
+
+    expect(jobs.map((job) => job.id)).toEqual(["6136160004"]);
+    expect(consoleError).toHaveBeenCalledOnce();
+    expect(consoleError).toHaveBeenCalledWith(
+      "Dropping Greenhouse job id=9999999999 with invalid absolute_url",
+    );
+  });
+
+  it("retries HTTP 429 and returns jobs after a successful retry", async () => {
+    let calls = 0;
+    const jobs = await fetchGreenhouseJobs("vercel", async () => {
+      calls += 1;
+      if (calls === 1) {
+        return jsonResponse({}, { status: 429, headers: { "retry-after": "0" } });
+      }
+      return jsonResponse({ jobs: [fixture.jobs[0]], meta: { total: 1 } });
+    });
+
+    expect(jobs).toHaveLength(1);
+    expect(calls).toBe(2);
+  });
+
+  it("does not retry HTTP 404", async () => {
+    let calls = 0;
+    await expect(
+      fetchGreenhouseJobs("vercel", async () => {
+        calls += 1;
+        return jsonResponse({}, { status: 404 });
+      }),
+    ).rejects.toThrow(/HTTP 404/);
+
+    expect(calls).toBe(1);
+  });
+
+  it("throws after two HTTP 429 retries", async () => {
+    let calls = 0;
+    await expect(
+      fetchGreenhouseJobs("vercel", async () => {
+        calls += 1;
+        return jsonResponse({}, { status: 429, headers: { "retry-after": "0" } });
+      }),
+    ).rejects.toThrow(/HTTP 429/);
+
+    expect(calls).toBe(3);
+  });
+
+  it("falls back to exponential backoff for non-numeric Retry-After", async () => {
+    vi.useFakeTimers();
+    let calls = 0;
+    const promise = fetchGreenhouseJobs("vercel", async () => {
+      calls += 1;
+      if (calls === 1) {
+        return jsonResponse(
+          {},
+          { status: 429, headers: { "retry-after": "tomorrow" } },
+        );
+      }
+      return jsonResponse({ jobs: [fixture.jobs[0]], meta: { total: 1 } });
+    });
+
+    await Promise.resolve();
+    await Promise.resolve();
+    expect(calls).toBe(1);
+
+    await vi.advanceTimersByTimeAsync(999);
+    expect(calls).toBe(1);
+
+    await vi.advanceTimersByTimeAsync(1);
+    await expect(promise).resolves.toHaveLength(1);
+    expect(calls).toBe(2);
   });
 
   it("fails on non-200", async () => {

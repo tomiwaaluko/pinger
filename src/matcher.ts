@@ -19,22 +19,37 @@ const ROLE_PHRASES = [
   "swe",
 ] as const;
 
+const DEPT_ALLOW = ["engineering", "software", "swe", "ai"] as const;
+const DEPT_DENY = [
+  "sales",
+  "solution",
+  "solutions",
+  "field",
+  "non",
+] as const;
+
 export function normalizeTitle(title: string): string {
   return title.trim().replace(/-/g, " ").replace(/\s+/g, " ").toLowerCase();
 }
 
 function hasPhrase(normalized: string, phrase: string): boolean {
   const escaped = phrase.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-  return new RegExp(`\\b${escaped}\\b`, "i").test(normalized);
+  return new RegExp(`\\b${escaped}\\b`).test(normalized);
 }
 
-export function matchesJob(job: Job, expectedCategory: string): boolean {
-  if (typeof job.careerSiteCategory !== "string") {
+function departmentGate(departments: string[]): boolean {
+  if (!Array.isArray(departments) || departments.length === 0) {
     return false;
   }
-  if (
-    job.careerSiteCategory.toLowerCase() !== expectedCategory.toLowerCase()
-  ) {
+  const normalized = departments.map((d) => normalizeTitle(d));
+  if (normalized.some((d) => DEPT_DENY.some((tok) => hasPhrase(d, tok)))) {
+    return false;
+  }
+  return normalized.some((d) => DEPT_ALLOW.some((tok) => hasPhrase(d, tok)));
+}
+
+export function matchesJob(job: Job): boolean {
+  if (!departmentGate(job.departments)) {
     return false;
   }
   const title = normalizeTitle(job.title);

@@ -2,9 +2,24 @@ import { readFileSync } from "node:fs";
 import { parse } from "yaml";
 import type { AppConfig, CompanyConfig } from "./types.js";
 
+/** Stable seen-store / Greenhouse path segment: lowercase kebab slug, no whitespace. */
+const SLUG_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+
 function requireString(value: unknown, label: string): string {
   if (typeof value !== "string" || value.trim() === "") {
     throw new Error(`${label} must be a non-empty string`);
+  }
+  return value;
+}
+
+function requireSlug(value: unknown, label: string): string {
+  if (typeof value !== "string" || value.trim() === "") {
+    throw new Error(`${label} must be a non-empty string`);
+  }
+  if (value !== value.trim() || !SLUG_PATTERN.test(value)) {
+    throw new Error(
+      `${label} must be a lowercase slug (a-z, 0-9, hyphen-separated)`,
+    );
   }
   return value;
 }
@@ -18,19 +33,30 @@ function parseCompany(raw: unknown, index: number): CompanyConfig {
   if (ats !== "greenhouse") {
     throw new Error(`companies[${index}].ats must be greenhouse`);
   }
+  if (typeof row.enabled !== "boolean") {
+    throw new Error(`companies[${index}].enabled must be a boolean`);
+  }
   return {
-    id: requireString(row.id, `companies[${index}].id`),
+    id: requireSlug(row.id, `companies[${index}].id`),
     name: requireString(row.name, `companies[${index}].name`),
     ats: "greenhouse",
-    boardToken: requireString(
+    boardToken: requireSlug(
       row.boardToken,
       `companies[${index}].boardToken`,
     ),
-    careerSiteCategory: requireString(
-      row.careerSiteCategory,
-      `companies[${index}].careerSiteCategory`,
-    ),
+    enabled: row.enabled,
   };
+}
+
+function assertUnique(values: string[], label: string): void {
+  const seen = new Set<string>();
+  for (const value of values) {
+    const key = value.toLowerCase();
+    if (seen.has(key)) {
+      throw new Error(`duplicate ${label}: ${value}`);
+    }
+    seen.add(key);
+  }
 }
 
 export function loadConfig(path: string): AppConfig {
@@ -59,6 +85,17 @@ export function loadConfig(path: string): AppConfig {
     llm: {
       model: requireString(llmRaw.model, "llm.model"),
     },
-    companies: data.companies.map(parseCompany),
+    companies: (() => {
+      const companies = data.companies.map(parseCompany);
+      assertUnique(
+        companies.map((company) => company.id),
+        "companies[].id",
+      );
+      assertUnique(
+        companies.map((company) => company.boardToken),
+        "companies[].boardToken",
+      );
+      return companies;
+    })(),
   };
 }

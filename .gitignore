@@ -4,3 +4,5 @@ dist/
 .env
 *.log
 vault/
+probe-gh-boards*.tsv
+companies.generated.yaml

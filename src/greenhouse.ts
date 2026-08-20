@@ -1,4 +1,9 @@
-import { GREENHOUSE_MAX_PAGES, REQUEST_TIMEOUT_MS } from "./constants.js";
+import {
+  GREENHOUSE_MAX_PAGES,
+  HTTP_429_MAX_RETRIES,
+  HTTP_429_RETRY_AFTER_CAP_MS,
+  REQUEST_TIMEOUT_MS,
+} from "./constants.js";
 import type { FetchLike, Job } from "./types.js";
 
 const BOARDS = "https://boards-api.greenhouse.io/v1/boards";
@@ -54,7 +59,7 @@ function assertSameOrigin(next: string, first: string): void {
   }
 }
 
-export function mapGreenhouseJob(raw: unknown): Job {
+export function mapGreenhouseJob(raw: unknown): Job | null {
   if (raw === null || typeof raw !== "object") {
     throw new Error("Greenhouse job must be an object");
   }
@@ -76,7 +81,13 @@ export function mapGreenhouseJob(raw: unknown): Job {
     typeof row.absolute_url !== "string" ||
     !/^https:\/\//i.test(row.absolute_url.trim())
   ) {
-    throw new Error("Greenhouse job missing absolute_url");
+    const rawId = row.id;
+    const id =
+      typeof rawId === "number" || typeof rawId === "string"
+        ? ` id=${String(rawId)}`
+        : "";
+    console.error(`Dropping Greenhouse job${id} with invalid absolute_url`);
+    return null;
   }
   return {
     id: greenhouseId(row.id),
@@ -89,6 +100,39 @@ export function mapGreenhouseJob(raw: unknown): Job {
   };
 }
 
+async function fetchWith429Retries(
+  url: string,
+  fetchImpl: FetchLike,
+): Promise<Response> {
+  let attempt = 0;
+  for (;;) {
+    let response: Response;
+    try {
+      response = await fetchImpl(url, {
+        signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
+      });
+    } catch (err) {
+      throw new Error(`Greenhouse request failed: ${(err as Error).message}`);
+    }
+    if (response.status !== 429) {
+      return response;
+    }
+    if (attempt >= HTTP_429_MAX_RETRIES) {
+      return response;
+    }
+    const retryAfter = response.headers.get("retry-after");
+    let waitMs = 1000 * 2 ** attempt;
+    if (retryAfter) {
+      const secs = Number(retryAfter);
+      if (Number.isFinite(secs) && secs >= 0) {
+        waitMs = Math.min(secs * 1000, HTTP_429_RETRY_AFTER_CAP_MS);
+      }
+    }
+    await new Promise((r) => setTimeout(r, waitMs));
+    attempt += 1;
+  }
+}
+
 export async function fetchGreenhouseJobs(
   boardToken: string,
   fetchImpl: FetchLike = fetch,
@@ -97,6 +141,7 @@ export async function fetchGreenhouseJobs(
   let url: string | null = firstUrl;
   const jobs: Job[] = [];
   let metaTotal: number | undefined;
+  let rawCount = 0;
   const visited = new Set<string>();
 
   while (url) {
@@ -110,14 +155,7 @@ export async function fetchGreenhouseJobs(
     }
     visited.add(url);
 
-    let response: Response;
-    try {
-      response = await fetchImpl(url, {
-        signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
-      });
-    } catch (err) {
-      throw new Error(`Greenhouse request failed: ${(err as Error).message}`);
-    }
+    const response = await fetchWith429Retries(url, fetchImpl);
     if (!response.ok) {
       throw new Error(`Greenhouse HTTP ${response.status}`);
     }
@@ -131,7 +169,13 @@ export async function fetchGreenhouseJobs(
       throw new Error(`Greenhouse request failed: ${(err as Error).message}`);
     }
     const pageJobs = Array.isArray(body.jobs) ? body.jobs : [];
-    jobs.push(...pageJobs.map(mapGreenhouseJob));
+    rawCount += pageJobs.length;
+    for (const pageJob of pageJobs) {
+      const job = mapGreenhouseJob(pageJob);
+      if (job) {
+        jobs.push(job);
+      }
+    }
     if (typeof body.meta?.total === "number") {
       metaTotal = body.meta.total;
     }
@@ -142,9 +186,9 @@ export async function fetchGreenhouseJobs(
     url = next;
   }
 
-  if (typeof metaTotal === "number" && jobs.length !== metaTotal) {
+  if (typeof metaTotal === "number" && rawCount !== metaTotal) {
     throw new Error(
-      `Greenhouse pagination incomplete: got ${jobs.length} jobs, meta.total ${metaTotal}`,
+      `Greenhouse pagination incomplete: got ${rawCount} raw jobs, meta.total ${metaTotal}`,
     );
   }
   return jobs;

@@ -32,7 +32,16 @@ async function main(): Promise<void> {
     writeSeen,
   });
   if (dryRun) {
-    console.log(JSON.stringify(result.dryRunPings, null, 2));
+    console.log(
+      JSON.stringify(
+        {
+          attempt: result.dryRunPings,
+          deferredSoftCapped: result.dryRunDeferred,
+        },
+        null,
+        2,
+      ),
+    );
   }
   process.exitCode = result.exitCode;
 }
