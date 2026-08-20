@@ -96,7 +96,12 @@ Department names use the **same** normalize pass as titles before token checks (
 
 If `departments` is missing or empty → not a match.
 
-At least one `departments[].name` must pass **both** allow and deny:
+Evaluate **all** department names on the job:
+
+1. **Deny-any:** if **any** department name matches a deny token, the job fails the department gate (even if another department would allow).
+2. **Allow-some:** otherwise, at least one department name must match an allow token/phrase.
+
+This blocks dual-tagged rows such as `["Sales", "Engineering"]` or `["Sales Engineering", "Engineering"]`.
 
 **Allow** (token / phrase match after normalize — **not** raw substring `includes`):
 
@@ -107,7 +112,7 @@ At least one `departments[].name` must pass **both** allow and deny:
 | `swe` | whole token (word boundary) |
 | `ai` | whole token (word boundary) |
 
-**Deny** (if any deny token matches that same department name, the department fails even if allow matched):
+**Deny** (whole-token match on a department name):
 
 | Token / phrase | Match rule |
 | --- | --- |
@@ -120,7 +125,7 @@ Whole-token matching for short tokens is mandatory so `ai` does **not** match `r
 
 Examples that **pass** the department gate (subject to title rules): `Engineering`, `Software Engineering`, `Platform Engineering`, `Product Engineering`, `AI`, `AI Platform`, `Resolution Engineering` (allow `engineering`; `resolution` is not a deny token).
 
-Examples that **fail** the department gate: `Sales Engineering`, `Solutions Engineering`, `Field Engineering`, `Marketing`, `Finance`, `Retail`, `Training`, `Maintenance`, `Dev Eng` (no allow token), missing/empty departments.
+Examples that **fail** the department gate: `Sales Engineering`, `Solutions Engineering`, `Field Engineering`, `Marketing`, `Finance`, `Retail`, `Training`, `Maintenance`, `Dev Eng` (no allow token), dual-tag `Sales` + `Engineering`, missing/empty departments.
 
 ### 2. Early career (unchanged from v1)
 
@@ -148,23 +153,27 @@ Per enabled company, keep the parent adapter contract:
 - `GET .../boards/{boardToken}/jobs?content=true` (required: departments and HTML `content` for fit notes).
 - Timeout **20 seconds** per HTTP request.
 - Follow `Link: rel="next"` until exhausted; after all pages, if `meta.total` is present and `jobs.length !== meta.total`, treat as fetch failure for that company.
-- Missing/empty/non-`https://` `absolute_url` remains a mapping error for that company (fail that company’s fetch path; do not update that company’s seen map).
+- Per **job** mapping: missing/empty/non-`https://` `absolute_url` → **drop that job** from the returned list (log once per dropped id). Do **not** fail the whole company for one bad row. A matched job that somehow lacks a usable URL after mapping cannot be Discord-posted; it is not marked seen.
+- Board-level failures (non-200 after allowed retries, timeout, pagination mismatch) still skip seen updates for that company only.
 
 Do **not** drop `content=true` to save bandwidth. Optional later optimization (out of scope): two-phase fetch hydrating content only for new hits — not in this expansion.
 
 ### Pipeline changes vs v1
 
-1. Load `companies.yaml`. Sandbox vault path as today. Unsafe path → exit non-zero; no seen writes.
+1. Load `companies.yaml`. Sandbox vault path as today. Unsafe path escape → exit non-zero; **no** seen writes.
 2. Select `enabledCompanies = companies.filter(c => c.enabled)`.
 3. If `enabledCompanies.length === 0`: log that nothing is enabled; exit **0**; do not write `seen-jobs.json`.
 4. For each enabled company, fetch Greenhouse jobs with concurrency cap **10** in flight (constant in code; not unbounded). Pagination follow-up requests for a company count toward that company’s sequential work; the cap limits how many companies’ fetches run concurrently, not total pages worldwide.
 5. Match with the department + title matcher (no category argument).
 6. Diff against `seen-jobs.json` **per company id**, same first-run / empty-object rules as v1 — **independently per company in the same run**:
    - Company A with **absent** seen key → first-run snapshot only (write matching ids or `{}`); **no Discord** for A.
-   - Company B with **present** seen key and new matching ids → Discord (+ LLM) for those new jobs.
+   - Company B with **present** seen key and new matching ids → Discord-bound for those new jobs.
    - Both can happen in one run and one seen commit.
-7. For Discord-bound new hits: read Career folder once, generate fit notes, post embeds (company field = `companies[].name`), ordered by company `id` ascending, then numeric job id ascending.
-8. Persist seen store with the **merge write** rule below.
+7. If there are Discord-bound hits: require readable Career folder and `DISCORD_WEBHOOK_URL` before posting.
+   - If vault is missing/unreadable **or** Discord webhook is missing: **do not ping**; still merge-write successful **first-run** snapshots (and any other allowed seen updates that do not require Discord); exit **non-zero**.
+   - Path sandbox escape (step 1) remains a full abort with no seen writes.
+8. When Discord-bound hits are allowed to proceed: read Career folder once, generate fit notes, post embeds (company field = `companies[].name`) using the **fair soft-cap order** below.
+9. Persist seen store with the **merge write** rule below.
 
 ### Concurrency
 
@@ -173,30 +182,36 @@ Do **not** drop `content=true` to save bandwidth. Optional later optimization (o
 
 ### Rate limits
 
-**Greenhouse 429:**
+**Greenhouse HTTP:**
 
-- Up to **2** retries for that request with exponential backoff (e.g. 1s then 2s), honoring `Retry-After` when present (cap wait at 30s per retry).
-- If still 429 (or other non-200) after retries → per-company fetch failure: log; skip seen updates for that company; continue others.
+- Retry **only** status **429** (up to **2** retries) with exponential backoff (e.g. 1s then 2s), honoring `Retry-After` when present (cap wait at 30s per retry).
+- Do **not** retry other non-200 responses (including 404) or timeouts as 429-style retries. Timeout / non-429 non-200 → immediate per-company fetch failure for that request.
+- If 429 retries are exhausted → per-company fetch failure: log; skip seen updates for that company; continue others.
 
-**Discord 429:**
+**Discord HTTP:**
 
-- Up to **2** retries with backoff / `Retry-After` (same caps).
-- If still failing → that job is **not** marked seen (unchanged parent rule); continue to the next new job; exit non-zero if any Discord post ultimately failed.
+- Retry **only** status **429** (up to **2** retries) with backoff / `Retry-After` (same caps).
+- Other Discord failures (4xx other than 429, 5xx, timeout) → no retry; that job is **not** marked seen; continue to the next new job; exit non-zero if any Discord post ultimately failed.
 
-**Discord volume:**
+**Discord volume (fair soft cap):**
 
-- Soft cap: post at most **25** new-job embeds per watch run. Remaining new jobs stay unseen and will retry on a later run.
-- Prefer posting in the stable sort order above so the same jobs drain first.
+- Post at most **25** new-job embeds per watch run. Jobs not posted stay unseen and retry on a later run.
+- Ordering must not starve later `companyId`s when early ids keep producing hits:
+  1. Group Discord-bound jobs by company.
+  2. Round-robin across companies (companies sorted by `id` ascending): take the next job from each company in turn (jobs within a company sorted by numeric id ascending) until 25 posts are attempted or the queue is empty.
+- Example: with cap 25, company `aaa` having 40 new jobs and `zzz` having 2 must still get `zzz`’s jobs into the same run’s attempt window rather than draining all 25 from `aaa` first.
 
 ### Partial failure
 
 | Failure | Behavior |
 | --- | --- |
-| Greenhouse non-200 (after 429 retries), timeout, pagination mismatch, or mapping error for **one** company | Log; skip seen updates for **that** company; continue other companies. |
+| Greenhouse 429 exhausted, other non-200, timeout, or pagination mismatch for **one** company | Log; skip seen updates for **that** company; continue other companies. |
+| One job with bad `absolute_url` | Drop that job; continue mapping/matching the rest of the board. |
 | All enabled companies fail to fetch | Exit non-zero. |
 | Zero enabled companies | Exit 0; no seen write. |
-| Vault path unsafe | Fail entire run; no seen writes (unchanged). |
-| Discord failure for a job (after retries) | Do not mark that job seen (unchanged). |
+| Vault path unsafe (escapes `VAULT_DIR`) | Fail entire run; no seen writes (unchanged). |
+| Vault missing/unreadable or Discord webhook missing when Discord-bound hits exist | No pings; merge-write first-run snapshots that completed; exit non-zero. |
+| Discord failure for a job (after allowed retries) | Do not mark that job seen (unchanged). |
 | LLM failure | Fallback fit text; still post (unchanged). |
 
 Exit non-zero if any Discord post failed after retries, or if every enabled fetch failed. A mix of some company fetch failures + successful others is exit 0 when every attempted Discord post (subject to the 25-cap) succeeded.
@@ -251,18 +266,19 @@ No Discord MCP, no per-company webhooks in this phase.
 
 All tests remain offline fakes.
 
-- **Matcher department gate:** allow hits for Engineering / Software / SWE / AI (word-boundary safe); deny Sales Engineering, Solutions Engineering, Field Engineering; **fail** Retail / Training / Maintenance even with early-career SWE titles; **pass** Resolution Engineering (not denied by `solution` substring); empty departments fail; `Dev Eng` fails allowlist.
+- **Matcher department gate:** allow hits for Engineering / Software / SWE / AI (word-boundary safe); deny Sales Engineering, Solutions Engineering, Field Engineering; **fail** Retail / Training / Maintenance even with early-career SWE titles; **pass** Resolution Engineering (not denied by `solution` substring); empty departments fail; `Dev Eng` fails allowlist; dual-tag `Sales` + `Engineering` **fails** (deny-any).
 - **Matcher titles:** early-career and role cases from v1 still pass/fail as before; `internal` / `undergraduate` traps unchanged.
 - **Accepted regression:** fixture with Engineering **category** metadata + non-allow department (e.g. Security / Trust & Safety style) → **no match**.
 - **Config:** `enabled` required; no `careerSiteCategory` in schema; unknown keys ignored; duplicate `id` or `boardToken` fails load; non-`greenhouse` `ats` fails load; disabled companies excluded from the run list; zero enabled → exit 0, no fetch, no seen write.
-- **Pipeline:** only enabled companies call fetch; one company fetch failure does not clear or rewrite other companies’ seen keys (merge write); mixed run: company A missing key snapshots silently while company B with new id pings; Discord company field uses config name; all enabled fetches fail → non-zero; Discord failure mid-fleet still persists other companies’ successful updates / first-run snapshots via merge write.
-- **Rate limits (fakes):** Greenhouse 429 then success retries; Greenhouse 429 exhausted → that company skipped; Discord 429 exhausted → job not seen; soft cap of 25 leaves remainder unseen.
+- **Adapter mapping:** board with one bad `absolute_url` and other valid jobs → only the bad job dropped; company fetch still succeeds; first-run / match proceeds for valid rows.
+- **Pipeline:** only enabled companies call fetch; one company fetch failure does not clear or rewrite other companies’ seen keys (merge write); mixed run: company A missing key snapshots silently while company B with new id pings; Discord company field uses config name; all enabled fetches fail → non-zero; Discord failure mid-fleet still persists other companies’ successful updates / first-run snapshots via merge write; vault/Discord missing with Discord-bound hits → no pings, first-run snapshots still merge-written, exit non-zero; multi-company `DRY_RUN` → no Discord, no LLM, no seen write.
+- **Rate limits (fakes):** Greenhouse 429 then success retries; Greenhouse 404 is not retried; Greenhouse 429 exhausted → that company skipped; Discord 429 exhausted → job not seen; soft cap 25 with round-robin: early `companyId` with many hits does not consume the entire cap before a later company with fewer hits.
 - **Concurrency:** not required to assert timing; fakes may be sequential. Assert fetch was invoked once per enabled company.
 
 ## Success criteria
 
-- After silent first snapshots for newly enabled companies, a new matching role on any enabled board produces exactly one Discord embed in the shared channel within a scheduled run (subject to the 25-post soft cap).
-- Sales / Solutions / Field Engineering departments do not ping even with intern in the title.
+- After silent first snapshots for newly enabled companies, a new matching role on any enabled board produces exactly one Discord embed in the shared channel within a scheduled run (subject to the fair 25-post soft cap).
+- Sales / Solutions / Field Engineering departments do not ping even with intern in the title; dual-tag Sales + Engineering does not ping.
 - Departments like Retail / Training / Maintenance do not pass the `AI` allow token.
 - Disabled companies produce zero network calls.
 - Expanding coverage is editing `enabled: true` (and optionally adding verified tokens), not a redesign.
