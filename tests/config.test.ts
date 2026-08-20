@@ -113,6 +113,34 @@ companies:
     expect(() => loadConfig(path)).toThrow(/duplicate/i);
   });
 
+  it("rejects id with surrounding whitespace", () => {
+    const path = writeTempYaml(`
+llm:
+  model: gemini-2.5-flash
+companies:
+  - id: "vercel "
+    name: Vercel
+    ats: greenhouse
+    boardToken: vercel
+    enabled: true
+`);
+    expect(() => loadConfig(path)).toThrow(/companies\[0\]\.id must be a lowercase slug/);
+  });
+
+  it("rejects uppercase id", () => {
+    const path = writeTempYaml(`
+llm:
+  model: gemini-2.5-flash
+companies:
+  - id: Vercel
+    name: Vercel
+    ats: greenhouse
+    boardToken: vercel
+    enabled: true
+`);
+    expect(() => loadConfig(path)).toThrow(/companies\[0\]\.id must be a lowercase slug/);
+  });
+
   it("rejects duplicate boardToken", () => {
     const path = writeTempYaml(`
 llm:
@@ -130,6 +158,38 @@ companies:
     enabled: true
 `);
     expect(() => loadConfig(path)).toThrow(/duplicate/i);
+  });
+
+  it("rejects boardToken with surrounding whitespace", () => {
+    const path = writeTempYaml(`
+llm:
+  model: gemini-2.5-flash
+companies:
+  - id: vercel
+    name: Vercel
+    ats: greenhouse
+    boardToken: "vercel "
+    enabled: true
+`);
+    expect(() => loadConfig(path)).toThrow(
+      /companies\[0\]\.boardToken must be a lowercase slug/,
+    );
+  });
+
+  it("rejects uppercase boardToken", () => {
+    const path = writeTempYaml(`
+llm:
+  model: gemini-2.5-flash
+companies:
+  - id: vercel
+    name: Vercel
+    ats: greenhouse
+    boardToken: Vercel
+    enabled: true
+`);
+    expect(() => loadConfig(path)).toThrow(
+      /companies\[0\]\.boardToken must be a lowercase slug/,
+    );
   });
 
   it("rejects a non-greenhouse ats", () => {

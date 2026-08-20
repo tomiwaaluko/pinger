@@ -2,9 +2,24 @@ import { readFileSync } from "node:fs";
 import { parse } from "yaml";
 import type { AppConfig, CompanyConfig } from "./types.js";
 
+/** Stable seen-store / Greenhouse path segment: lowercase kebab slug, no whitespace. */
+const SLUG_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+
 function requireString(value: unknown, label: string): string {
   if (typeof value !== "string" || value.trim() === "") {
     throw new Error(`${label} must be a non-empty string`);
+  }
+  return value;
+}
+
+function requireSlug(value: unknown, label: string): string {
+  if (typeof value !== "string" || value.trim() === "") {
+    throw new Error(`${label} must be a non-empty string`);
+  }
+  if (value !== value.trim() || !SLUG_PATTERN.test(value)) {
+    throw new Error(
+      `${label} must be a lowercase slug (a-z, 0-9, hyphen-separated)`,
+    );
   }
   return value;
 }
@@ -22,10 +37,10 @@ function parseCompany(raw: unknown, index: number): CompanyConfig {
     throw new Error(`companies[${index}].enabled must be a boolean`);
   }
   return {
-    id: requireString(row.id, `companies[${index}].id`),
+    id: requireSlug(row.id, `companies[${index}].id`),
     name: requireString(row.name, `companies[${index}].name`),
     ats: "greenhouse",
-    boardToken: requireString(
+    boardToken: requireSlug(
       row.boardToken,
       `companies[${index}].boardToken`,
     ),
@@ -36,10 +51,11 @@ function parseCompany(raw: unknown, index: number): CompanyConfig {
 function assertUnique(values: string[], label: string): void {
   const seen = new Set<string>();
   for (const value of values) {
-    if (seen.has(value)) {
+    const key = value.toLowerCase();
+    if (seen.has(key)) {
       throw new Error(`duplicate ${label}: ${value}`);
     }
-    seen.add(value);
+    seen.add(key);
   }
 }
 
