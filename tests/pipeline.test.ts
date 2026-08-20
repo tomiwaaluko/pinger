@@ -10,44 +10,46 @@ import { runWatcher } from "../src/pipeline.js";
 import { readSeen, writeSeen } from "../src/seen-store.js";
 import type {
   AppConfig,
+  CompanyConfig,
   DiscordEmbed,
   Job,
   RunWatcherOptions,
+  SeenStore,
 } from "../src/types.js";
 import { makeJob } from "./helpers.js";
 
-const config: AppConfig = {
+const now = "2026-08-16T12:00:00.000Z";
+
+const company = (
+  id: string,
+  name = id.toUpperCase(),
+  enabled = true,
+): CompanyConfig => ({
+  id,
+  name,
+  ats: "greenhouse",
+  boardToken: id,
+  enabled,
+});
+
+const intern = (id: string, overrides: Partial<Job> = {}): Job =>
+  makeJob({
+    id,
+    title: `Software Engineer Intern ${id}`,
+    absoluteUrl: `https://job-boards.greenhouse.io/${overrides.absoluteUrl ?? "board"}/jobs/${id}`,
+    ...overrides,
+  });
+
+const senior = makeJob({
+  id: "senior",
+  title: "Staff Software Engineer",
+  absoluteUrl: "https://job-boards.greenhouse.io/vercel/jobs/senior",
+});
+
+const configWith = (companies: CompanyConfig[]): AppConfig => ({
   vault: { careerPath: "Career/" },
   llm: { model: "gemini-2.5-flash" },
-  companies: [
-    {
-      id: "vercel",
-      name: "Vercel",
-      ats: "greenhouse",
-      boardToken: "vercel",
-      enabled: true,
-    },
-  ],
-};
-
-const internEarly = makeJob({
-  id: "10",
-  title: "Software Engineer Intern",
-  absoluteUrl: "https://job-boards.greenhouse.io/vercel/jobs/10",
-});
-const internA = makeJob({
-  id: "20",
-  title: "Software Engineer Intern",
-  absoluteUrl: "https://job-boards.greenhouse.io/vercel/jobs/20",
-});
-const internB = makeJob({
-  id: "100",
-  title: "AI Engineer Intern",
-  absoluteUrl: "https://job-boards.greenhouse.io/vercel/jobs/100",
-});
-const senior = makeJob({
-  id: "5474915004",
-  title: "Software Engineer, AI SDK",
+  companies,
 });
 
 function vaultDirWithCareer(): string {
@@ -58,17 +60,18 @@ function vaultDirWithCareer(): string {
 }
 
 function baseOpts(
-  overrides: Partial<RunWatcherOptions> &
-    Pick<RunWatcherOptions, "fetchJobs" | "vaultDir" | "seenPath">,
+  overrides: Partial<RunWatcherOptions> & Pick<RunWatcherOptions, "vaultDir">,
 ): RunWatcherOptions {
   return {
-    config,
+    config: configWith([company("vercel", "Vercel")]),
+    seenPath: join(overrides.vaultDir, "seen-jobs.json"),
     dryRun: false,
     env: {
       DISCORD_WEBHOOK_URL: "https://discord.test/webhook",
       GEMINI_API_KEY: "gemini-key",
     },
-    now: () => new Date("2026-08-16T12:00:00.000Z"),
+    now: () => new Date(now),
+    fetchJobs: async () => [],
     readVaultMarkdown: async () => ({
       empty: false,
       text: "## resume.md\nNext.js internships",
@@ -81,147 +84,358 @@ function baseOpts(
   };
 }
 
-describe("runWatcher", () => {
-  it("first run with zero matches writes vercel: {} and does not Discord, LLM, or read vault", async () => {
+function field(embed: DiscordEmbed, name: string): string | undefined {
+  return embed.fields.find((item) => item.name === name)?.value;
+}
+
+describe("runWatcher fleet pipeline", () => {
+  it("fails unsafe vault path before fetching or writing seen", async () => {
+    const dir = vaultDirWithCareer();
+    const write = vi.fn(writeSeen);
+    const fetchJobs = vi.fn(async (): Promise<Job[]> => [intern("1")]);
+
+    await expect(
+      runWatcher(
+        baseOpts({
+          vaultDir: dir,
+          config: {
+            ...configWith([company("vercel", "Vercel")]),
+            vault: { careerPath: "../" },
+          },
+          fetchJobs,
+          writeSeen: write,
+        }),
+      ),
+    ).rejects.toThrow(/escapes VAULT_DIR/);
+
+    expect(fetchJobs).not.toHaveBeenCalled();
+    expect(write).not.toHaveBeenCalled();
+    expect(await readSeen(join(dir, "seen-jobs.json"))).toEqual({});
+  });
+
+  it("exits zero without fetching or writing when no companies are enabled", async () => {
     const dir = vaultDirWithCareer();
     const seenPath = join(dir, "seen-jobs.json");
-    const generateFitNote = vi.fn(async () => "nope");
-    const postDiscord = vi.fn(async () => undefined);
-    const readVaultMarkdown = vi.fn(async () => ({
-      empty: false,
-      text: "should not be read",
-    }));
+    await writeSeen(seenPath, { disabledco: { old: { title: "Old", firstSeenAt: now } } });
+    const fetchJobs = vi.fn(async (): Promise<Job[]> => [intern("1")]);
+    const write = vi.fn(writeSeen);
+    const consoleError = vi.spyOn(console, "error").mockImplementation(() => {});
+
     const result = await runWatcher(
       baseOpts({
         vaultDir: dir,
         seenPath,
-        fetchJobs: async () => [senior],
-        generateFitNote,
-        postDiscord,
-        readVaultMarkdown,
+        config: configWith([company("disabledco", "Disabled Co", false)]),
+        fetchJobs,
+        writeSeen: write,
       }),
     );
-    expect(result.exitCode).toBe(0);
-    expect(generateFitNote).not.toHaveBeenCalled();
-    expect(postDiscord).not.toHaveBeenCalled();
-    expect(readVaultMarkdown).not.toHaveBeenCalled();
-    expect(await readSeen(seenPath)).toEqual({ vercel: {} });
+
+    expect(result).toEqual({ exitCode: 0, dryRunPings: [], dryRunDeferred: [] });
+    expect(fetchJobs).not.toHaveBeenCalled();
+    expect(write).not.toHaveBeenCalled();
+    expect(await readSeen(seenPath)).toEqual({
+      disabledco: { old: { title: "Old", firstSeenAt: now } },
+    });
+    consoleError.mockRestore();
   });
 
-  it("first run with matching ids persists them and pings nothing", async () => {
+  it("does not fetch disabled companies", async () => {
     const dir = vaultDirWithCareer();
     const seenPath = join(dir, "seen-jobs.json");
-    const postDiscord = vi.fn(async () => undefined);
-    const generateFitNote = vi.fn(async () => "nope");
-    const readVaultMarkdown = vi.fn(async () => ({
-      empty: false,
-      text: "should not be read",
-    }));
+    await writeSeen(seenPath, { enabledco: {} });
+    const fetchJobs = vi.fn(async (c: CompanyConfig) =>
+      c.id === "enabledco" ? [intern("1")] : [intern("2")],
+    );
+
     await runWatcher(
       baseOpts({
         vaultDir: dir,
         seenPath,
-        fetchJobs: async () => [internA],
-        postDiscord,
-        generateFitNote,
-        readVaultMarkdown,
+        config: configWith([
+          company("enabledco", "Enabled Co"),
+          company("disabledco", "Disabled Co", false),
+        ]),
+        fetchJobs,
       }),
     );
+
+    expect(fetchJobs).toHaveBeenCalledTimes(1);
+    expect(fetchJobs).toHaveBeenCalledWith(company("enabledco", "Enabled Co"));
+  });
+
+  it("snapshots first-run companies and pings existing companies in one merged write", async () => {
+    const dir = vaultDirWithCareer();
+    const seenPath = join(dir, "seen-jobs.json");
+    await writeSeen(seenPath, { beta: {} });
+    const writes: SeenStore[] = [];
+    const posted: DiscordEmbed[] = [];
+
+    const result = await runWatcher(
+      baseOpts({
+        vaultDir: dir,
+        seenPath,
+        config: configWith([company("alpha", "Alpha Inc"), company("beta", "Beta LLC")]),
+        fetchJobs: async (c) => (c.id === "alpha" ? [intern("10")] : [intern("20")]),
+        postDiscord: async (_url, embed) => {
+          posted.push(embed);
+        },
+        writeSeen: async (path, store) => {
+          writes.push(structuredClone(store));
+          await writeSeen(path, store);
+        },
+      }),
+    );
+
+    expect(result.exitCode).toBe(0);
+    expect(writes).toHaveLength(1);
+    expect(await readSeen(seenPath)).toEqual({
+      alpha: { "10": { title: "Software Engineer Intern 10", firstSeenAt: now } },
+      beta: { "20": { title: "Software Engineer Intern 20", firstSeenAt: now } },
+    });
+    expect(field(posted[0], "Company")).toBe("Beta LLC");
+  });
+
+  it("continues processing other companies when one fetch rejects", async () => {
+    const dir = vaultDirWithCareer();
+    const seenPath = join(dir, "seen-jobs.json");
+    await writeSeen(seenPath, { bad: {}, good: {} });
+    const consoleError = vi.spyOn(console, "error").mockImplementation(() => {});
+
+    const result = await runWatcher(
+      baseOpts({
+        vaultDir: dir,
+        seenPath,
+        config: configWith([company("bad", "Bad Co"), company("good", "Good Co")]),
+        fetchJobs: async (c) => {
+          if (c.id === "bad") throw new Error("Greenhouse down");
+          return [intern("20")];
+        },
+      }),
+    );
+
+    expect(result.exitCode).toBe(0);
+    expect(await readSeen(seenPath)).toEqual({
+      bad: {},
+      good: { "20": { title: "Software Engineer Intern 20", firstSeenAt: now } },
+    });
+    consoleError.mockRestore();
+  });
+
+  it("exits 2 and writes nothing when all enabled fetches fail", async () => {
+    const dir = vaultDirWithCareer();
+    const seenPath = join(dir, "seen-jobs.json");
+    await writeSeen(seenPath, { a: {}, disabledco: { old: { title: "Old", firstSeenAt: now } } });
+    const write = vi.fn(writeSeen);
+    const consoleError = vi.spyOn(console, "error").mockImplementation(() => {});
+
+    const result = await runWatcher(
+      baseOpts({
+        vaultDir: dir,
+        seenPath,
+        config: configWith([
+          company("a", "A"),
+          company("b", "B"),
+          company("disabledco", "Disabled", false),
+        ]),
+        fetchJobs: async () => {
+          throw new Error("Greenhouse down");
+        },
+        writeSeen: write,
+      }),
+    );
+
+    expect(result.exitCode).toBe(2);
+    expect(write).not.toHaveBeenCalled();
+    expect(await readSeen(seenPath)).toEqual({
+      a: {},
+      disabledco: { old: { title: "Old", firstSeenAt: now } },
+    });
+    consoleError.mockRestore();
+  });
+
+  it("persists first-run snapshots but not Discord-bound hits when vault is unreadable", async () => {
+    const dir = vaultDirWithCareer();
+    const seenPath = join(dir, "seen-jobs.json");
+    await writeSeen(seenPath, { beta: {} });
+    const postDiscord = vi.fn(async () => undefined);
+    const generateFitNote = vi.fn(async () => "nope");
+
+    const result = await runWatcher(
+      baseOpts({
+        vaultDir: dir,
+        seenPath,
+        config: configWith([company("alpha", "Alpha"), company("beta", "Beta")]),
+        fetchJobs: async (c) => (c.id === "alpha" ? [intern("10")] : [intern("20")]),
+        readVaultMarkdown: async () => {
+          throw new Error("ENOENT");
+        },
+        postDiscord,
+        generateFitNote,
+      }),
+    );
+
+    expect(result.exitCode).toBe(2);
     expect(postDiscord).not.toHaveBeenCalled();
     expect(generateFitNote).not.toHaveBeenCalled();
-    expect(readVaultMarkdown).not.toHaveBeenCalled();
     expect(await readSeen(seenPath)).toEqual({
-      vercel: {
-        "20": {
-          title: "Software Engineer Intern",
-          firstSeenAt: "2026-08-16T12:00:00.000Z",
-        },
-      },
+      alpha: { "10": { title: "Software Engineer Intern 10", firstSeenAt: now } },
+      beta: {},
     });
   });
 
-  it("first run with missing DISCORD_WEBHOOK_URL still writes vercel: {} and does not Discord", async () => {
+  it("persists first-run snapshots but not Discord-bound hits when webhook is missing", async () => {
     const dir = vaultDirWithCareer();
     const seenPath = join(dir, "seen-jobs.json");
+    await writeSeen(seenPath, { beta: {} });
+    const readVaultMarkdown = vi.fn(async () => ({ empty: false, text: "nope" }));
     const postDiscord = vi.fn(async () => undefined);
     const generateFitNote = vi.fn(async () => "nope");
-    const readVaultMarkdown = vi.fn(async () => ({
-      empty: false,
-      text: "should not be read",
-    }));
+
     const result = await runWatcher(
       baseOpts({
         vaultDir: dir,
         seenPath,
-        env: {},
-        fetchJobs: async () => [senior],
+        env: { GEMINI_API_KEY: "gemini-key" },
+        config: configWith([company("alpha", "Alpha"), company("beta", "Beta")]),
+        fetchJobs: async (c) => (c.id === "alpha" ? [intern("10")] : [intern("20")]),
+        readVaultMarkdown,
+        postDiscord,
+        generateFitNote,
+      }),
+    );
+
+    expect(result.exitCode).toBe(2);
+    expect(readVaultMarkdown).not.toHaveBeenCalled();
+    expect(postDiscord).not.toHaveBeenCalled();
+    expect(generateFitNote).not.toHaveBeenCalled();
+    expect(await readSeen(seenPath)).toEqual({
+      alpha: { "10": { title: "Software Engineer Intern 10", firstSeenAt: now } },
+      beta: {},
+    });
+  });
+
+  it("records successful Discord posts, skips failed posts, and persists first-run snapshots", async () => {
+    const dir = vaultDirWithCareer();
+    const seenPath = join(dir, "seen-jobs.json");
+    await writeSeen(seenPath, { beta: {} });
+    const consoleError = vi.spyOn(console, "error").mockImplementation(() => {});
+
+    const result = await runWatcher(
+      baseOpts({
+        vaultDir: dir,
+        seenPath,
+        config: configWith([company("alpha", "Alpha"), company("beta", "Beta")]),
+        fetchJobs: async (c) =>
+          c.id === "alpha" ? [intern("10")] : [intern("20"), intern("30")],
+        postDiscord: async (_url, embed) => {
+          if (embed.url.endsWith("/jobs/30")) throw new Error("Discord HTTP 400");
+        },
+      }),
+    );
+
+    expect(result.exitCode).toBe(2);
+    expect(await readSeen(seenPath)).toEqual({
+      alpha: { "10": { title: "Software Engineer Intern 10", firstSeenAt: now } },
+      beta: { "20": { title: "Software Engineer Intern 20", firstSeenAt: now } },
+    });
+    consoleError.mockRestore();
+  });
+
+  it("applies the soft cap before LLM and leaves deferred jobs unrecorded", async () => {
+    const dir = vaultDirWithCareer();
+    const seenPath = join(dir, "seen-jobs.json");
+    await writeSeen(seenPath, { aaa: {}, zzz: {} });
+    const aaaJobs = Array.from({ length: 40 }, (_, i) => intern(String(i + 1)));
+    const zzzJobs = [intern("100"), intern("101")];
+    const generateFitNote = vi.fn(async () => "fit");
+    const posted: DiscordEmbed[] = [];
+
+    const result = await runWatcher(
+      baseOpts({
+        vaultDir: dir,
+        seenPath,
+        config: configWith([company("aaa", "Aaa"), company("zzz", "Zzz")]),
+        fetchJobs: async (c) => (c.id === "aaa" ? aaaJobs : zzzJobs),
+        generateFitNote,
+        postDiscord: async (_url, embed) => {
+          posted.push(embed);
+        },
+      }),
+    );
+
+    expect(result.exitCode).toBe(0);
+    expect(generateFitNote.mock.calls.length).toBeLessThanOrEqual(25);
+    expect(posted).toHaveLength(25);
+    expect(posted.filter((embed) => field(embed, "Company") === "Zzz")).toHaveLength(2);
+    const seen = await readSeen(seenPath);
+    expect(Object.keys(seen.aaa)).toHaveLength(23);
+    expect(Object.keys(seen.zzz)).toEqual(["100", "101"]);
+  });
+
+  it("dry run returns attempt and deferred windows without writes, Discord, or LLM", async () => {
+    const dir = vaultDirWithCareer();
+    const seenPath = join(dir, "seen-jobs.json");
+    await writeSeen(seenPath, { aaa: {}, zzz: {} });
+    const write = vi.fn(writeSeen);
+    const postDiscord = vi.fn(async () => undefined);
+    const generateFitNote = vi.fn(async () => "fit");
+    const readVaultMarkdown = vi.fn(async () => ({ empty: false, text: "nope" }));
+    const aaaJobs = Array.from({ length: 40 }, (_, i) => intern(String(i + 1)));
+    const zzzJobs = [intern("100"), intern("101")];
+
+    const result = await runWatcher(
+      baseOpts({
+        vaultDir: dir,
+        seenPath,
+        dryRun: true,
+        config: configWith([company("aaa", "Aaa"), company("zzz", "Zzz")]),
+        fetchJobs: async (c) => (c.id === "aaa" ? aaaJobs : zzzJobs),
+        writeSeen: write,
         postDiscord,
         generateFitNote,
         readVaultMarkdown,
       }),
     );
+
     expect(result.exitCode).toBe(0);
+    expect(result.dryRunPings).toHaveLength(25);
+    expect(result.dryRunPings.filter((ping) => ping.companyId === "zzz")).toHaveLength(2);
+    expect(result.dryRunDeferred).toHaveLength(17);
+    expect(write).not.toHaveBeenCalled();
     expect(postDiscord).not.toHaveBeenCalled();
     expect(generateFitNote).not.toHaveBeenCalled();
     expect(readVaultMarkdown).not.toHaveBeenCalled();
-    expect(await readSeen(seenPath)).toEqual({ vercel: {} });
+    expect(await readSeen(seenPath)).toEqual({ aaa: {}, zzz: {} });
   });
 
-  it("later run with empty vercel object plus one new match pings once", async () => {
+  it("merge write keeps unseen disabled company keys", async () => {
     const dir = vaultDirWithCareer();
     const seenPath = join(dir, "seen-jobs.json");
-    await writeSeen(seenPath, { vercel: {} });
-    const generateFitNote = vi.fn(async () => "Fits intern Next.js work.");
-    const posted: DiscordEmbed[] = [];
-    const result = await runWatcher(
-      baseOpts({
-        vaultDir: dir,
-        seenPath,
-        fetchJobs: async () => [internA, senior],
-        generateFitNote,
-        postDiscord: async (_url, embed) => {
-          posted.push(embed);
-        },
-      }),
-    );
-    expect(result.exitCode).toBe(0);
-    expect(generateFitNote).toHaveBeenCalledTimes(1);
-    expect(posted).toHaveLength(1);
-    expect(posted[0].url).toBe(
-      "https://job-boards.greenhouse.io/vercel/jobs/20",
-    );
-    expect(posted[0].url).not.toMatch(/vercel\.com\/careers/);
-    expect(posted[0].fields.find((field) => field.name === "Fit")?.value).toBe(
-      "Fits intern Next.js work.",
-    );
-    expect((await readSeen(seenPath)).vercel["20"]).toBeDefined();
-  });
+    await writeSeen(seenPath, {
+      enabledco: {},
+      disabledco: { old: { title: "Old", firstSeenAt: now } },
+    });
 
-  it("missing GEMINI_API_KEY posts fallback and does not call generateFitNote", async () => {
-    const dir = vaultDirWithCareer();
-    const seenPath = join(dir, "seen-jobs.json");
-    await writeSeen(seenPath, { vercel: {} });
-    const posted: DiscordEmbed[] = [];
-    const generateFitNote = vi.fn(async () => "should not be called");
     await runWatcher(
       baseOpts({
         vaultDir: dir,
         seenPath,
-        env: { DISCORD_WEBHOOK_URL: "https://discord.test/webhook" },
-        fetchJobs: async () => [internA],
-        generateFitNote,
-        postDiscord: async (_url, embed) => {
-          posted.push(embed);
-        },
+        config: configWith([
+          company("enabledco", "Enabled"),
+          company("disabledco", "Disabled", false),
+        ]),
+        fetchJobs: async () => [intern("20")],
       }),
     );
-    expect(generateFitNote).not.toHaveBeenCalled();
-    expect(posted[0].fields.find((field) => field.name === "Fit")?.value).toBe(
-      FALLBACK_FIT_NOTE,
-    );
+
+    expect(await readSeen(seenPath)).toEqual({
+      enabledco: { "20": { title: "Software Engineer Intern 20", firstSeenAt: now } },
+      disabledco: { old: { title: "Old", firstSeenAt: now } },
+    });
   });
 
-  it("LLM error still posts fallback fit text", async () => {
+  it("retains v1 regressions for fallbacks, existing empty keys, quiet days, and finally flush", async () => {
     const dir = vaultDirWithCareer();
     const seenPath = join(dir, "seen-jobs.json");
     await writeSeen(seenPath, { vercel: {} });
@@ -229,193 +443,52 @@ describe("runWatcher", () => {
     const generateFitNote = vi.fn(async () => {
       throw new Error("Gemini down");
     });
+
     await runWatcher(
       baseOpts({
         vaultDir: dir,
         seenPath,
-        fetchJobs: async () => [internA],
+        env: { DISCORD_WEBHOOK_URL: "https://discord.test/webhook" },
+        fetchJobs: async () => [intern("20")],
         generateFitNote,
         postDiscord: async (_url, embed) => {
           posted.push(embed);
         },
       }),
     );
-    expect(generateFitNote).toHaveBeenCalledTimes(1);
-    expect(posted[0].fields.find((field) => field.name === "Fit")?.value).toBe(
-      FALLBACK_FIT_NOTE,
-    );
-  });
+    expect(generateFitNote).not.toHaveBeenCalled();
+    expect(field(posted[0], "Fit")).toBe(FALLBACK_FIT_NOTE);
 
-  it("empty Career folder still pings with empty-folder fit text", async () => {
-    const dir = vaultDirWithCareer();
-    const seenPath = join(dir, "seen-jobs.json");
-    await writeSeen(seenPath, { vercel: {} });
-    const posted: DiscordEmbed[] = [];
-    const generateFitNote = vi.fn(async () => "nope");
+    posted.length = 0;
     await runWatcher(
       baseOpts({
         vaultDir: dir,
         seenPath,
-        fetchJobs: async () => [internA],
+        fetchJobs: async () => [intern("30")],
+        generateFitNote,
+        postDiscord: async (_url, embed) => {
+          posted.push(embed);
+        },
+      }),
+    );
+    expect(field(posted[0], "Fit")).toBe(FALLBACK_FIT_NOTE);
+
+    posted.length = 0;
+    await runWatcher(
+      baseOpts({
+        vaultDir: dir,
+        seenPath,
+        fetchJobs: async () => [intern("40")],
         readVaultMarkdown: async () => ({ empty: true, text: "" }),
-        generateFitNote,
         postDiscord: async (_url, embed) => {
           posted.push(embed);
         },
       }),
     );
-    expect(generateFitNote).not.toHaveBeenCalled();
-    expect(posted[0].fields.find((field) => field.name === "Fit")?.value).toBe(
-      EMPTY_VAULT_FIT_NOTE,
-    );
-  });
+    expect(field(posted[0], "Fit")).toBe(EMPTY_VAULT_FIT_NOTE);
 
-  it("Discord 200 then Discord 400 records only the first job and exits 2", async () => {
-    const dir = vaultDirWithCareer();
-    const seenPath = join(dir, "seen-jobs.json");
-    await writeSeen(seenPath, { vercel: {} });
-    let calls = 0;
-    const result = await runWatcher(
-      baseOpts({
-        vaultDir: dir,
-        seenPath,
-        fetchJobs: async () => [internB, internA],
-        postDiscord: async () => {
-          calls += 1;
-          if (calls === 2) {
-            throw new Error("Discord HTTP 400");
-          }
-        },
-      }),
-    );
-    expect(result.exitCode).toBe(2);
-    const seen = await readSeen(seenPath);
-    expect(Object.keys(seen.vercel)).toEqual(["20"]);
-    expect(seen.vercel["100"]).toBeUndefined();
-  });
-
-  it("Discord fail then succeed records only the later job and exits 2", async () => {
-    const dir = vaultDirWithCareer();
-    const seenPath = join(dir, "seen-jobs.json");
-    await writeSeen(seenPath, { vercel: {} });
-    let calls = 0;
-    const consoleError = vi.spyOn(console, "error").mockImplementation(() => {});
-    const result = await runWatcher(
-      baseOpts({
-        vaultDir: dir,
-        seenPath,
-        fetchJobs: async () => [internA, internEarly],
-        postDiscord: async () => {
-          calls += 1;
-          if (calls === 1) {
-            throw new Error("Discord HTTP 400");
-          }
-        },
-      }),
-    );
-    expect(result.exitCode).toBe(2);
-    expect(consoleError).toHaveBeenCalledWith(
-      "Discord post failed for job 10:",
-      "Error: Discord HTTP 400",
-    );
-    consoleError.mockRestore();
-    const seen = await readSeen(seenPath);
-    expect(Object.keys(seen.vercel)).toEqual(["20"]);
-    expect(seen.vercel["10"]).toBeUndefined();
-  });
-
-  it("DRY_RUN prints would-be pings and does not Discord, LLM, or write seen", async () => {
-    const dir = vaultDirWithCareer();
-    const seenPath = join(dir, "seen-jobs.json");
-    await writeSeen(seenPath, { vercel: {} });
-    const generateFitNote = vi.fn(async () => "nope");
-    const postDiscord = vi.fn(async () => undefined);
-    const readVaultMarkdown = vi.fn(async () => ({
-      empty: false,
-      text: "should not be read",
-    }));
     const write = vi.fn(writeSeen);
-    const result = await runWatcher(
-      baseOpts({
-        vaultDir: dir,
-        seenPath,
-        dryRun: true,
-        fetchJobs: async () => [internA],
-        generateFitNote,
-        postDiscord,
-        writeSeen: write,
-        readVaultMarkdown,
-      }),
-    );
-    expect(result.exitCode).toBe(0);
-    expect(result.dryRunPings).toEqual([
-      {
-        companyId: "vercel",
-        jobId: "20",
-        title: "Software Engineer Intern",
-        absoluteUrl: "https://job-boards.greenhouse.io/vercel/jobs/20",
-        location: "Remote - United States",
-      },
-    ]);
-    expect(generateFitNote).not.toHaveBeenCalled();
-    expect(postDiscord).not.toHaveBeenCalled();
-    expect(readVaultMarkdown).not.toHaveBeenCalled();
-    expect(write).not.toHaveBeenCalled();
-    expect(await readSeen(seenPath)).toEqual({ vercel: {} });
-  });
-
-  it("fails immediately on careerPath escape without writing seen", async () => {
-    const dir = vaultDirWithCareer();
-    const seenPath = join(dir, "seen-jobs.json");
-    const fetchJobs = vi.fn(async (): Promise<Job[]> => [internA]);
-    await expect(
-      runWatcher(
-        baseOpts({
-          vaultDir: dir,
-          seenPath,
-          config: {
-            ...config,
-            vault: { careerPath: "../" },
-          },
-          fetchJobs,
-        }),
-      ),
-    ).rejects.toThrow(/escapes VAULT_DIR/);
-    expect(fetchJobs).not.toHaveBeenCalled();
-    expect(await readSeen(seenPath)).toEqual({});
-  });
-
-  it("unreadable Career folder with new matches fails before Discord", async () => {
-    const dir = vaultDirWithCareer();
-    const seenPath = join(dir, "seen-jobs.json");
-    await writeSeen(seenPath, { vercel: {} });
-    const postDiscord = vi.fn(async () => undefined);
-    await expect(
-      runWatcher(
-        baseOpts({
-          vaultDir: dir,
-          seenPath,
-          fetchJobs: async () => [internA],
-          readVaultMarkdown: async () => {
-            throw new Error("ENOENT");
-          },
-          postDiscord,
-        }),
-      ),
-    ).rejects.toThrow(/ENOENT/);
-    expect(postDiscord).not.toHaveBeenCalled();
-    expect(await readSeen(seenPath)).toEqual({ vercel: {} });
-  });
-
-  it("quiet later run leaves seen-jobs.json unchanged and does not read vault", async () => {
-    const dir = vaultDirWithCareer();
-    const seenPath = join(dir, "seen-jobs.json");
-    await writeSeen(seenPath, { vercel: {} });
-    const write = vi.fn(writeSeen);
-    const readVaultMarkdown = vi.fn(async () => ({
-      empty: false,
-      text: "should not be read",
-    }));
+    const readVaultMarkdown = vi.fn(async () => ({ empty: false, text: "should not read" }));
     const result = await runWatcher(
       baseOpts({
         vaultDir: dir,
@@ -428,146 +501,5 @@ describe("runWatcher", () => {
     expect(result.exitCode).toBe(0);
     expect(write).not.toHaveBeenCalled();
     expect(readVaultMarkdown).not.toHaveBeenCalled();
-  });
-
-  it("quiet later run does not require webhook or vault", async () => {
-    const dir = vaultDirWithCareer();
-    const seenPath = join(dir, "seen-jobs.json");
-    await writeSeen(seenPath, { vercel: {} });
-    const write = vi.fn(writeSeen);
-    const readVaultMarkdown = vi.fn(async () => {
-      throw new Error("Career folder unreadable");
-    });
-    const postDiscord = vi.fn(async () => undefined);
-    const result = await runWatcher(
-      baseOpts({
-        vaultDir: dir,
-        seenPath,
-        env: {},
-        fetchJobs: async () => [senior],
-        writeSeen: write,
-        readVaultMarkdown,
-        postDiscord,
-      }),
-    );
-    expect(result.exitCode).toBe(0);
-    expect(write).not.toHaveBeenCalled();
-    expect(readVaultMarkdown).not.toHaveBeenCalled();
-    expect(postDiscord).not.toHaveBeenCalled();
-    expect(await readSeen(seenPath)).toEqual({ vercel: {} });
-  });
-
-  it("does not write seen when Greenhouse fetch throws", async () => {
-    const dir = vaultDirWithCareer();
-    const seenPath = join(dir, "seen-jobs.json");
-    const write = vi.fn(writeSeen);
-    await expect(
-      runWatcher(
-        baseOpts({
-          vaultDir: dir,
-          seenPath,
-          fetchJobs: async () => {
-            throw new Error(
-              "Greenhouse pagination incomplete: got 1 jobs, meta.total 83",
-            );
-          },
-          writeSeen: write,
-        }),
-      ),
-    ).rejects.toThrow(/pagination incomplete/);
-    expect(write).not.toHaveBeenCalled();
-    expect(await readSeen(seenPath)).toEqual({});
-  });
-
-  it("fails before Discord when DISCORD_WEBHOOK_URL is missing and there are new matches", async () => {
-    const dir = vaultDirWithCareer();
-    const seenPath = join(dir, "seen-jobs.json");
-    await writeSeen(seenPath, { vercel: {} });
-    const postDiscord = vi.fn(async () => undefined);
-    await expect(
-      runWatcher(
-        baseOpts({
-          vaultDir: dir,
-          seenPath,
-          env: { GEMINI_API_KEY: "gemini-key" },
-          fetchJobs: async () => [internA],
-          postDiscord,
-        }),
-      ),
-    ).rejects.toThrow(/DISCORD_WEBHOOK_URL/);
-    expect(postDiscord).not.toHaveBeenCalled();
-    expect(await readSeen(seenPath)).toEqual({ vercel: {} });
-  });
-
-  it("dry run on a first run prints no pings and does not write seen", async () => {
-    const dir = vaultDirWithCareer();
-    const seenPath = join(dir, "seen-jobs.json");
-    const write = vi.fn(writeSeen);
-    const postDiscord = vi.fn(async () => undefined);
-    const generateFitNote = vi.fn(async () => "nope");
-    const result = await runWatcher(
-      baseOpts({
-        vaultDir: dir,
-        seenPath,
-        dryRun: true,
-        fetchJobs: async () => [internA],
-        writeSeen: write,
-        postDiscord,
-        generateFitNote,
-      }),
-    );
-    expect(result.exitCode).toBe(0);
-    expect(result.dryRunPings).toEqual([]);
-    expect(write).not.toHaveBeenCalled();
-    expect(postDiscord).not.toHaveBeenCalled();
-    expect(generateFitNote).not.toHaveBeenCalled();
-    expect(await readSeen(seenPath)).toEqual({});
-  });
-
-  it("writes seen for a posted company when a later company throws", async () => {
-    const dir = vaultDirWithCareer();
-    const seenPath = join(dir, "seen-jobs.json");
-    await writeSeen(seenPath, { a: {}, b: {} });
-    const twoCompanies: AppConfig = {
-      ...config,
-      companies: [
-        {
-          id: "a",
-          name: "A",
-          ats: "greenhouse",
-          boardToken: "a",
-          enabled: true,
-        },
-        {
-          id: "b",
-          name: "B",
-          ats: "greenhouse",
-          boardToken: "b",
-          enabled: true,
-        },
-      ],
-    };
-    let vaultReads = 0;
-    await expect(
-      runWatcher(
-        baseOpts({
-          vaultDir: dir,
-          seenPath,
-          config: twoCompanies,
-          fetchJobs: async (company) =>
-            company.id === "a" ? [internA] : [internB],
-          readVaultMarkdown: async () => {
-            vaultReads += 1;
-            if (vaultReads === 2) {
-              throw new Error("ENOENT");
-            }
-            return { empty: false, text: "## resume.md\nNext.js internships" };
-          },
-        }),
-      ),
-    ).rejects.toThrow(/ENOENT/);
-    const seen = await readSeen(seenPath);
-    expect(seen.a["20"]).toBeDefined();
-    expect(seen.b["100"]).toBeUndefined();
   });
 });

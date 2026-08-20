@@ -2,6 +2,7 @@ import {
   EMPTY_VAULT_FIT_NOTE,
   FALLBACK_FIT_NOTE,
   FIT_NOTE_CAP,
+  GREENHOUSE_CONCURRENCY,
 } from "./constants.js";
 import { buildDiscordEmbed } from "./discord.js";
 import { matchesJob } from "./matcher.js";
@@ -10,12 +11,17 @@ import {
   newMatchingJobs,
   recordJob,
 } from "./seen-store.js";
+import { selectAttemptWindow } from "./soft-cap.js";
 import { truncate } from "./text.js";
+import type { BoundJob } from "./soft-cap.js";
 import type {
+  CompanyConfig,
+  DryRunPing,
   FitNoteInput,
   Job,
   RunWatcherOptions,
   RunWatcherResult,
+  SeenStore,
   VaultContents,
 } from "./types.js";
 import { resolveCareerDir } from "./vault.js";
@@ -51,84 +57,138 @@ export async function runWatcher(
     opts.vaultDir,
     opts.config.vault.careerPath,
   );
+
+  const emptyResult = (): RunWatcherResult => ({
+    exitCode: 0,
+    dryRunPings: [],
+    dryRunDeferred: [],
+  });
+
+  const enabled = opts.config.companies.filter((company) => company.enabled);
+  if (enabled.length === 0) {
+    console.error("No enabled companies in companies.yaml");
+    return emptyResult();
+  }
+
+  const nameById = new Map(
+    opts.config.companies.map((company) => [company.id, company.name] as const),
+  );
+
   const store = await opts.readSeen(opts.seenPath);
-  const dryRunPings: RunWatcherResult["dryRunPings"] = [];
+  const nextStore: SeenStore = structuredClone(store);
   let anyDiscordFailure = false;
-  let seenDirty = false;
+  const firstRunCompanyIds = new Set<string>();
+  let postDirty = false;
+  const fetchFailures: string[] = [];
+  const discordBound: BoundJob[] = [];
+
+  const writeMerged = async () => {
+    if (firstRunCompanyIds.size > 0 || postDirty) {
+      await opts.writeSeen(opts.seenPath, nextStore);
+    }
+  };
 
   try {
-    for (const company of opts.config.companies) {
-      const jobs = await opts.fetchJobs(company);
-      const matched = jobs.filter((job) => matchesJob(job));
+    async function processCompany(company: CompanyConfig): Promise<void> {
+      try {
+        const jobs = await opts.fetchJobs(company);
+        const matched = jobs.filter((job) => matchesJob(job));
 
-      if (isFirstRun(store, company.id)) {
-        if (!opts.dryRun) {
-          store[company.id] = {};
-          for (const job of matched) {
-            recordJob(store, company.id, job, opts.now().toISOString());
+        if (isFirstRun(store, company.id)) {
+          if (!opts.dryRun) {
+            nextStore[company.id] = {};
+            for (const job of matched) {
+              recordJob(nextStore, company.id, job, opts.now().toISOString());
+            }
+            firstRunCompanyIds.add(company.id);
           }
-          seenDirty = true;
+          return;
         }
-        continue;
-      }
 
-      const newJobs = newMatchingJobs(matched, store[company.id]).sort(
-        (a, b) => Number(a.id) - Number(b.id),
-      );
-
-      if (opts.dryRun) {
+        const newJobs = newMatchingJobs(matched, store[company.id] ?? {}).sort(
+          (a, b) => Number(a.id) - Number(b.id),
+        );
         for (const job of newJobs) {
-          dryRunPings.push({
-            companyId: company.id,
-            jobId: job.id,
-            title: job.title,
-            absoluteUrl: job.absoluteUrl,
-            location: job.location,
-          });
+          discordBound.push({ companyId: company.id, job });
         }
-        continue;
+      } catch (err) {
+        console.error(
+          `Greenhouse fetch failed for ${company.id}:`,
+          String(err),
+        );
+        fetchFailures.push(company.id);
       }
+    }
 
-      if (newJobs.length === 0) {
-        continue;
-      }
+    for (let i = 0; i < enabled.length; i += GREENHOUSE_CONCURRENCY) {
+      const chunk = enabled.slice(i, i + GREENHOUSE_CONCURRENCY);
+      await Promise.all(chunk.map((company) => processCompany(company)));
+    }
 
+    if (fetchFailures.length === enabled.length && enabled.length > 0) {
+      return { exitCode: 2, dryRunPings: [], dryRunDeferred: [] };
+    }
+
+    const { attempt, deferred } = selectAttemptWindow(discordBound);
+    const toPing = (bound: BoundJob): DryRunPing => ({
+      companyId: bound.companyId,
+      jobId: bound.job.id,
+      title: bound.job.title,
+      absoluteUrl: bound.job.absoluteUrl,
+      location: bound.job.location,
+    });
+
+    if (opts.dryRun) {
+      return {
+        exitCode: 0,
+        dryRunPings: attempt.map(toPing),
+        dryRunDeferred: deferred.map(toPing),
+      };
+    }
+
+    if (attempt.length > 0) {
       const webhookUrl = opts.env.DISCORD_WEBHOOK_URL;
       if (!webhookUrl) {
-        throw new Error("DISCORD_WEBHOOK_URL is required when posting new jobs");
+        return { exitCode: 2, dryRunPings: [], dryRunDeferred: [] };
       }
 
-      const vault = await opts.readVaultMarkdown(careerDir);
+      let vault: VaultContents;
+      try {
+        vault = await opts.readVaultMarkdown(careerDir);
+      } catch {
+        return { exitCode: 2, dryRunPings: [], dryRunDeferred: [] };
+      }
 
-      for (const job of newJobs) {
+      for (const { companyId, job } of attempt) {
+        const companyName = nameById.get(companyId) ?? companyId;
         const fit = truncate(await fitForJob(opts, vault, job), FIT_NOTE_CAP);
         try {
           await opts.postDiscord(
             webhookUrl,
             buildDiscordEmbed({
               job,
-              companyName: company.name,
-              companyId: company.id,
+              companyName,
+              companyId,
               fit,
             }),
           );
-          recordJob(store, company.id, job, opts.now().toISOString());
-          seenDirty = true;
+          recordJob(nextStore, companyId, job, opts.now().toISOString());
+          postDirty = true;
         } catch (err) {
           console.error(`Discord post failed for job ${job.id}:`, String(err));
           anyDiscordFailure = true;
-          // Continue to the next job. Do not break: a later 2xx must still be recorded.
         }
       }
     }
 
     return {
       exitCode: anyDiscordFailure ? 2 : 0,
-      dryRunPings,
+      dryRunPings: [],
+      dryRunDeferred: [],
     };
   } finally {
-    if (seenDirty) {
-      await opts.writeSeen(opts.seenPath, store);
+    if (!opts.dryRun) {
+      await writeMerged();
     }
   }
 }

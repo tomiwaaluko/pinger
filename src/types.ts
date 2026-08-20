@@ -65,6 +65,7 @@ export type DryRunPing = {
 export type RunWatcherResult = {
   exitCode: 0 | 2;
   dryRunPings: DryRunPing[];
+  dryRunDeferred: DryRunPing[];
 };
 
 export type RunWatcherOptions = {
