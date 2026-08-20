@@ -120,12 +120,15 @@ This blocks dual-tagged rows such as `["Sales", "Engineering"]` or `["Sales Engi
 | `solution` | whole token |
 | `solutions` | whole token |
 | `field` | whole token |
+| `non` | whole token (blocks `Non-Engineering` after hyphen-collapse → `non engineering`) |
 
 Whole-token matching for short tokens is mandatory so `ai` does **not** match `retail`, `training`, `maintenance`, `pairing`, and `solution` does **not** match `resolution`.
 
+After hyphen-collapse, `Non-Engineering` becomes `non engineering`: allow would match `engineering`, but deny token `non` fails the gate.
+
 Examples that **pass** the department gate (subject to title rules): `Engineering`, `Software Engineering`, `Platform Engineering`, `Product Engineering`, `AI`, `AI Platform`, `Resolution Engineering` (allow `engineering`; `resolution` is not a deny token).
 
-Examples that **fail** the department gate: `Sales Engineering`, `Solutions Engineering`, `Field Engineering`, `Marketing`, `Finance`, `Retail`, `Training`, `Maintenance`, `Dev Eng` (no allow token), dual-tag `Sales` + `Engineering`, missing/empty departments.
+Examples that **fail** the department gate: `Sales Engineering`, `Solutions Engineering`, `Field Engineering`, `Non-Engineering`, `Marketing`, `Finance`, `Retail`, `Training`, `Maintenance`, `Dev Eng` (no allow token), dual-tag `Sales` + `Engineering`, missing/empty departments.
 
 ### 2. Early career (unchanged from v1)
 
@@ -153,7 +156,7 @@ Per enabled company, keep the parent adapter contract:
 - `GET .../boards/{boardToken}/jobs?content=true` (required: departments and HTML `content` for fit notes).
 - Timeout **20 seconds** per HTTP request.
 - Follow `Link: rel="next"` until exhausted; after all pages, if `meta.total` is present and `jobs.length !== meta.total`, treat as fetch failure for that company.
-- Per **job** mapping: missing/empty/non-`https://` `absolute_url` → **drop that job** from the returned list (log once per dropped id). Do **not** fail the whole company for one bad row. A matched job that somehow lacks a usable URL after mapping cannot be Discord-posted; it is not marked seen.
+- Per **job** mapping: missing/empty/non-`https://` `absolute_url` → **drop that job** from the returned list (log once per dropped id). Do **not** fail the whole company for one bad row. Dropped jobs never reach the matcher or Discord path.
 - Board-level failures (non-200 after allowed retries, timeout, pagination mismatch) still skip seen updates for that company only.
 
 Do **not** drop `content=true` to save bandwidth. Optional later optimization (out of scope): two-phase fetch hydrating content only for new hits — not in this expansion.
@@ -170,10 +173,14 @@ Do **not** drop `content=true` to save bandwidth. Optional later optimization (o
    - Company B with **present** seen key and new matching ids → Discord-bound for those new jobs.
    - Both can happen in one run and one seen commit.
 7. If there are Discord-bound hits: require readable Career folder and `DISCORD_WEBHOOK_URL` before posting.
-   - If vault is missing/unreadable **or** Discord webhook is missing: **do not ping**; still merge-write successful **first-run** snapshots (and any other allowed seen updates that do not require Discord); exit **non-zero**.
+   - If vault is missing/unreadable **or** Discord webhook is missing: **do not ping**; merge-write **only** successful **first-run** snapshots from this run; leave Discord-bound companies’ seen maps untouched; exit **2** (same non-zero class as Discord post failure in the parent).
    - Path sandbox escape (step 1) remains a full abort with no seen writes.
-8. When Discord-bound hits are allowed to proceed: read Career folder once, generate fit notes, post embeds (company field = `companies[].name`) using the **fair soft-cap order** below.
+8. When Discord-bound hits are allowed to proceed:
+   - Build the **attempt window** with the fair soft-cap round-robin (≤25 jobs). Jobs outside the window stay unseen; **no** LLM call for them.
+   - Read Career folder once; for each job **in the attempt window only**, generate fit note then post Discord (company field = `companies[].name`).
 9. Persist seen store with the **merge write** rule below.
+
+`DRY_RUN=true`: same fetch/match/diff and the same attempt-window selection; print JSON of would-be pings for the ≤25 window and list deferred ids as soft-capped; call neither Discord nor LLM; do not write `seen-jobs.json`.
 
 ### Concurrency
 
@@ -195,10 +202,10 @@ Do **not** drop `content=true` to save bandwidth. Optional later optimization (o
 
 **Discord volume (fair soft cap):**
 
-- Post at most **25** new-job embeds per watch run. Jobs not posted stay unseen and retry on a later run.
+- Attempt at most **25** Discord-bound jobs per watch run. Selection happens **before** fit-note generation: LLM + Discord run only for the attempt window. Jobs outside the window stay unseen and retry on a later run (they must not incur Gemini cost this run).
 - Ordering must not starve later `companyId`s when early ids keep producing hits:
   1. Group Discord-bound jobs by company.
-  2. Round-robin across companies (companies sorted by `id` ascending): take the next job from each company in turn (jobs within a company sorted by numeric id ascending) until 25 posts are attempted or the queue is empty.
+  2. Round-robin across companies (companies sorted by `id` ascending): take the next job from each company in turn (jobs within a company sorted by numeric id ascending) until 25 jobs are selected or the queue is empty.
 - Example: with cap 25, company `aaa` having 40 new jobs and `zzz` having 2 must still get `zzz`’s jobs into the same run’s attempt window rather than draining all 25 from `aaa` first.
 
 ### Partial failure
@@ -210,11 +217,11 @@ Do **not** drop `content=true` to save bandwidth. Optional later optimization (o
 | All enabled companies fail to fetch | Exit non-zero. |
 | Zero enabled companies | Exit 0; no seen write. |
 | Vault path unsafe (escapes `VAULT_DIR`) | Fail entire run; no seen writes (unchanged). |
-| Vault missing/unreadable or Discord webhook missing when Discord-bound hits exist | No pings; merge-write first-run snapshots that completed; exit non-zero. |
+| Vault missing/unreadable or Discord webhook missing when Discord-bound hits exist | No pings; merge-write **first-run snapshots only**; Discord-bound seen maps untouched; exit **2**. |
 | Discord failure for a job (after allowed retries) | Do not mark that job seen (unchanged). |
 | LLM failure | Fallback fit text; still post (unchanged). |
 
-Exit non-zero if any Discord post failed after retries, or if every enabled fetch failed. A mix of some company fetch failures + successful others is exit 0 when every attempted Discord post (subject to the 25-cap) succeeded.
+Exit **2** if any Discord post failed after retries, or if vault/Discord prechecks fail while Discord-bound hits exist. Exit non-zero (implementation may use 2 or another non-zero) if every enabled fetch failed. A mix of some company fetch failures + successful others is exit 0 when every attempted Discord post in the attempt window succeeded.
 
 ### Seen store
 
@@ -266,19 +273,19 @@ No Discord MCP, no per-company webhooks in this phase.
 
 All tests remain offline fakes.
 
-- **Matcher department gate:** allow hits for Engineering / Software / SWE / AI (word-boundary safe); deny Sales Engineering, Solutions Engineering, Field Engineering; **fail** Retail / Training / Maintenance even with early-career SWE titles; **pass** Resolution Engineering (not denied by `solution` substring); empty departments fail; `Dev Eng` fails allowlist; dual-tag `Sales` + `Engineering` **fails** (deny-any).
+- **Matcher department gate:** allow hits for Engineering / Software / SWE / AI (word-boundary safe); deny Sales Engineering, Solutions Engineering, Field Engineering; **fail** Retail / Training / Maintenance even with early-career SWE titles; **fail** `Non-Engineering` (deny token `non` after hyphen-collapse); **pass** Resolution Engineering (not denied by `solution` substring); empty departments fail; `Dev Eng` fails allowlist; dual-tag `Sales` + `Engineering` **fails** (deny-any).
 - **Matcher titles:** early-career and role cases from v1 still pass/fail as before; `internal` / `undergraduate` traps unchanged.
 - **Accepted regression:** fixture with Engineering **category** metadata + non-allow department (e.g. Security / Trust & Safety style) → **no match**.
 - **Config:** `enabled` required; no `careerSiteCategory` in schema; unknown keys ignored; duplicate `id` or `boardToken` fails load; non-`greenhouse` `ats` fails load; disabled companies excluded from the run list; zero enabled → exit 0, no fetch, no seen write.
-- **Adapter mapping:** board with one bad `absolute_url` and other valid jobs → only the bad job dropped; company fetch still succeeds; first-run / match proceeds for valid rows.
-- **Pipeline:** only enabled companies call fetch; one company fetch failure does not clear or rewrite other companies’ seen keys (merge write); mixed run: company A missing key snapshots silently while company B with new id pings; Discord company field uses config name; all enabled fetches fail → non-zero; Discord failure mid-fleet still persists other companies’ successful updates / first-run snapshots via merge write; vault/Discord missing with Discord-bound hits → no pings, first-run snapshots still merge-written, exit non-zero; multi-company `DRY_RUN` → no Discord, no LLM, no seen write.
+- **Adapter mapping:** board with one bad `absolute_url` and other valid jobs → only the bad job dropped; company fetch still succeeds; first-run / match proceeds for valid rows; dropped jobs never reach matcher.
+- **Pipeline:** only enabled companies call fetch; one company fetch failure does not clear or rewrite other companies’ seen keys (merge write); mixed run: company A missing key snapshots silently while company B with new id pings; Discord company field uses config name; all enabled fetches fail → non-zero; Discord failure mid-fleet still persists other companies’ successful updates / first-run snapshots via merge write; vault/Discord missing with Discord-bound hits → no pings, **first-run snapshots only** merge-written, Discord-bound keys untouched, exit 2; soft-cap selects ≤25 before LLM: e.g. 40+20 bound → at most 25 Gemini calls, remainder unseen; multi-company `DRY_RUN` → prints attempt window + deferred soft-capped ids, no Discord, no LLM, no seen write.
 - **Rate limits (fakes):** Greenhouse 429 then success retries; Greenhouse 404 is not retried; Greenhouse 429 exhausted → that company skipped; Discord 429 exhausted → job not seen; soft cap 25 with round-robin: early `companyId` with many hits does not consume the entire cap before a later company with fewer hits.
 - **Concurrency:** not required to assert timing; fakes may be sequential. Assert fetch was invoked once per enabled company.
 
 ## Success criteria
 
 - After silent first snapshots for newly enabled companies, a new matching role on any enabled board produces exactly one Discord embed in the shared channel within a scheduled run (subject to the fair 25-post soft cap).
-- Sales / Solutions / Field Engineering departments do not ping even with intern in the title; dual-tag Sales + Engineering does not ping.
+- Sales / Solutions / Field Engineering departments do not ping even with intern in the title; dual-tag Sales + Engineering does not ping; `Non-Engineering` does not ping.
 - Departments like Retail / Training / Maintenance do not pass the `AI` allow token.
 - Disabled companies produce zero network calls.
 - Expanding coverage is editing `enabled: true` (and optionally adding verified tokens), not a redesign.
