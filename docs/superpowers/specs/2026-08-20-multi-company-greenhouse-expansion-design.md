@@ -155,7 +155,7 @@ Per enabled company, keep the parent adapter contract:
 
 - `GET .../boards/{boardToken}/jobs?content=true` (required: departments and HTML `content` for fit notes).
 - Timeout **20 seconds** per HTTP request.
-- Follow `Link: rel="next"` until exhausted; after all pages, if `meta.total` is present and `jobs.length !== meta.total`, treat as fetch failure for that company.
+- Follow `Link: rel="next"` until exhausted; after all pages, if `meta.total` is present and **raw job rows received** (count before dropping bad-`absolute_url` rows) `!== meta.total`, treat as fetch failure for that company. Do **not** compare `meta.total` to the filtered `Job[]` length after URL drops.
 - Per **job** mapping: missing/empty/non-`https://` `absolute_url` → **drop that job** from the returned list (log once per dropped id). Do **not** fail the whole company for one bad row. Dropped jobs never reach the matcher or Discord path.
 - Board-level failures (non-200 after allowed retries, timeout, pagination mismatch) still skip seen updates for that company only.
 
@@ -277,7 +277,7 @@ All tests remain offline fakes.
 - **Matcher titles:** early-career and role cases from v1 still pass/fail as before; `internal` / `undergraduate` traps unchanged.
 - **Accepted regression:** fixture with Engineering **category** metadata + non-allow department (e.g. Security / Trust & Safety style) → **no match**.
 - **Config:** `enabled` required; no `careerSiteCategory` in schema; unknown keys ignored; duplicate `id` or `boardToken` fails load; non-`greenhouse` `ats` fails load; disabled companies excluded from the run list; zero enabled → exit 0, no fetch, no seen write.
-- **Adapter mapping:** board with one bad `absolute_url` and other valid jobs → only the bad job dropped; company fetch still succeeds; first-run / match proceeds for valid rows; dropped jobs never reach matcher.
+- **Adapter mapping:** board with one bad `absolute_url` and other valid jobs → only the bad job dropped; company fetch still succeeds when raw row count matches `meta.total`; first-run / match proceeds for valid rows; dropped jobs never reach matcher.
 - **Pipeline:** only enabled companies call fetch; one company fetch failure does not clear or rewrite other companies’ seen keys (merge write); mixed run: company A missing key snapshots silently while company B with new id pings; Discord company field uses config name; all enabled fetches fail → non-zero; Discord failure mid-fleet still persists other companies’ successful updates / first-run snapshots via merge write; vault/Discord missing with Discord-bound hits → no pings, **first-run snapshots only** merge-written, Discord-bound keys untouched, exit 2; soft-cap selects ≤25 before LLM: e.g. 40+20 bound → at most 25 Gemini calls, remainder unseen; multi-company `DRY_RUN` → prints attempt window + deferred soft-capped ids, no Discord, no LLM, no seen write.
 - **Rate limits (fakes):** Greenhouse 429 then success retries; Greenhouse 404 is not retried; Greenhouse 429 exhausted → that company skipped; Discord 429 exhausted → job not seen; soft cap 25 with round-robin: early `companyId` with many hits does not consume the entire cap before a later company with fewer hits.
 - **Concurrency:** not required to assert timing; fakes may be sequential. Assert fetch was invoked once per enabled company.
