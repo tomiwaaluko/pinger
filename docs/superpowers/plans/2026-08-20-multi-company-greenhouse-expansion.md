@@ -428,6 +428,14 @@ export const HTTP_429_RETRY_AFTER_CAP_MS = 30_000;
 
 Change `mapGreenhouseJob` to return `Job | null`: on bad URL, `console.error` once and return `null`.
 
+**Preserve existing pagination safety from v1** — do **not** delete these while editing:
+- `assertSameOrigin(next, firstUrl)`
+- pagination cycle detection (`visited` set)
+- `GREENHOUSE_MAX_PAGES` cap
+- `Link: rel="next"` parsing
+
+Existing tests that expect `mapGreenhouseJob` to **throw** on bad `absolute_url` must be rewritten to expect `null`. Any greenhouse fixture helpers that call `matchesJob(job, "Engineering")` must become `matchesJob(job)`. Keep same-origin / cycle / max-pages tests green.
+
 In `fetchGreenhouseJobs` pagination loop:
 
 1. For each page, `rawCount += pageJobs.length` (array length **before** mapping/filtering).
@@ -627,10 +635,13 @@ Required cases:
 10. **Soft-cap before LLM:** 40 jobs company `aaa` + 2 `zzz` → `generateFitNote` called ≤25 times; `zzz` jobs included; deferred not recorded seen.
 11. **DRY_RUN** → `dryRunPings` = attempt window, `dryRunDeferred` = deferred; no write / no Discord / no LLM.
 12. **Merge write:** existing `disabledco` key in seen file survives a run that never fetches it.
+13. **Retain/adapt v1 pipeline regressions** (do not delete these when rewriting the file): missing `GEMINI_API_KEY` → fallback fit text + Discord still posts; `generateFitNote` throw → fallback + still posts; existing empty `{}` company key is **not** first-run; quiet day (no new jobs) → no seen write / exit 0.
 
 - [ ] **Step 2: Implement `runWatcher` fully**
 
-Required control flow (implement this, not a thinner sketch):
+Keep the existing `fitForJob` helper (LLM try/catch → `FALLBACK_FIT_NOTE` / empty-vault note). Do not inline Gemini calls without that fallback.
+
+Required control flow (implement this, not a thinner sketch). Wrap the body after sandbox + enabled check in `try`/`finally` so seen flushes even on unexpected throw:
 
 ```typescript
 export async function runWatcher(
@@ -666,122 +677,131 @@ export async function runWatcher(
   const fetchFailures: string[] = [];
   const discordBound: BoundJob[] = [];
 
-  async function processCompany(company: CompanyConfig): Promise<void> {
-    try {
-      const jobs = await opts.fetchJobs(company);
-      const matched = jobs.filter((job) => matchesJob(job));
-      if (isFirstRun(store, company.id)) {
-        if (!opts.dryRun) {
-          nextStore[company.id] = {};
-          for (const job of matched) {
-            recordJob(nextStore, company.id, job, opts.now().toISOString());
-          }
-          firstRunCompanyIds.add(company.id);
-        }
-        return;
-      }
-      const news = newMatchingJobs(matched, store[company.id] ?? {}).sort(
-        (a, b) => Number(a.id) - Number(b.id),
-      );
-      for (const job of news) {
-        discordBound.push({ companyId: company.id, job });
-      }
-    } catch (err) {
-      console.error(`Greenhouse fetch failed for ${company.id}:`, String(err));
-      fetchFailures.push(company.id);
-    }
-  }
-
-  // Concurrency 10: each task must catch internally (never reject the pool).
-  // Use chunks of GREENHOUSE_CONCURRENCY with Promise.all on processCompany
-  // (which does not rethrow). Do NOT use bare Promise.all on fetchJobs.
-  for (let i = 0; i < enabled.length; i += GREENHOUSE_CONCURRENCY) {
-    const chunk = enabled.slice(i, i + GREENHOUSE_CONCURRENCY);
-    await Promise.all(chunk.map((c) => processCompany(c)));
-  }
-
-  if (fetchFailures.length === enabled.length && enabled.length > 0) {
-    return { exitCode: 2, dryRunPings: [], dryRunDeferred: [] };
-  }
-
-  const { attempt, deferred } = selectAttemptWindow(discordBound);
-  const toPing = (b: BoundJob): DryRunPing => ({
-    companyId: b.companyId,
-    jobId: b.job.id,
-    title: b.job.title,
-    absoluteUrl: b.job.absoluteUrl,
-    location: b.job.location,
-  });
-
-  if (opts.dryRun) {
-    return {
-      exitCode: 0,
-      dryRunPings: attempt.map(toPing),
-      dryRunDeferred: deferred.map(toPing),
-    };
-  }
-
   const writeMerged = async () => {
     if (firstRunCompanyIds.size > 0 || postDirty) {
       await opts.writeSeen(opts.seenPath, nextStore);
     }
   };
 
-  if (attempt.length > 0) {
-    const webhookUrl = opts.env.DISCORD_WEBHOOK_URL;
-    if (!webhookUrl) {
-      await writeMerged(); // first-run only changes already in nextStore
-      return {
-        exitCode: 2,
-        dryRunPings: [],
-        dryRunDeferred: [],
-      };
+  try {
+    async function processCompany(company: CompanyConfig): Promise<void> {
+      try {
+        const jobs = await opts.fetchJobs(company);
+        const matched = jobs.filter((job) => matchesJob(job));
+        if (isFirstRun(store, company.id)) {
+          if (!opts.dryRun) {
+            nextStore[company.id] = {};
+            for (const job of matched) {
+              recordJob(nextStore, company.id, job, opts.now().toISOString());
+            }
+            firstRunCompanyIds.add(company.id);
+          }
+          return;
+        }
+        const news = newMatchingJobs(matched, store[company.id] ?? {}).sort(
+          (a, b) => Number(a.id) - Number(b.id),
+        );
+        for (const job of news) {
+          discordBound.push({ companyId: company.id, job });
+        }
+      } catch (err) {
+        console.error(
+          `Greenhouse fetch failed for ${company.id}:`,
+          String(err),
+        );
+        fetchFailures.push(company.id);
+      }
     }
 
-    let vault: VaultContents;
-    try {
-      vault = await opts.readVaultMarkdown(careerDir);
-    } catch {
-      await writeMerged();
+    // Concurrency 10: each task must catch internally (never reject the pool).
+    // Chunked Promise.all is acceptable (max 10 in flight); a sliding worker
+    // pool is optional. Do NOT use bare Promise.all on fetchJobs.
+    for (let i = 0; i < enabled.length; i += GREENHOUSE_CONCURRENCY) {
+      const chunk = enabled.slice(i, i + GREENHOUSE_CONCURRENCY);
+      await Promise.all(chunk.map((c) => processCompany(c)));
+    }
+
+    if (fetchFailures.length === enabled.length && enabled.length > 0) {
       return { exitCode: 2, dryRunPings: [], dryRunDeferred: [] };
     }
 
-    for (const { companyId, job } of attempt) {
-      const companyName = nameById.get(companyId) ?? companyId;
-      const fit = truncate(await fitForJob(opts, vault, job), FIT_NOTE_CAP);
+    const { attempt, deferred } = selectAttemptWindow(discordBound);
+    const toPing = (b: BoundJob): DryRunPing => ({
+      companyId: b.companyId,
+      jobId: b.job.id,
+      title: b.job.title,
+      absoluteUrl: b.job.absoluteUrl,
+      location: b.job.location,
+    });
+
+    if (opts.dryRun) {
+      return {
+        exitCode: 0,
+        dryRunPings: attempt.map(toPing),
+        dryRunDeferred: deferred.map(toPing),
+      };
+    }
+
+    if (attempt.length > 0) {
+      const webhookUrl = opts.env.DISCORD_WEBHOOK_URL;
+      if (!webhookUrl) {
+        return {
+          exitCode: 2,
+          dryRunPings: [],
+          dryRunDeferred: [],
+        };
+      }
+
+      let vault: VaultContents;
       try {
-        await opts.postDiscord(
-          webhookUrl,
-          buildDiscordEmbed({
-            job,
-            companyName,
-            companyId,
-            fit,
-          }),
-        );
-        recordJob(nextStore, companyId, job, opts.now().toISOString());
-        postDirty = true;
-      } catch (err) {
-        console.error(`Discord post failed for job ${job.id}:`, String(err));
-        anyDiscordFailure = true;
+        vault = await opts.readVaultMarkdown(careerDir);
+      } catch {
+        return { exitCode: 2, dryRunPings: [], dryRunDeferred: [] };
+      }
+
+      for (const { companyId, job } of attempt) {
+        const companyName = nameById.get(companyId) ?? companyId;
+        // fitForJob must keep LLM try/catch → FALLBACK_FIT_NOTE
+        const fit = truncate(await fitForJob(opts, vault, job), FIT_NOTE_CAP);
+        try {
+          await opts.postDiscord(
+            webhookUrl,
+            buildDiscordEmbed({
+              job,
+              companyName,
+              companyId,
+              fit,
+            }),
+          );
+          recordJob(nextStore, companyId, job, opts.now().toISOString());
+          postDirty = true;
+        } catch (err) {
+          console.error(`Discord post failed for job ${job.id}:`, String(err));
+          anyDiscordFailure = true;
+        }
       }
     }
-  }
 
-  await writeMerged();
-  return {
-    exitCode: anyDiscordFailure ? 2 : 0,
-    dryRunPings: [],
-    dryRunDeferred: [],
-  };
+    return {
+      exitCode: anyDiscordFailure ? 2 : 0,
+      dryRunPings: [],
+      dryRunDeferred: [],
+    };
+  } finally {
+    // Parent v1 behavior: flush seen even if an unexpected error escapes the try.
+    if (!opts.dryRun) {
+      await writeMerged();
+    }
+  }
 }
 ```
 
 **Critical rules:**
 
 - Always `structuredClone` the full seen map; never rebuild from only this run’s companies.
-- On vault/webhook failure with Discord-bound hits: persist first-run snapshots already in `nextStore`; do **not** mark Discord-bound ids; exit `2`.
+- On vault/webhook failure with Discord-bound hits: persist first-run snapshots already in `nextStore` via `finally`; do **not** mark Discord-bound ids; exit `2`.
 - Company embed name comes from `nameById`, not from guessing.
+- `finally` must call `writeMerged` for non-dry runs so posted jobs are not lost if something throws after a successful Discord post.
 
 - [ ] **Step 3: Update `cli.ts` dry-run print**
 
@@ -857,6 +877,8 @@ Rules:
 - All others `enabled: false`.
 - Keep `vault` / `llm` headers unchanged.
 - Never enable more than 120 without updating the README ops budget warning.
+- **First enabled wave:** expect a longer Actions run (all new companies take silent first-run snapshots with `content=true`). Optionally stage enablement (e.g. 20 → 80 → 120) if the first wave approaches the job timeout. No Discord value until after those snapshots.
+- Add to `.gitignore`: `probe-gh-boards.tsv`, `companies.generated.yaml` (probe artifacts; do not commit them).
 
 - [ ] **Step 4: Assert fleet size in tests**
 
@@ -869,11 +891,11 @@ Add a vitest that loads real `companies.yaml` via `loadConfig` and asserts:
 - [ ] **Step 5: Commit**
 
 ```bash
-git add scripts/probe-greenhouse-boards.mjs companies.yaml README.md tests/config.test.ts
+git add scripts/probe-greenhouse-boards.mjs companies.yaml README.md tests/config.test.ts .gitignore
 git commit -m "chore: add Greenhouse fleet companies.yaml and probe script"
 ```
 
-Do **not** add the probe script to `package.json` test/watch scripts or GitHub Actions.
+Do **not** add the probe script to `package.json` test/watch scripts or GitHub Actions. Do **not** commit `probe-gh-boards.tsv` or `companies.generated.yaml`.
 
 ---
 
@@ -892,7 +914,8 @@ Document:
 - Soft cap 25 fair round-robin; dry-run JSON shows `attempt` + `deferredSoftCapped` (from `dryRunPings` / `dryRunDeferred`).
 - First-run silence is **per company**.
 - **Ops budget:** aim to finish a watch run in under ~8 minutes at ≤120 enabled boards (concurrency 10, 20s timeouts). Grow `enabled` only after quiet runs stay well under the Actions job timeout. Cost scales with enabled count, not the full committed list.
-- Probe script is manual maintenance only; never wired into CI.
+- **First enabled wave:** the first non-dry run after enabling many boards only writes silent per-company snapshots (no Discord). That run can be slower than steady state because every new board fetches `content=true`. If it approaches the Actions timeout, enable in stages (e.g. 20 → 80 → 120).
+- Probe script is manual maintenance only; never wired into CI. Ignore `probe-gh-boards.tsv` / `companies.generated.yaml`.
 - Link to expansion spec.
 
 - [ ] **Step 2: Full verification**
@@ -929,13 +952,15 @@ git commit -m "docs: describe multi-company Greenhouse watcher usage"
 | Mixed first-run + ping; merge seen write | Task 6 |
 | Vault/Discord missing → first-run only, exit 2 | Task 6 |
 | Discord mid-fleet failure → partial seen + exit 2 | Task 6 |
+| Retain v1 LLM-fallback / empty-`{}` / quiet-day tests | Task 6 |
+| `try`/`finally` seen flush after successful posts | Task 6 |
 | DRY_RUN attempt + deferred | Task 6 |
 | Partial company fetch failure isolation (`Promise.all` + non-rejecting tasks) | Task 6 |
 | Embed Company = config `name` | Task 6 |
-| ~500 verified / 80–120 enabled yaml; probe not in CI | Task 7 |
-| README + ops budget | Task 8 |
+| ~500 verified / 80–120 enabled yaml; probe not in CI; gitignore probe artifacts | Task 7 |
+| README + ops budget + first-wave note | Task 8 |
 | Concurrency 10 | Task 6 (+ constant Task 3) |
-| `content=true` kept | Task 3 (unchanged URL) |
+| `content=true` kept; pagination guards retained | Task 3 |
 
 ## Placeholder scan
 

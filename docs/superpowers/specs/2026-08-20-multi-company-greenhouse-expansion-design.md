@@ -267,7 +267,9 @@ No Discord MCP, no per-company webhooks in this phase.
 
 `watch.yml` and `test.yml` stay structurally the same. Watch still sparse-checkouts the vault, runs the CLI, commits only `seen-jobs.json`.
 
-**Ops budget:** Target finishing a watch run in under **~8 minutes** at ≤120 enabled boards with concurrency 10 and 20s timeouts. Grow enabled count only after recent runs stay well under the Actions job timeout on quiet days. Cost and duration scale with **enabled** count, not the full ~500 committed list.
+**Ops budget:** Target finishing a quiet watch run in under **~8 minutes** at ≤120 enabled boards with concurrency 10 and 20s timeouts. Grow enabled count only after recent runs stay well under the Actions job timeout on quiet days. Cost and duration scale with **enabled** count, not the full ~500 committed list.
+
+**First enabled wave:** the first non-dry run after flipping many companies to `enabled: true` performs silent per-company snapshots only (no Discord). Expect a longer run than steady state because every newly enabled board fetches full `content=true` payloads. If that run approaches the job timeout, enable in stages (e.g. 20 → 80 → 120).
 
 ## Testing
 
