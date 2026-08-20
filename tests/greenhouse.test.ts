@@ -161,6 +161,9 @@ describe("fetchGreenhouseJobs", () => {
 
     expect(jobs.map((job) => job.id)).toEqual(["6136160004"]);
     expect(consoleError).toHaveBeenCalledOnce();
+    expect(consoleError).toHaveBeenCalledWith(
+      "Dropping Greenhouse job id=9999999999 with invalid absolute_url",
+    );
   });
 
   it("retries HTTP 429 and returns jobs after a successful retry", async () => {

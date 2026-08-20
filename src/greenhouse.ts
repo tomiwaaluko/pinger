@@ -81,7 +81,12 @@ export function mapGreenhouseJob(raw: unknown): Job | null {
     typeof row.absolute_url !== "string" ||
     !/^https:\/\//i.test(row.absolute_url.trim())
   ) {
-    console.error("Dropping Greenhouse job with invalid absolute_url");
+    const rawId = row.id;
+    const id =
+      typeof rawId === "number" || typeof rawId === "string"
+        ? ` id=${String(rawId)}`
+        : "";
+    console.error(`Dropping Greenhouse job${id} with invalid absolute_url`);
     return null;
   }
   return {

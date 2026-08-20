@@ -34,7 +34,7 @@ export function normalizeTitle(title: string): string {
 
 function hasPhrase(normalized: string, phrase: string): boolean {
   const escaped = phrase.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-  return new RegExp(`\\b${escaped}\\b`, "i").test(normalized);
+  return new RegExp(`\\b${escaped}\\b`).test(normalized);
 }
 
 function departmentGate(departments: string[]): boolean {
