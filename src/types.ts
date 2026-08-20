@@ -13,7 +13,7 @@ export type CompanyConfig = {
   name: string;
   ats: "greenhouse";
   boardToken: string;
-  careerSiteCategory: string;
+  enabled: boolean;
 };
 
 export type AppConfig = {

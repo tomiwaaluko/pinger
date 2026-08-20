@@ -18,6 +18,9 @@ function parseCompany(raw: unknown, index: number): CompanyConfig {
   if (ats !== "greenhouse") {
     throw new Error(`companies[${index}].ats must be greenhouse`);
   }
+  if (typeof row.enabled !== "boolean") {
+    throw new Error(`companies[${index}].enabled must be a boolean`);
+  }
   return {
     id: requireString(row.id, `companies[${index}].id`),
     name: requireString(row.name, `companies[${index}].name`),
@@ -26,11 +29,18 @@ function parseCompany(raw: unknown, index: number): CompanyConfig {
       row.boardToken,
       `companies[${index}].boardToken`,
     ),
-    careerSiteCategory: requireString(
-      row.careerSiteCategory,
-      `companies[${index}].careerSiteCategory`,
-    ),
+    enabled: row.enabled,
   };
+}
+
+function assertUnique(values: string[], label: string): void {
+  const seen = new Set<string>();
+  for (const value of values) {
+    if (seen.has(value)) {
+      throw new Error(`duplicate ${label}: ${value}`);
+    }
+    seen.add(value);
+  }
 }
 
 export function loadConfig(path: string): AppConfig {
@@ -59,6 +69,17 @@ export function loadConfig(path: string): AppConfig {
     llm: {
       model: requireString(llmRaw.model, "llm.model"),
     },
-    companies: data.companies.map(parseCompany),
+    companies: (() => {
+      const companies = data.companies.map(parseCompany);
+      assertUnique(
+        companies.map((company) => company.id),
+        "companies[].id",
+      );
+      assertUnique(
+        companies.map((company) => company.boardToken),
+        "companies[].boardToken",
+      );
+      return companies;
+    })(),
   };
 }

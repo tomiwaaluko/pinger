@@ -7,6 +7,21 @@ import { loadConfig } from "../src/config.js";
 
 const repoRoot = join(dirname(fileURLToPath(import.meta.url)), "..");
 
+function writeTempYaml(content: string): string {
+  const dir = mkdtempSync(join(tmpdir(), "pinger-config-"));
+  const path = join(dir, "companies.yaml");
+  writeFileSync(path, content);
+  return path;
+}
+
+const baseCompany = `
+  - id: vercel
+    name: Vercel
+    ats: greenhouse
+    boardToken: vercel
+    enabled: true
+`;
+
 describe("loadConfig", () => {
   it("parses the committed Vercel company entry", () => {
     const config = loadConfig(join(repoRoot, "companies.yaml"));
@@ -18,16 +33,33 @@ describe("loadConfig", () => {
       name: "Vercel",
       ats: "greenhouse",
       boardToken: "vercel",
-      careerSiteCategory: "Engineering",
+      enabled: true,
     });
   });
 
-  it("defaults careerPath to Career/ when omitted", () => {
-    const dir = mkdtempSync(join(tmpdir(), "pinger-config-"));
-    const path = join(dir, "companies.yaml");
-    writeFileSync(
-      path,
-      `
+  it("parses enabled true and false", () => {
+    const path = writeTempYaml(`
+llm:
+  model: gemini-2.5-flash
+companies:
+  - id: a
+    name: A
+    ats: greenhouse
+    boardToken: a
+    enabled: true
+  - id: b
+    name: B
+    ats: greenhouse
+    boardToken: b
+    enabled: false
+`);
+    const config = loadConfig(path);
+    expect(config.companies[0].enabled).toBe(true);
+    expect(config.companies[1].enabled).toBe(false);
+  });
+
+  it("rejects missing enabled", () => {
+    const path = writeTempYaml(`
 llm:
   model: gemini-2.5-flash
 companies:
@@ -35,28 +67,126 @@ companies:
     name: Vercel
     ats: greenhouse
     boardToken: vercel
-    careerSiteCategory: Engineering
-`,
-    );
-    expect(loadConfig(path).vault.careerPath).toBe("Career/");
+`);
+    expect(() => loadConfig(path)).toThrow(/companies\[0\]\.enabled must be a boolean/);
+  });
+
+  it("rejects duplicate id", () => {
+    const path = writeTempYaml(`
+llm:
+  model: gemini-2.5-flash
+companies:
+  - id: vercel
+    name: Vercel
+    ats: greenhouse
+    boardToken: vercel
+    enabled: true
+  - id: vercel
+    name: Vercel Two
+    ats: greenhouse
+    boardToken: other
+    enabled: true
+`);
+    expect(() => loadConfig(path)).toThrow(/duplicate/i);
+  });
+
+  it("rejects duplicate boardToken", () => {
+    const path = writeTempYaml(`
+llm:
+  model: gemini-2.5-flash
+companies:
+  - id: a
+    name: A
+    ats: greenhouse
+    boardToken: shared
+    enabled: true
+  - id: b
+    name: B
+    ats: greenhouse
+    boardToken: shared
+    enabled: true
+`);
+    expect(() => loadConfig(path)).toThrow(/duplicate/i);
   });
 
   it("rejects a non-greenhouse ats", () => {
-    const dir = mkdtempSync(join(tmpdir(), "pinger-config-"));
-    const path = join(dir, "companies.yaml");
-    writeFileSync(
-      path,
-      `
+    const path = writeTempYaml(`
 llm:
   model: gemini-2.5-flash
 companies:
   - id: acme
     name: Acme
-    ats: lever
+    ats: ashby
     boardToken: acme
-    careerSiteCategory: Engineering
-`,
-    );
+    enabled: true
+`);
     expect(() => loadConfig(path)).toThrow(/greenhouse/);
+  });
+
+  it("does not require careerSiteCategory", () => {
+    const path = writeTempYaml(`
+llm:
+  model: gemini-2.5-flash
+companies:
+${baseCompany}
+`);
+    const config = loadConfig(path);
+    expect(config.companies[0]).not.toHaveProperty("careerSiteCategory");
+  });
+
+  it("ignores unknown company fields such as careerSiteCategory", () => {
+    const path = writeTempYaml(`
+llm:
+  model: gemini-2.5-flash
+companies:
+  - id: vercel
+    name: Vercel
+    ats: greenhouse
+    boardToken: vercel
+    enabled: true
+    careerSiteCategory: Engineering
+`);
+    const config = loadConfig(path);
+    expect(config.companies[0]).toEqual({
+      id: "vercel",
+      name: "Vercel",
+      ats: "greenhouse",
+      boardToken: "vercel",
+      enabled: true,
+    });
+  });
+
+  it("rejects empty companies list", () => {
+    const path = writeTempYaml(`
+llm:
+  model: gemini-2.5-flash
+companies: []
+`);
+    expect(() => loadConfig(path)).toThrow(/at least one company/);
+  });
+
+  it("allows all-disabled companies for parse", () => {
+    const path = writeTempYaml(`
+llm:
+  model: gemini-2.5-flash
+companies:
+  - id: a
+    name: A
+    ats: greenhouse
+    boardToken: a
+    enabled: false
+`);
+    const config = loadConfig(path);
+    expect(config.companies[0].enabled).toBe(false);
+  });
+
+  it("defaults careerPath to Career/ when omitted", () => {
+    const path = writeTempYaml(`
+llm:
+  model: gemini-2.5-flash
+companies:
+${baseCompany}
+`);
+    expect(loadConfig(path).vault.careerPath).toBe("Career/");
   });
 });

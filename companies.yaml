@@ -9,4 +9,4 @@ companies:
     name: Vercel
     ats: greenhouse
     boardToken: vercel
-    careerSiteCategory: Engineering
+    enabled: true

@@ -25,7 +25,7 @@ const config: AppConfig = {
       name: "Vercel",
       ats: "greenhouse",
       boardToken: "vercel",
-      careerSiteCategory: "Engineering",
+      enabled: true,
     },
   ],
 };
@@ -536,14 +536,14 @@ describe("runWatcher", () => {
           name: "A",
           ats: "greenhouse",
           boardToken: "a",
-          careerSiteCategory: "Engineering",
+          enabled: true,
         },
         {
           id: "b",
           name: "B",
           ats: "greenhouse",
           boardToken: "b",
-          careerSiteCategory: "Engineering",
+          enabled: true,
         },
       ],
     };
