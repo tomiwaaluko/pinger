@@ -112,7 +112,8 @@ At least one `departments[].name` must pass **both** allow and deny:
 | Token / phrase | Match rule |
 | --- | --- |
 | `sales` | whole token |
-| `solution` | whole token (also covers `solutions` as the `solution` stem plus optional `s`, or match both `solution` and `solutions` as whole tokens — implementer pick one; tests must cover `solutions engineering`) |
+| `solution` | whole token |
+| `solutions` | whole token |
 | `field` | whole token |
 
 Whole-token matching for short tokens is mandatory so `ai` does **not** match `retail`, `training`, `maintenance`, `pairing`, and `solution` does **not** match `resolution`.
