@@ -113,7 +113,28 @@
   "wizinc": {},
   "workato": {},
   "waymo": {},
-  "verkada": {},
+  "verkada": {
+    "5210813007": {
+      "title": "Backend Software Engineering Intern 2027",
+      "firstSeenAt": "2026-08-25T23:25:27.039Z"
+    },
+    "5210942007": {
+      "title": "Frontend Software Engineering Intern 2027",
+      "firstSeenAt": "2026-08-25T23:25:33.309Z"
+    },
+    "5211595007": {
+      "title": "Embedded Software Engineering Intern 2027",
+      "firstSeenAt": "2026-08-25T23:25:38.865Z"
+    },
+    "5213881007": {
+      "title": "Security Software Engineering Intern 2027",
+      "firstSeenAt": "2026-08-25T23:25:46.426Z"
+    },
+    "5219131007": {
+      "title": "Mobile Software Engineering Intern 2027",
+      "firstSeenAt": "2026-08-25T23:25:57.009Z"
+    }
+  },
   "yugabyte": {},
   "xai": {},
   "zscaler": {}
