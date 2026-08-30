@@ -71,11 +71,32 @@ const workdayRows = readTsv(WORKDAY_TSV);
 const refined = parseRefined();
 const { data, byId } = loadExisting();
 
+const greenhouseTokenOwner = new Map();
+for (const row of byId.values()) {
+  if (row.ats === "greenhouse" && row.boardToken) {
+    greenhouseTokenOwner.set(row.boardToken, row.id);
+  }
+}
+
+const workdaySiteOwner = new Map();
+for (const row of byId.values()) {
+  if (row.ats === "workday" && row.workday) {
+    workdaySiteOwner.set(
+      `${row.workday.host}\0${row.workday.site}`,
+      row.id,
+    );
+  }
+}
+
 for (const company of refined) {
   const existing = byId.get(company.slug);
   let row;
 
   if (company.ats === "greenhouse" && company.boardToken) {
+    const owner = greenhouseTokenOwner.get(company.boardToken);
+    if (owner && owner !== company.slug) {
+      continue;
+    }
     row = {
       id: company.slug,
       name: company.name,
@@ -96,6 +117,11 @@ for (const company of refined) {
   } else if (company.ats === "workday") {
     const [host, tenant, site, status] = workdayRows.get(company.slug) ?? [];
     if (!host || status !== "ok") continue;
+    const siteKey = `${host}\0${site}`;
+    const owner = workdaySiteOwner.get(siteKey);
+    if (owner && owner !== company.slug) {
+      continue;
+    }
     row = {
       id: company.slug,
       name: company.name,
