@@ -1,0 +1,7555 @@
+# Refined target companies for pinger multi-ATS expansion
+# Generated: 2026-08-29
+# Total: 950 companies
+#
+# Inclusion: tier-1, verified Greenhouse fleet, curated known-ATS,
+#            or active early-career SWE listings (Simplify/ApplyGuy).
+# Excludes: staffing agencies and IT body shops.
+
+companies:
+  - slug: affirm
+    name: "Affirm"
+    category: fintech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 1
+    boardToken: "affirm"
+    greenhouseEnabled: true
+    earlyCareerVerified: true
+    signals: [tier-1, active-early-career, curated, known-ats]
+  - slug: akuna-capital
+    name: "Akuna Capital"
+    category: fintech
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 1
+    earlyCareerVerified: true
+    signals: [tier-1, active-early-career, curated, known-ats]
+  - slug: amazon
+    name: "Amazon"
+    category: big-tech
+    ats: custom
+    atsConfidence: inferred
+    tier: 1
+    earlyCareerVerified: true
+    signals: [tier-1, active-early-career, curated, known-ats]
+  - slug: american-express
+    name: "American Express"
+    category: fintech
+    ats: workday
+    atsConfidence: inferred
+    tier: 1
+    earlyCareerVerified: true
+    signals: [tier-1, active-early-career, curated, known-ats]
+  - slug: amplitude
+    name: "Amplitude"
+    category: data
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 1
+    boardToken: "amplitude"
+    greenhouseEnabled: true
+    earlyCareerVerified: true
+    signals: [tier-1, active-early-career, curated, known-ats]
+  - slug: anduril
+    name: "Anduril"
+    category: defense
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 1
+    earlyCareerVerified: true
+    signals: [tier-1, active-early-career, curated, known-ats]
+  - slug: applied-intuition
+    name: "Applied Intuition"
+    category: autonomous
+    ats: ashby
+    atsConfidence: inferred
+    tier: 1
+    earlyCareerVerified: true
+    signals: [tier-1, active-early-career, curated, known-ats]
+  - slug: capital-one
+    name: "Capital One"
+    category: fintech
+    ats: workday
+    atsConfidence: inferred
+    tier: 1
+    earlyCareerVerified: true
+    signals: [tier-1, active-early-career, curated, known-ats]
+  - slug: citadel
+    name: "Citadel"
+    category: fintech
+    ats: custom
+    atsConfidence: inferred
+    tier: 1
+    earlyCareerVerified: true
+    signals: [tier-1, active-early-career, curated, known-ats]
+  - slug: citadel-securities
+    name: "Citadel Securities"
+    category: fintech
+    ats: custom
+    atsConfidence: inferred
+    tier: 1
+    earlyCareerVerified: true
+    signals: [tier-1, active-early-career, curated, known-ats]
+  - slug: citi
+    name: "Citi"
+    category: finance
+    ats: workday
+    atsConfidence: inferred
+    tier: 1
+    earlyCareerVerified: true
+    signals: [tier-1, active-early-career, curated, known-ats]
+  - slug: etsy
+    name: "Etsy"
+    category: tech
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 1
+    earlyCareerVerified: true
+    signals: [tier-1, active-early-career, curated, known-ats]
+  - slug: fidelity-investments
+    name: "Fidelity Investments"
+    category: fintech
+    ats: workday
+    atsConfidence: inferred
+    tier: 1
+    earlyCareerVerified: true
+    signals: [tier-1, active-early-career, curated, known-ats]
+  - slug: five-rings
+    name: "Five Rings"
+    category: fintech
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 1
+    earlyCareerVerified: true
+    signals: [tier-1, active-early-career, curated, known-ats]
+  - slug: google
+    name: "Google"
+    category: big-tech
+    ats: custom
+    atsConfidence: inferred
+    tier: 1
+    earlyCareerVerified: true
+    signals: [tier-1, active-early-career, curated, known-ats]
+  - slug: grafana-labs
+    name: "Grafana Labs"
+    category: devtools
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 1
+    boardToken: "grafanalabs"
+    greenhouseEnabled: true
+    earlyCareerVerified: true
+    signals: [tier-1, active-early-career, curated, known-ats]
+  - slug: hudson-river-trading
+    name: "Hudson River Trading"
+    category: tech
+    ats: custom
+    atsConfidence: inferred
+    tier: 1
+    earlyCareerVerified: true
+    signals: [tier-1, active-early-career, curated, known-ats]
+  - slug: intuit
+    name: "Intuit"
+    category: fintech
+    ats: custom
+    atsConfidence: inferred
+    tier: 1
+    earlyCareerVerified: true
+    signals: [tier-1, active-early-career, curated, known-ats]
+  - slug: mastercard
+    name: "Mastercard"
+    category: fintech
+    ats: workday
+    atsConfidence: inferred
+    tier: 1
+    earlyCareerVerified: true
+    signals: [tier-1, active-early-career, curated, known-ats]
+  - slug: microsoft
+    name: "Microsoft"
+    category: big-tech
+    ats: custom
+    atsConfidence: inferred
+    tier: 1
+    earlyCareerVerified: true
+    signals: [tier-1, active-early-career, curated, known-ats]
+  - slug: morgan-stanley
+    name: "Morgan Stanley"
+    category: fintech
+    ats: workday
+    atsConfidence: inferred
+    tier: 1
+    earlyCareerVerified: true
+    signals: [tier-1, active-early-career, curated, known-ats]
+  - slug: new-relic
+    name: "New Relic"
+    category: devtools
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 1
+    boardToken: "newrelic"
+    greenhouseEnabled: true
+    earlyCareerVerified: true
+    signals: [tier-1, active-early-career, curated, known-ats]
+  - slug: notion
+    name: "Notion"
+    category: tech
+    ats: ashby
+    atsConfidence: inferred
+    tier: 1
+    earlyCareerVerified: true
+    signals: [tier-1, active-early-career, curated, known-ats]
+  - slug: nuro
+    name: "Nuro"
+    category: autonomous
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 1
+    boardToken: "nuro"
+    earlyCareerVerified: true
+    signals: [tier-1, active-early-career, curated, known-ats]
+  - slug: nvidia
+    name: "NVIDIA"
+    category: big-tech
+    ats: custom
+    atsConfidence: inferred
+    tier: 1
+    earlyCareerVerified: true
+    signals: [tier-1, active-early-career, curated, known-ats]
+  - slug: okta
+    name: "Okta"
+    category: security
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 1
+    boardToken: "okta"
+    greenhouseEnabled: true
+    earlyCareerVerified: true
+    signals: [tier-1, active-early-career, curated, known-ats]
+  - slug: optiver
+    name: "Optiver"
+    category: fintech
+    ats: custom
+    atsConfidence: inferred
+    tier: 1
+    earlyCareerVerified: true
+    signals: [tier-1, active-early-career, curated, known-ats]
+  - slug: roblox
+    name: "Roblox"
+    category: consumer
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 1
+    boardToken: "roblox"
+    greenhouseEnabled: true
+    earlyCareerVerified: true
+    signals: [tier-1, active-early-career, curated, known-ats]
+  - slug: sentry
+    name: "Sentry"
+    category: devtools
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 1
+    earlyCareerVerified: true
+    signals: [tier-1, active-early-career, curated, known-ats]
+  - slug: spacex
+    name: "SpaceX"
+    category: defense
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 1
+    boardToken: "spacex"
+    earlyCareerVerified: true
+    signals: [tier-1, active-early-career, curated, known-ats]
+  - slug: spotify
+    name: "Spotify"
+    category: consumer
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 1
+    earlyCareerVerified: true
+    signals: [tier-1, active-early-career, curated, known-ats]
+  - slug: toast
+    name: "Toast"
+    category: fintech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 1
+    boardToken: "toast"
+    earlyCareerVerified: true
+    signals: [tier-1, active-early-career, curated, known-ats]
+  - slug: adobe
+    name: "Adobe"
+    category: enterprise
+    ats: custom
+    atsConfidence: inferred
+    tier: 1
+    signals: [tier-1, curated, known-ats]
+  - slug: airbnb
+    name: "Airbnb"
+    category: consumer
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 1
+    boardToken: "airbnb"
+    greenhouseEnabled: true
+    signals: [tier-1, curated, known-ats]
+  - slug: airtable
+    name: "Airtable"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 1
+    boardToken: "airtable"
+    greenhouseEnabled: true
+    signals: [tier-1, curated, known-ats]
+  - slug: alibaba
+    name: "Alibaba"
+    category: big-tech
+    ats: custom
+    atsConfidence: inferred
+    tier: 1
+    signals: [tier-1, curated, known-ats]
+  - slug: anthropic
+    name: "Anthropic"
+    category: ai
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 1
+    boardToken: "anthropic"
+    greenhouseEnabled: true
+    signals: [tier-1, curated, known-ats]
+  - slug: anysphere
+    name: "Anysphere"
+    category: ai
+    ats: ashby
+    atsConfidence: inferred
+    tier: 1
+    signals: [tier-1, curated, known-ats]
+  - slug: apple
+    name: "Apple"
+    category: big-tech
+    ats: custom
+    atsConfidence: inferred
+    tier: 1
+    signals: [tier-1, curated, known-ats]
+  - slug: asana
+    name: "Asana"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 1
+    boardToken: "asana"
+    greenhouseEnabled: true
+    signals: [tier-1, curated, known-ats]
+  - slug: atlassian
+    name: "Atlassian"
+    category: enterprise
+    ats: custom
+    atsConfidence: inferred
+    tier: 1
+    signals: [tier-1, curated, known-ats]
+  - slug: aurora
+    name: "Aurora"
+    category: autonomous
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 1
+    signals: [tier-1, curated, known-ats]
+  - slug: baidu
+    name: "Baidu"
+    category: big-tech
+    ats: custom
+    atsConfidence: inferred
+    tier: 1
+    signals: [tier-1, curated, known-ats]
+  - slug: bank-of-america
+    name: "Bank of America"
+    category: finance
+    ats: workday
+    atsConfidence: inferred
+    tier: 1
+    signals: [tier-1, curated, known-ats]
+  - slug: blackrock
+    name: "BlackRock"
+    category: fintech
+    ats: workday
+    atsConfidence: inferred
+    tier: 1
+    signals: [tier-1, curated, known-ats]
+  - slug: block
+    name: "Block"
+    category: fintech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 1
+    boardToken: "block"
+    greenhouseEnabled: true
+    signals: [tier-1, curated, known-ats]
+  - slug: bloomberg
+    name: "Bloomberg"
+    category: fintech
+    ats: custom
+    atsConfidence: inferred
+    tier: 1
+    signals: [tier-1, curated, known-ats]
+  - slug: brex
+    name: "Brex"
+    category: fintech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 1
+    boardToken: "brex"
+    greenhouseEnabled: true
+    signals: [tier-1, curated, known-ats]
+  - slug: bridgewater
+    name: "Bridgewater"
+    category: quant
+    ats: custom
+    atsConfidence: inferred
+    tier: 1
+    signals: [tier-1, curated, known-ats]
+  - slug: bytedance
+    name: "ByteDance"
+    category: big-tech
+    ats: custom
+    atsConfidence: inferred
+    tier: 1
+    signals: [tier-1, curated, known-ats]
+  - slug: canva
+    name: "Canva"
+    category: product
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 1
+    signals: [tier-1, curated, known-ats]
+  - slug: chime
+    name: "Chime"
+    category: fintech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 1
+    boardToken: "chime"
+    signals: [tier-1, curated, known-ats]
+  - slug: cloudflare
+    name: "Cloudflare"
+    category: devtools
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 1
+    boardToken: "cloudflare"
+    greenhouseEnabled: true
+    signals: [tier-1, curated, known-ats]
+  - slug: cockroach-labs
+    name: "Cockroach Labs"
+    category: data
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 1
+    boardToken: "cockroachlabs"
+    greenhouseEnabled: true
+    signals: [tier-1, curated, known-ats]
+  - slug: cognition
+    name: "Cognition"
+    category: ai
+    ats: ashby
+    atsConfidence: inferred
+    tier: 1
+    signals: [tier-1, curated, known-ats]
+  - slug: cohere
+    name: "Cohere"
+    category: ai
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 1
+    signals: [tier-1, curated, known-ats]
+  - slug: coinbase
+    name: "Coinbase"
+    category: fintech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 1
+    boardToken: "coinbase"
+    greenhouseEnabled: true
+    signals: [tier-1, curated, known-ats]
+  - slug: confluent
+    name: "Confluent"
+    category: data
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 1
+    signals: [tier-1, curated, known-ats]
+  - slug: costco
+    name: "Costco"
+    category: retail
+    ats: workday
+    atsConfidence: inferred
+    tier: 1
+    signals: [tier-1, curated, known-ats]
+  - slug: crowdstrike
+    name: "CrowdStrike"
+    category: security
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 1
+    signals: [tier-1, curated, known-ats]
+  - slug: cruise
+    name: "Cruise"
+    category: autonomous
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 1
+    signals: [tier-1, curated, known-ats]
+  - slug: cursor
+    name: "Cursor"
+    category: ai
+    ats: ashby
+    atsConfidence: inferred
+    tier: 1
+    signals: [tier-1, curated, known-ats]
+  - slug: databricks
+    name: "Databricks"
+    category: data
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 1
+    boardToken: "databricks"
+    greenhouseEnabled: true
+    signals: [tier-1, curated, known-ats]
+  - slug: datadog
+    name: "Datadog"
+    category: devtools
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 1
+    boardToken: "datadog"
+    greenhouseEnabled: true
+    signals: [tier-1, curated, known-ats]
+  - slug: de-shaw
+    name: "DE Shaw"
+    category: quant
+    ats: custom
+    atsConfidence: inferred
+    tier: 1
+    signals: [tier-1, curated, known-ats]
+  - slug: discord
+    name: "Discord"
+    category: consumer
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 1
+    boardToken: "discord"
+    greenhouseEnabled: true
+    signals: [tier-1, curated, known-ats]
+  - slug: doordash
+    name: "DoorDash"
+    category: consumer
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 1
+    signals: [tier-1, curated, known-ats]
+  - slug: drw
+    name: "DRW"
+    category: quant
+    ats: custom
+    atsConfidence: inferred
+    tier: 1
+    signals: [tier-1, curated, known-ats]
+  - slug: ebay
+    name: "eBay"
+    category: ecommerce
+    ats: workday
+    atsConfidence: inferred
+    tier: 1
+    signals: [tier-1, curated, known-ats]
+  - slug: elastic
+    name: "Elastic"
+    category: data
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 1
+    boardToken: "elastic"
+    greenhouseEnabled: true
+    signals: [tier-1, curated, known-ats]
+  - slug: epic-games
+    name: "Epic Games"
+    category: consumer
+    ats: custom
+    atsConfidence: inferred
+    tier: 1
+    signals: [tier-1, curated, known-ats]
+  - slug: figma
+    name: "Figma"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 1
+    boardToken: "figma"
+    greenhouseEnabled: true
+    signals: [tier-1, curated, known-ats]
+  - slug: github
+    name: "GitHub"
+    category: devtools
+    ats: custom
+    atsConfidence: inferred
+    tier: 1
+    signals: [tier-1, curated, known-ats]
+  - slug: gitlab
+    name: "GitLab"
+    category: devtools
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 1
+    boardToken: "gitlab"
+    greenhouseEnabled: true
+    signals: [tier-1, curated, known-ats]
+  - slug: goldman-sachs
+    name: "Goldman Sachs"
+    category: fintech
+    ats: workday
+    atsConfidence: inferred
+    tier: 1
+    signals: [tier-1, curated, known-ats]
+  - slug: hashicorp
+    name: "HashiCorp"
+    category: devtools
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 1
+    signals: [tier-1, curated, known-ats]
+  - slug: hugging-face
+    name: "Hugging Face"
+    category: ai
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 1
+    signals: [tier-1, curated, known-ats]
+  - slug: imc-trading
+    name: "IMC Trading"
+    category: quant
+    ats: custom
+    atsConfidence: inferred
+    tier: 1
+    signals: [tier-1, curated, known-ats]
+  - slug: instacart
+    name: "Instacart"
+    category: consumer
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 1
+    boardToken: "instacart"
+    signals: [tier-1, curated, known-ats]
+  - slug: jane-street
+    name: "Jane Street"
+    category: fintech
+    ats: custom
+    atsConfidence: inferred
+    tier: 1
+    signals: [tier-1, curated, known-ats]
+  - slug: jpmorgan-chase
+    name: "JPMorgan Chase"
+    category: fintech
+    ats: workday
+    atsConfidence: inferred
+    tier: 1
+    signals: [tier-1, curated, known-ats]
+  - slug: jump-trading
+    name: "Jump Trading"
+    category: quant
+    ats: custom
+    atsConfidence: inferred
+    tier: 1
+    signals: [tier-1, curated, known-ats]
+  - slug: launchdarkly
+    name: "LaunchDarkly"
+    category: devtools
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 1
+    boardToken: "launchdarkly"
+    greenhouseEnabled: true
+    signals: [tier-1, curated, known-ats]
+  - slug: linear
+    name: "Linear"
+    category: product
+    ats: ashby
+    atsConfidence: inferred
+    tier: 1
+    signals: [tier-1, curated, known-ats]
+  - slug: lyft
+    name: "Lyft"
+    category: consumer
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 1
+    boardToken: "lyft"
+    signals: [tier-1, curated, known-ats]
+  - slug: marqeta
+    name: "Marqeta"
+    category: fintech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 1
+    boardToken: "marqeta"
+    signals: [tier-1, curated, known-ats]
+  - slug: meta
+    name: "Meta"
+    category: big-tech
+    ats: custom
+    atsConfidence: inferred
+    tier: 1
+    signals: [tier-1, curated, known-ats]
+  - slug: millennium-management
+    name: "Millennium Management"
+    category: quant
+    ats: custom
+    atsConfidence: inferred
+    tier: 1
+    signals: [tier-1, curated, known-ats]
+  - slug: miro
+    name: "Miro"
+    category: product
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 1
+    signals: [tier-1, curated, known-ats]
+  - slug: mistral-ai
+    name: "Mistral AI"
+    category: ai
+    ats: ashby
+    atsConfidence: inferred
+    tier: 1
+    signals: [tier-1, curated, known-ats]
+  - slug: monday-com
+    name: "Monday.com"
+    category: product
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 1
+    signals: [tier-1, curated, known-ats]
+  - slug: mongodb
+    name: "MongoDB"
+    category: data
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 1
+    boardToken: "mongodb"
+    greenhouseEnabled: true
+    signals: [tier-1, curated, known-ats]
+  - slug: neon
+    name: "Neon"
+    category: data
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 1
+    signals: [tier-1, curated, known-ats]
+  - slug: netflix
+    name: "Netflix"
+    category: big-tech
+    ats: custom
+    atsConfidence: inferred
+    tier: 1
+    signals: [tier-1, curated, known-ats]
+  - slug: openai
+    name: "OpenAI"
+    category: ai
+    ats: custom
+    atsConfidence: inferred
+    tier: 1
+    signals: [tier-1, curated, known-ats]
+  - slug: oracle
+    name: "Oracle"
+    category: enterprise
+    ats: custom
+    atsConfidence: inferred
+    tier: 1
+    signals: [tier-1, curated, known-ats]
+  - slug: palantir
+    name: "Palantir"
+    category: defense
+    ats: custom
+    atsConfidence: inferred
+    tier: 1
+    signals: [tier-1, curated, known-ats]
+  - slug: palo-alto-networks
+    name: "Palo Alto Networks"
+    category: security
+    ats: workday
+    atsConfidence: inferred
+    tier: 1
+    signals: [tier-1, curated, known-ats]
+  - slug: paypal
+    name: "PayPal"
+    category: fintech
+    ats: workday
+    atsConfidence: inferred
+    tier: 1
+    signals: [tier-1, curated, known-ats]
+  - slug: perplexity
+    name: "Perplexity"
+    category: ai
+    ats: ashby
+    atsConfidence: inferred
+    tier: 1
+    signals: [tier-1, curated, known-ats]
+  - slug: pinterest
+    name: "Pinterest"
+    category: consumer
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 1
+    boardToken: "pinterest"
+    signals: [tier-1, curated, known-ats]
+  - slug: plaid
+    name: "Plaid"
+    category: fintech
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 1
+    signals: [tier-1, curated, known-ats]
+  - slug: planetscale
+    name: "PlanetScale"
+    category: data
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 1
+    boardToken: "planetscale"
+    greenhouseEnabled: true
+    signals: [tier-1, curated, known-ats]
+  - slug: point72
+    name: "Point72"
+    category: quant
+    ats: custom
+    atsConfidence: inferred
+    tier: 1
+    signals: [tier-1, curated, known-ats]
+  - slug: posthog
+    name: "PostHog"
+    category: devtools
+    ats: ashby
+    atsConfidence: inferred
+    tier: 1
+    signals: [tier-1, curated, known-ats]
+  - slug: pulumi
+    name: "Pulumi"
+    category: devtools
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 1
+    signals: [tier-1, curated, known-ats]
+  - slug: ramp
+    name: "Ramp"
+    category: fintech
+    ats: ashby
+    atsConfidence: inferred
+    tier: 1
+    signals: [tier-1, curated, known-ats]
+  - slug: reddit
+    name: "Reddit"
+    category: consumer
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 1
+    boardToken: "reddit"
+    greenhouseEnabled: true
+    signals: [tier-1, curated, known-ats]
+  - slug: replit
+    name: "Replit"
+    category: devtools
+    ats: ashby
+    atsConfidence: inferred
+    tier: 1
+    signals: [tier-1, curated, known-ats]
+  - slug: riot-games
+    name: "Riot Games"
+    category: consumer
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 1
+    signals: [tier-1, curated, known-ats]
+  - slug: rippling
+    name: "Rippling"
+    category: enterprise
+    ats: ashby
+    atsConfidence: inferred
+    tier: 1
+    signals: [tier-1, curated, known-ats]
+  - slug: robinhood
+    name: "Robinhood"
+    category: fintech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 1
+    boardToken: "robinhood"
+    greenhouseEnabled: true
+    signals: [tier-1, curated, known-ats]
+  - slug: salesforce
+    name: "Salesforce"
+    category: enterprise
+    ats: custom
+    atsConfidence: inferred
+    tier: 1
+    signals: [tier-1, curated, known-ats]
+  - slug: samsung
+    name: "Samsung"
+    category: big-tech
+    ats: workday
+    atsConfidence: inferred
+    tier: 1
+    signals: [tier-1, curated, known-ats]
+  - slug: sap
+    name: "SAP"
+    category: enterprise
+    ats: custom
+    atsConfidence: inferred
+    tier: 1
+    signals: [tier-1, curated, known-ats]
+  - slug: scale-ai
+    name: "Scale AI"
+    category: ai
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 1
+    boardToken: "scaleai"
+    greenhouseEnabled: true
+    signals: [tier-1, curated, known-ats]
+  - slug: segment
+    name: "Segment"
+    category: data
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 1
+    signals: [tier-1, curated, known-ats]
+  - slug: servicenow
+    name: "ServiceNow"
+    category: enterprise
+    ats: custom
+    atsConfidence: inferred
+    tier: 1
+    signals: [tier-1, curated, known-ats]
+  - slug: shopify
+    name: "Shopify"
+    category: ecommerce
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 1
+    signals: [tier-1, curated, known-ats]
+  - slug: snap
+    name: "Snap"
+    category: consumer
+    ats: custom
+    atsConfidence: inferred
+    tier: 1
+    signals: [tier-1, curated, known-ats]
+  - slug: snowflake
+    name: "Snowflake"
+    category: data
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 1
+    signals: [tier-1, curated, known-ats]
+  - slug: snyk
+    name: "Snyk"
+    category: security
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 1
+    signals: [tier-1, curated, known-ats]
+  - slug: sofi
+    name: "Sofi"
+    category: fintech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 1
+    boardToken: "sofi"
+    signals: [tier-1, curated, known-ats]
+  - slug: sourcegraph
+    name: "Sourcegraph"
+    category: devtools
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 1
+    signals: [tier-1, curated, known-ats]
+  - slug: splunk
+    name: "Splunk"
+    category: enterprise
+    ats: workday
+    atsConfidence: inferred
+    tier: 1
+    signals: [tier-1, curated, known-ats]
+  - slug: stripe
+    name: "Stripe"
+    category: fintech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 1
+    boardToken: "stripe"
+    greenhouseEnabled: true
+    signals: [tier-1, curated, known-ats]
+  - slug: supabase
+    name: "Supabase"
+    category: devtools
+    ats: ashby
+    atsConfidence: inferred
+    tier: 1
+    signals: [tier-1, curated, known-ats]
+  - slug: target
+    name: "Target"
+    category: retail
+    ats: workday
+    atsConfidence: inferred
+    tier: 1
+    signals: [tier-1, curated, known-ats]
+  - slug: temporal
+    name: "Temporal"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 1
+    boardToken: "temporaltechnologies"
+    greenhouseEnabled: true
+    signals: [tier-1, curated, known-ats]
+  - slug: tencent
+    name: "Tencent"
+    category: big-tech
+    ats: custom
+    atsConfidence: inferred
+    tier: 1
+    signals: [tier-1, curated, known-ats]
+  - slug: tesla
+    name: "Tesla"
+    category: big-tech
+    ats: custom
+    atsConfidence: inferred
+    tier: 1
+    signals: [tier-1, curated, known-ats]
+  - slug: tiktok
+    name: "TikTok"
+    category: big-tech
+    ats: custom
+    atsConfidence: inferred
+    tier: 1
+    signals: [tier-1, curated, known-ats]
+  - slug: tower-research
+    name: "Tower Research"
+    category: quant
+    ats: custom
+    atsConfidence: inferred
+    tier: 1
+    signals: [tier-1, curated, known-ats]
+  - slug: twilio
+    name: "Twilio"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 1
+    boardToken: "twilio"
+    greenhouseEnabled: true
+    signals: [tier-1, curated, known-ats]
+  - slug: two-sigma
+    name: "Two Sigma"
+    category: fintech
+    ats: custom
+    atsConfidence: inferred
+    tier: 1
+    signals: [tier-1, curated, known-ats]
+  - slug: uber
+    name: "Uber"
+    category: consumer
+    ats: custom
+    atsConfidence: inferred
+    tier: 1
+    signals: [tier-1, curated, known-ats]
+  - slug: vercel
+    name: "Vercel"
+    category: devtools
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 1
+    boardToken: "vercel"
+    greenhouseEnabled: true
+    signals: [tier-1, curated, known-ats]
+  - slug: virtu-financial
+    name: "Virtu Financial"
+    category: quant
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 1
+    signals: [tier-1, curated, known-ats]
+  - slug: visa
+    name: "Visa"
+    category: fintech
+    ats: workday
+    atsConfidence: inferred
+    tier: 1
+    signals: [tier-1, curated, known-ats]
+  - slug: walmart
+    name: "Walmart"
+    category: retail
+    ats: workday
+    atsConfidence: inferred
+    tier: 1
+    signals: [tier-1, curated, known-ats]
+  - slug: waymo
+    name: "Waymo"
+    category: autonomous
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 1
+    boardToken: "waymo"
+    greenhouseEnabled: true
+    signals: [tier-1, curated, known-ats]
+  - slug: workday
+    name: "Workday"
+    category: enterprise
+    ats: custom
+    atsConfidence: inferred
+    tier: 1
+    signals: [tier-1, curated, known-ats]
+  - slug: xai
+    name: "xAI"
+    category: ai
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 1
+    boardToken: "xai"
+    greenhouseEnabled: true
+    signals: [tier-1, curated, known-ats]
+  - slug: zscaler
+    name: "Zscaler"
+    category: security
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 1
+    boardToken: "zscaler"
+    greenhouseEnabled: true
+    signals: [tier-1, curated, known-ats]
+  - slug: accenture
+    name: "Accenture"
+    category: enterprise
+    ats: workday
+    atsConfidence: inferred
+    tier: 2
+    earlyCareerVerified: true
+    signals: [active-early-career, curated, known-ats]
+  - slug: anaplan
+    name: "Anaplan"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "anaplan"
+    earlyCareerVerified: true
+    signals: [greenhouse-fleet, active-early-career, known-ats]
+  - slug: anduril-industries
+    name: "Anduril Industries"
+    category: defense
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "andurilindustries"
+    earlyCareerVerified: true
+    signals: [greenhouse-fleet, active-early-career, known-ats]
+  - slug: applied-materials
+    name: "Applied Materials"
+    category: hardware
+    ats: workday
+    atsConfidence: inferred
+    tier: 2
+    earlyCareerVerified: true
+    signals: [active-early-career, curated, known-ats]
+  - slug: at-t
+    name: "AT&T"
+    category: tech
+    ats: workday
+    atsConfidence: inferred
+    tier: 2
+    earlyCareerVerified: true
+    signals: [active-early-career, curated, known-ats]
+  - slug: attentive
+    name: "Attentive"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "attentive"
+    earlyCareerVerified: true
+    signals: [greenhouse-fleet, active-early-career, curated, known-ats]
+  - slug: axon
+    name: "Axon"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "axon"
+    earlyCareerVerified: true
+    signals: [greenhouse-fleet, active-early-career, known-ats]
+  - slug: bae-systems
+    name: "BAE Systems"
+    category: defense
+    ats: workday
+    atsConfidence: inferred
+    tier: 2
+    earlyCareerVerified: true
+    signals: [active-early-career, curated, known-ats]
+  - slug: boeing
+    name: "Boeing"
+    category: defense
+    ats: workday
+    atsConfidence: inferred
+    tier: 2
+    earlyCareerVerified: true
+    signals: [active-early-career, curated, known-ats]
+  - slug: caci
+    name: "CACI"
+    category: defense
+    ats: workday
+    atsConfidence: inferred
+    tier: 2
+    earlyCareerVerified: true
+    signals: [active-early-career, curated, known-ats]
+  - slug: capgemini
+    name: "Capgemini"
+    category: consulting
+    ats: workday
+    atsConfidence: inferred
+    tier: 2
+    earlyCareerVerified: true
+    signals: [active-early-career, curated, known-ats]
+  - slug: cargurus
+    name: "CarGurus"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "cargurus"
+    earlyCareerVerified: true
+    signals: [greenhouse-fleet, active-early-career, known-ats]
+  - slug: checkout-com
+    name: "Checkout.com"
+    category: tech
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 2
+    earlyCareerVerified: true
+    signals: [active-early-career, curated, known-ats]
+  - slug: cisco
+    name: "Cisco"
+    category: tech
+    ats: workday
+    atsConfidence: inferred
+    tier: 2
+    earlyCareerVerified: true
+    signals: [active-early-career, curated, known-ats]
+  - slug: comcast
+    name: "Comcast"
+    category: tech
+    ats: workday
+    atsConfidence: inferred
+    tier: 2
+    earlyCareerVerified: true
+    signals: [active-early-career, curated, known-ats]
+  - slug: cribl
+    name: "Cribl"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "cribl"
+    greenhouseEnabled: true
+    earlyCareerVerified: true
+    signals: [greenhouse-fleet, active-early-career, known-ats]
+  - slug: crunchyroll
+    name: "Crunchyroll"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "crunchyroll"
+    earlyCareerVerified: true
+    signals: [greenhouse-fleet, active-early-career, known-ats]
+  - slug: deloitte
+    name: "Deloitte"
+    category: enterprise
+    ats: workday
+    atsConfidence: inferred
+    tier: 2
+    earlyCareerVerified: true
+    signals: [active-early-career, curated, known-ats]
+  - slug: disney
+    name: "Disney"
+    category: consumer
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "disney"
+    earlyCareerVerified: true
+    signals: [greenhouse-fleet, active-early-career, curated, known-ats]
+  - slug: esri
+    name: "Esri"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "esri"
+    earlyCareerVerified: true
+    signals: [greenhouse-fleet, active-early-career, known-ats]
+  - slug: expedia
+    name: "Expedia"
+    category: tech
+    ats: workday
+    atsConfidence: inferred
+    tier: 2
+    earlyCareerVerified: true
+    signals: [active-early-career, curated, known-ats]
+  - slug: flex
+    name: "Flex"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "flex"
+    earlyCareerVerified: true
+    signals: [greenhouse-fleet, active-early-career, known-ats]
+  - slug: flexport
+    name: "Flexport"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "flexport"
+    earlyCareerVerified: true
+    signals: [greenhouse-fleet, active-early-career, curated, known-ats]
+  - slug: fourkites
+    name: "FourKites"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "fourkites"
+    earlyCareerVerified: true
+    signals: [greenhouse-fleet, active-early-career, known-ats]
+  - slug: fox
+    name: "FOX"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "fox"
+    earlyCareerVerified: true
+    signals: [greenhouse-fleet, active-early-career, known-ats]
+  - slug: general-motors
+    name: "General Motors"
+    category: tech
+    ats: workday
+    atsConfidence: inferred
+    tier: 2
+    earlyCareerVerified: true
+    signals: [active-early-career, curated, known-ats]
+  - slug: glean
+    name: "Glean"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "gleanwork"
+    greenhouseEnabled: true
+    earlyCareerVerified: true
+    signals: [greenhouse-fleet, active-early-career, known-ats]
+  - slug: globalfoundries
+    name: "Globalfoundries"
+    category: hardware
+    ats: workday
+    atsConfidence: inferred
+    tier: 2
+    earlyCareerVerified: true
+    signals: [active-early-career, curated, known-ats]
+  - slug: hp
+    name: "HP"
+    category: hardware
+    ats: workday
+    atsConfidence: inferred
+    tier: 2
+    earlyCareerVerified: true
+    signals: [active-early-career, curated, known-ats]
+  - slug: icon
+    name: "Icon"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "icon"
+    earlyCareerVerified: true
+    signals: [greenhouse-fleet, active-early-career, known-ats]
+  - slug: instabase
+    name: "Instabase"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "instabase"
+    earlyCareerVerified: true
+    signals: [greenhouse-fleet, active-early-career, known-ats]
+  - slug: kayak
+    name: "KAYAK"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "kayak"
+    earlyCareerVerified: true
+    signals: [greenhouse-fleet, active-early-career, known-ats]
+  - slug: kikoff
+    name: "Kikoff"
+    category: fintech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "kikoff"
+    earlyCareerVerified: true
+    signals: [greenhouse-fleet, active-early-career, known-ats]
+  - slug: klaviyo
+    name: "Klaviyo"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "klaviyo"
+    earlyCareerVerified: true
+    signals: [greenhouse-fleet, active-early-career, curated, known-ats]
+  - slug: leidos
+    name: "Leidos"
+    category: defense
+    ats: workday
+    atsConfidence: inferred
+    tier: 2
+    earlyCareerVerified: true
+    signals: [active-early-career, curated, known-ats]
+  - slug: marvell
+    name: "Marvell"
+    category: hardware
+    ats: workday
+    atsConfidence: inferred
+    tier: 2
+    earlyCareerVerified: true
+    signals: [active-early-career, curated, known-ats]
+  - slug: micron
+    name: "Micron"
+    category: hardware
+    ats: workday
+    atsConfidence: inferred
+    tier: 2
+    earlyCareerVerified: true
+    signals: [active-early-career, curated, known-ats]
+  - slug: mitratech
+    name: "Mitratech"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "mitratech"
+    earlyCareerVerified: true
+    signals: [greenhouse-fleet, active-early-career, known-ats]
+  - slug: mixpanel
+    name: "Mixpanel"
+    category: data
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "mixpanel"
+    greenhouseEnabled: true
+    earlyCareerVerified: true
+    signals: [greenhouse-fleet, active-early-career, curated, known-ats]
+  - slug: navan
+    name: "Navan"
+    category: fintech
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 2
+    earlyCareerVerified: true
+    signals: [active-early-career, curated, known-ats]
+  - slug: nextdoor
+    name: "Nextdoor"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "nextdoor"
+    earlyCareerVerified: true
+    signals: [greenhouse-fleet, active-early-career, known-ats]
+  - slug: northrop-grumman
+    name: "Northrop Grumman"
+    category: defense
+    ats: workday
+    atsConfidence: inferred
+    tier: 2
+    earlyCareerVerified: true
+    signals: [active-early-career, curated, known-ats]
+  - slug: oscar-health
+    name: "Oscar Health"
+    category: healthtech
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 2
+    earlyCareerVerified: true
+    signals: [active-early-career, curated, known-ats]
+  - slug: pagerduty
+    name: "PagerDuty"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "pagerduty"
+    greenhouseEnabled: true
+    earlyCareerVerified: true
+    signals: [greenhouse-fleet, active-early-career, known-ats]
+  - slug: pathai
+    name: "PathAI"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "pathai"
+    earlyCareerVerified: true
+    signals: [greenhouse-fleet, active-early-career, known-ats]
+  - slug: peloton
+    name: "Peloton"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "peloton"
+    earlyCareerVerified: true
+    signals: [greenhouse-fleet, active-early-career, known-ats]
+  - slug: qualcomm
+    name: "Qualcomm"
+    category: hardware
+    ats: workday
+    atsConfidence: inferred
+    tier: 2
+    earlyCareerVerified: true
+    signals: [active-early-career, curated, known-ats]
+  - slug: qualtrics
+    name: "Qualtrics"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "qualtrics"
+    earlyCareerVerified: true
+    signals: [greenhouse-fleet, active-early-career, known-ats]
+  - slug: rtx
+    name: "RTX"
+    category: defense
+    ats: workday
+    atsConfidence: inferred
+    tier: 2
+    earlyCareerVerified: true
+    signals: [active-early-career, curated, known-ats]
+  - slug: seatgeek
+    name: "SeatGeek"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "seatgeek"
+    earlyCareerVerified: true
+    signals: [greenhouse-fleet, active-early-career, known-ats]
+  - slug: smartsheet
+    name: "Smartsheet"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "smartsheet"
+    earlyCareerVerified: true
+    signals: [greenhouse-fleet, active-early-career, known-ats]
+  - slug: tebra
+    name: "Tebra"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "tebra"
+    earlyCareerVerified: true
+    signals: [greenhouse-fleet, active-early-career, known-ats]
+  - slug: texas-instruments
+    name: "Texas Instruments"
+    category: tech
+    ats: workday
+    atsConfidence: inferred
+    tier: 2
+    earlyCareerVerified: true
+    signals: [active-early-career, curated, known-ats]
+  - slug: together-ai
+    name: "Together AI"
+    category: ai
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "togetherai"
+    greenhouseEnabled: true
+    earlyCareerVerified: true
+    signals: [greenhouse-fleet, active-early-career, known-ats]
+  - slug: twitch
+    name: "Twitch"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "twitch"
+    earlyCareerVerified: true
+    signals: [greenhouse-fleet, active-early-career, known-ats]
+  - slug: vanta
+    name: "Vanta"
+    category: security
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 2
+    earlyCareerVerified: true
+    signals: [active-early-career, curated, known-ats]
+  - slug: vast
+    name: "Vast"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "vast"
+    earlyCareerVerified: true
+    signals: [greenhouse-fleet, active-early-career, known-ats]
+  - slug: verkada
+    name: "Verkada"
+    category: security
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "verkada"
+    greenhouseEnabled: true
+    earlyCareerVerified: true
+    signals: [greenhouse-fleet, active-early-career, curated, known-ats]
+  - slug: western-digital
+    name: "Western Digital"
+    category: tech
+    ats: workday
+    atsConfidence: inferred
+    tier: 2
+    earlyCareerVerified: true
+    signals: [active-early-career, curated, known-ats]
+  - slug: 1password
+    name: "1Password"
+    category: security
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: 2u
+    name: "2U"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "2u"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: 6sense
+    name: "6sense"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "6sense"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: a24
+    name: "A24"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "a24"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: abacus
+    name: "Abacus"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "abacus"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: abnormalsecurity
+    name: "Abnormal Security"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "abnormalsecurity"
+    greenhouseEnabled: true
+    signals: [greenhouse-fleet, known-ats]
+  - slug: academy
+    name: "Academy"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "academy"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: accelerationpartners
+    name: "Accelerationpartners"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "accelerationpartners"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: accesso
+    name: "Accesso"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "accesso"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: accuweather
+    name: "Accuweather"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "accuweather"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: aceable
+    name: "Aceable"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "aceable"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: acquia
+    name: "Acquia"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "acquia"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: actblue
+    name: "Actblue"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "actblue"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: acumen
+    name: "Acumen"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "acumen"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: adahealth
+    name: "Adahealth"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "adahealth"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: adyen
+    name: "Adyen"
+    category: fintech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "adyen"
+    greenhouseEnabled: true
+    signals: [greenhouse-fleet, curated, known-ats]
+  - slug: airbyte
+    name: "Airbyte"
+    category: data
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: airship
+    name: "Airship"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "airship"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: airspace
+    name: "Airspace"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "airspace"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: akamai
+    name: "Akamai"
+    category: infra
+    ats: workday
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: akqa
+    name: "Akqa"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "akqa"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: alertmedia
+    name: "Alertmedia"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "alertmedia"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: algolia
+    name: "Algolia"
+    category: infra
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "algolia"
+    greenhouseEnabled: true
+    signals: [greenhouse-fleet, curated, known-ats]
+  - slug: allegro
+    name: "Allegro"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "allegro"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: alloy
+    name: "Alloy"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "alloy"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: alphasense
+    name: "Alphasense"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "alphasense"
+    greenhouseEnabled: true
+    signals: [greenhouse-fleet, known-ats]
+  - slug: amd
+    name: "AMD"
+    category: hardware
+    ats: workday
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: amperity
+    name: "Amperity"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "amperity"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: apaleo
+    name: "Apaleo"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "apaleo"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: apex
+    name: "Apex"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "apex"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: apiiro
+    name: "Apiiro"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "apiiro"
+    greenhouseEnabled: true
+    signals: [greenhouse-fleet, known-ats]
+  - slug: apollo
+    name: "Apollo"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "apollo"
+    greenhouseEnabled: true
+    signals: [greenhouse-fleet, known-ats]
+  - slug: appdirect
+    name: "Appdirect"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "appdirect"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: appian
+    name: "Appian"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "appian"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: appier
+    name: "Appier"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "appier"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: applecart
+    name: "Applecart"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "applecart"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: applovin
+    name: "Applovin"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "applovin"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: appsflyer
+    name: "Appsflyer"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "appsflyer"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: archer
+    name: "Archer"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "archer"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: arista-networks
+    name: "Arista Networks"
+    category: networking
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: arize-ai
+    name: "Arize AI"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "arizeai"
+    greenhouseEnabled: true
+    signals: [greenhouse-fleet, known-ats]
+  - slug: arm
+    name: "Arm"
+    category: hardware
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: ashby
+    name: "Ashby"
+    category: hrtech
+    ats: ashby
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: asml
+    name: "ASML"
+    category: hardware
+    ats: workday
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: aspectbiosystems
+    name: "Aspectbiosystems"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "aspectbiosystems"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: assemblyai
+    name: "Assemblyai"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "assemblyai"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: atomwise
+    name: "Atomwise"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "atomwise"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: augury
+    name: "Augury"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "augury"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: aura
+    name: "Aura"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "aura"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: auth0
+    name: "Auth0"
+    category: security
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: automox
+    name: "Automox"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "automox"
+    greenhouseEnabled: true
+    signals: [greenhouse-fleet, known-ats]
+  - slug: autoscout24
+    name: "Autoscout24"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "autoscout24"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: avetta
+    name: "Avetta"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "avetta"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: aviatrix
+    name: "Aviatrix"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "aviatrix"
+    greenhouseEnabled: true
+    signals: [greenhouse-fleet, known-ats]
+  - slug: awin
+    name: "Awin"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "awin"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: axiom
+    name: "Axiom"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "axiom"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: axonius
+    name: "Axonius"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "axonius"
+    greenhouseEnabled: true
+    signals: [greenhouse-fleet, known-ats]
+  - slug: backblaze
+    name: "Backblaze"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "backblaze"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: bamboohr
+    name: "BambooHR"
+    category: hrtech
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: bark
+    name: "Bark"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "bark"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: beam
+    name: "Beam"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "beam"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: behavox
+    name: "Behavox"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "behavox"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: bench
+    name: "Bench"
+    category: fintech
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: better-com
+    name: "Better.com"
+    category: fintech
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: betterment
+    name: "Betterment"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "betterment"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: bigid
+    name: "Bigid"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "bigid"
+    greenhouseEnabled: true
+    signals: [greenhouse-fleet, known-ats]
+  - slug: bill-com
+    name: "Bill.com"
+    category: fintech
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: billcom
+    name: "Billcom"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "billcom"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: billtrust
+    name: "Billtrust"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "billtrust"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: bitgo
+    name: "BitGo"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "bitgo"
+    greenhouseEnabled: true
+    signals: [greenhouse-fleet, known-ats]
+  - slug: bitmovin
+    name: "Bitmovin"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "bitmovin"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: bitpanda
+    name: "Bitpanda"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "bitpanda"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: bitso
+    name: "Bitso"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "bitso"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: bitwarden
+    name: "Bitwarden"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "bitwarden"
+    greenhouseEnabled: true
+    signals: [greenhouse-fleet, curated, known-ats]
+  - slug: blacklane
+    name: "Blacklane"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "blacklane"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: blacksky
+    name: "Blacksky"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "blacksky"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: blend
+    name: "Blend"
+    category: fintech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "blend"
+    signals: [greenhouse-fleet, curated, known-ats]
+  - slug: blinkhealth
+    name: "Blinkhealth"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "blinkhealth"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: blueconic
+    name: "Blueconic"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "blueconic"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: blueshift
+    name: "Blueshift"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "blueshift"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: blumira
+    name: "Blumira"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "blumira"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: bombas
+    name: "Bombas"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "bombas"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: booking-com
+    name: "Booking.com"
+    category: travel
+    ats: workday
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: booz-allen-hamilton
+    name: "Booz Allen Hamilton"
+    category: defense
+    ats: workday
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: box
+    name: "Box"
+    category: product
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: branch
+    name: "Branch"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "branch"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: branchmetrics
+    name: "Branchmetrics"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "branchmetrics"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: braze
+    name: "Braze"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "braze"
+    greenhouseEnabled: true
+    signals: [greenhouse-fleet, curated, known-ats]
+  - slug: bringg
+    name: "Bringg"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "bringg"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: broadcom
+    name: "Broadcom"
+    category: hardware
+    ats: workday
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: broadvoice
+    name: "Broadvoice"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "broadvoice"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: bugcrowd
+    name: "Bugcrowd"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "bugcrowd"
+    greenhouseEnabled: true
+    signals: [greenhouse-fleet, known-ats]
+  - slug: buildkite
+    name: "Buildkite"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "buildkite"
+    greenhouseEnabled: true
+    signals: [greenhouse-fleet, known-ats]
+  - slug: butterflynetwork
+    name: "Butterflynetwork"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "butterflynetwork"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: buzzfeed
+    name: "Buzzfeed"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "buzzfeed"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: cabify
+    name: "Cabify"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "cabify"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: calendly
+    name: "Calendly"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "calendly"
+    greenhouseEnabled: true
+    signals: [greenhouse-fleet, curated, known-ats]
+  - slug: callrail
+    name: "Callrail"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "callrail"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: canonical
+    name: "Canonical"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "canonical"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: carbon
+    name: "Carbon"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "carbon"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: carbonrobotics
+    name: "Carbonrobotics"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "carbonrobotics"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: careem
+    name: "Careem"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "careem"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: caribou
+    name: "Caribou"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "caribou"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: carrotfertility
+    name: "Carrotfertility"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "carrotfertility"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: carta
+    name: "Carta"
+    category: fintech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "carta"
+    signals: [greenhouse-fleet, curated, known-ats]
+  - slug: carvana
+    name: "Carvana"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "carvana"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: celonis
+    name: "Celonis"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "celonis"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: census
+    name: "Census"
+    category: data
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: censys
+    name: "Censys"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "censys"
+    greenhouseEnabled: true
+    signals: [greenhouse-fleet, known-ats]
+  - slug: ceros
+    name: "Ceros"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "ceros"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: charterup
+    name: "Charterup"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "charterup"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: checkr
+    name: "Checkr"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "checkr"
+    signals: [greenhouse-fleet, curated, known-ats]
+  - slug: churnzero
+    name: "ChurnZero"
+    category: data
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: cipherhealth
+    name: "Cipherhealth"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "cipherhealth"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: circleci
+    name: "CircleCI"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "circleci"
+    greenhouseEnabled: true
+    signals: [greenhouse-fleet, known-ats]
+  - slug: civisanalytics
+    name: "Civisanalytics"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "civisanalytics"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: clari
+    name: "Clari"
+    category: product
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: classpass
+    name: "Classpass"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "classpass"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: clear
+    name: "Clear"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "clear"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: clearco
+    name: "Clearco"
+    category: fintech
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: clerk
+    name: "Clerk"
+    category: security
+    ats: ashby
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: clever
+    name: "Clever"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "clever"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: clickhouse
+    name: "ClickHouse"
+    category: data
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "clickhouse"
+    greenhouseEnabled: true
+    signals: [greenhouse-fleet, known-ats]
+  - slug: cloudinary
+    name: "Cloudinary"
+    category: infra
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: clutch
+    name: "Clutch"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "clutch"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: coalition
+    name: "Coalition"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "coalition"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: cognite
+    name: "Cognite"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "cognite"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: cognizant
+    name: "Cognizant"
+    category: enterprise
+    ats: workday
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: coherehealth
+    name: "Coherehealth"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "coherehealth"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: collectivehealth
+    name: "Collectivehealth"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "collectivehealth"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: collibra
+    name: "Collibra"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "collibra"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: commercetools
+    name: "Commercetools"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "commercetools"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: compass
+    name: "Compass"
+    category: proptech
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: complyadvantage
+    name: "Complyadvantage"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "complyadvantage"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: concertai
+    name: "Concertai"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "concertai"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: consensys
+    name: "Consensys"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "consensys"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: contentful
+    name: "Contentful"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "contentful"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: contentstack
+    name: "Contentstack"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "contentstack"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: corelight
+    name: "Corelight"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "corelight"
+    greenhouseEnabled: true
+    signals: [greenhouse-fleet, known-ats]
+  - slug: coreweave
+    name: "CoreWeave"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "coreweave"
+    greenhouseEnabled: true
+    signals: [greenhouse-fleet, known-ats]
+  - slug: coursehero
+    name: "Coursehero"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "coursehero"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: coursera
+    name: "Coursera"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "coursera"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: creativefabrica
+    name: "Creativefabrica"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "creativefabrica"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: crisp
+    name: "Crisp"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "crisp"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: crossbeam
+    name: "Crossbeam"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "crossbeam"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: curative
+    name: "Curative"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "curative"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: current
+    name: "Current"
+    category: fintech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "current"
+    signals: [greenhouse-fleet, curated, known-ats]
+  - slug: customer-io
+    name: "Customer.io"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "customerio"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: cybereason
+    name: "Cybereason"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "cybereason"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: dagster
+    name: "Dagster"
+    category: data
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: dashlane
+    name: "Dashlane"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "dashlane"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: dataiku
+    name: "Dataiku"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "dataiku"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: dave
+    name: "Dave"
+    category: fintech
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: daylight
+    name: "Daylight"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "daylight"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: dbt-labs
+    name: "dbt Labs"
+    category: data
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: deel
+    name: "Deel"
+    category: fintech
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: deepmind
+    name: "Deepmind"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "deepmind"
+    greenhouseEnabled: true
+    signals: [greenhouse-fleet, known-ats]
+  - slug: degreed
+    name: "Degreed"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "degreed"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: dell
+    name: "Dell"
+    category: hardware
+    ats: workday
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: descope
+    name: "Descope"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "descope"
+    greenhouseEnabled: true
+    signals: [greenhouse-fleet, known-ats]
+  - slug: descript
+    name: "Descript"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "descript"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: devoted-health
+    name: "Devoted Health"
+    category: healthtech
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: dialpad
+    name: "Dialpad"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "dialpad"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: digicert
+    name: "Digicert"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "digicert"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: digitalocean
+    name: "DigitalOcean"
+    category: infra
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: digitalocean98
+    name: "Digitalocean98"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "digitalocean98"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: diligent
+    name: "Diligent"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "diligent"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: disco
+    name: "Disco"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "disco"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: docusign
+    name: "DocuSign"
+    category: product
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: doma
+    name: "Doma"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "doma"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: domo
+    name: "Domo"
+    category: data
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: doordashusa
+    name: "Doordashusa"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "doordashusa"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: doximity
+    name: "Doximity"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "doximity"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: drata
+    name: "Drata"
+    category: security
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: dremio
+    name: "Dremio"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "dremio"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: drivewealth
+    name: "Drivewealth"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "drivewealth"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: dropbox
+    name: "Dropbox"
+    category: consumer
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "dropbox"
+    signals: [greenhouse-fleet, curated, known-ats]
+  - slug: duolingo
+    name: "Duolingo"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "duolingo"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: earnin
+    name: "Earnin"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "earnin"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: eightfold-ai
+    name: "Eightfold AI"
+    category: hrtech
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: elationhealth
+    name: "Elationhealth"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "elationhealth"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: elevatebio
+    name: "Elevatebio"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "elevatebio"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: elo
+    name: "Elo"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "elo"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: embroker
+    name: "Embroker"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "embroker"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: enova
+    name: "Enova"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "enova"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: entersekt
+    name: "Entersekt"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "entersekt"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: epic-systems
+    name: "Epic Systems"
+    category: consumer
+    ats: custom
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: epicgames
+    name: "Epicgames"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "epicgames"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: ericsson
+    name: "Ericsson"
+    category: networking
+    ats: workday
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: esusu
+    name: "Esusu"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "esusu"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: ethos
+    name: "Ethos"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "ethos"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: everlaw
+    name: "Everlaw"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "everlaw"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: exabeam
+    name: "Exabeam"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "exabeam"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: exiger
+    name: "Exiger"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "exiger"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: expel
+    name: "Expel"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "expel"
+    greenhouseEnabled: true
+    signals: [greenhouse-fleet, known-ats]
+  - slug: ey
+    name: "EY"
+    category: consulting
+    ats: workday
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: faire
+    name: "Faire"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "faire"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: falconx
+    name: "Falconx"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "falconx"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: fandom
+    name: "Fandom"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "fandom"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: fanduel
+    name: "Fanduel"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "fanduel"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: fastly
+    name: "Fastly"
+    category: infra
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "fastly"
+    greenhouseEnabled: true
+    signals: [greenhouse-fleet, curated, known-ats]
+  - slug: federato
+    name: "Federato"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "federato"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: fellow
+    name: "Fellow"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "fellow"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: fetch
+    name: "Fetch"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "fetch"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: fieldwire
+    name: "Fieldwire"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "fieldwire"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: figment
+    name: "Figment"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "figment"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: figure
+    name: "Figure"
+    category: fintech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "figure"
+    signals: [greenhouse-fleet, curated, known-ats]
+  - slug: fingerprint
+    name: "Fingerprint"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "fingerprint"
+    greenhouseEnabled: true
+    signals: [greenhouse-fleet, known-ats]
+  - slug: fireblocks
+    name: "Fireblocks"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "fireblocks"
+    greenhouseEnabled: true
+    signals: [greenhouse-fleet, known-ats]
+  - slug: fivetran
+    name: "Fivetran"
+    category: data
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "fivetran"
+    greenhouseEnabled: true
+    signals: [greenhouse-fleet, curated, known-ats]
+  - slug: flatiron-health
+    name: "Flatiron Health"
+    category: healthtech
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: flexe
+    name: "Flexe"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "flexe"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: flipp
+    name: "Flipp"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "flipp"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: flodesk
+    name: "Flodesk"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "flodesk"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: flowcode
+    name: "Flowcode"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "flowcode"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: fly-io
+    name: "Fly.io"
+    category: devtools
+    ats: ashby
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: flyr
+    name: "Flyr"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "flyr"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: ford
+    name: "Ford"
+    category: automotive
+    ats: workday
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: formlabs
+    name: "Formlabs"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "formlabs"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: forter
+    name: "Forter"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "forter"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: forward
+    name: "Forward"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "forward"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: found
+    name: "Found"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "found"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: freestar
+    name: "Freestar"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "freestar"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: freshworks
+    name: "Freshworks"
+    category: enterprise
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: front
+    name: "Front"
+    category: product
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: fullstory
+    name: "FullStory"
+    category: data
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: gainsight
+    name: "Gainsight"
+    category: data
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: galileo
+    name: "Galileo"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "galileo"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: gem
+    name: "Gem"
+    category: hrtech
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: gemini
+    name: "Gemini"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "gemini"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: general-dynamics
+    name: "General Dynamics"
+    category: defense
+    ats: workday
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: genius
+    name: "Genius"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "genius"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: geotab
+    name: "Geotab"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "geotab"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: ghost
+    name: "Ghost"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "ghost"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: glossgenius
+    name: "Glossgenius"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "glossgenius"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: glossier
+    name: "Glossier"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "glossier"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: gocardless
+    name: "Gocardless"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "gocardless"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: gofundme
+    name: "Gofundme"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "gofundme"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: gojek
+    name: "Gojek"
+    category: fintech
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: gong
+    name: "Gong"
+    category: product
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: grab
+    name: "Grab"
+    category: fintech
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: greenhouse
+    name: "Greenhouse"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "greenhouse"
+    signals: [greenhouse-fleet, curated, known-ats]
+  - slug: groupon
+    name: "Groupon"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "groupon"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: groww
+    name: "Groww"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "groww"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: gumgum
+    name: "Gumgum"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "gumgum"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: gusto
+    name: "Gusto"
+    category: fintech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "gusto"
+    signals: [greenhouse-fleet, curated, known-ats]
+  - slug: gympass
+    name: "Gympass"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "gympass"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: hackerrank
+    name: "Hackerrank"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "hackerrank"
+    greenhouseEnabled: true
+    signals: [greenhouse-fleet, known-ats]
+  - slug: hcl-technologies
+    name: "HCL Technologies"
+    category: consulting
+    ats: workday
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: healthjoy
+    name: "Healthjoy"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "healthjoy"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: healthverity
+    name: "Healthverity"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "healthverity"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: heap
+    name: "Heap"
+    category: data
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: helloalice
+    name: "Helloalice"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "helloalice"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: hellofresh
+    name: "Hellofresh"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "hellofresh"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: heroku
+    name: "Heroku"
+    category: devtools
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: hex
+    name: "Hex"
+    category: data
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: hightouch
+    name: "Hightouch"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "hightouch"
+    greenhouseEnabled: true
+    signals: [greenhouse-fleet, curated, known-ats]
+  - slug: hologram
+    name: "Hologram"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "hologram"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: homeward
+    name: "Homeward"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "homeward"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: hone
+    name: "Hone"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "hone"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: honeycomb
+    name: "Honeycomb"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "honeycomb"
+    greenhouseEnabled: true
+    signals: [greenhouse-fleet, known-ats]
+  - slug: honor
+    name: "Honor"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "honor"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: hpe
+    name: "HPE"
+    category: hardware
+    ats: workday
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: hubspot
+    name: "Hubspot"
+    category: enterprise
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "hubspot"
+    signals: [greenhouse-fleet, curated, known-ats]
+  - slug: humaninterest
+    name: "Humaninterest"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "humaninterest"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: ibm
+    name: "IBM"
+    category: enterprise
+    ats: workday
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: icims
+    name: "iCIMS"
+    category: hrtech
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: idme
+    name: "Idme"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "idme"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: impact
+    name: "Impact"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "impact"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: imply
+    name: "Imply"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "imply"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: indeed
+    name: "Indeed"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "indeed"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: indigo
+    name: "Indigo"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "indigo"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: inflection-ai
+    name: "Inflection AI"
+    category: ai
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "inflectionai"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: infosys
+    name: "Infosys"
+    category: enterprise
+    ats: workday
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: inmobi
+    name: "Inmobi"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "inmobi"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: insider
+    name: "Insider"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "insider"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: insomniac
+    name: "Insomniac"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "insomniac"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: insurify
+    name: "Insurify"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "insurify"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: intel
+    name: "Intel"
+    category: hardware
+    ats: workday
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: intercom
+    name: "Intercom"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "intercom"
+    greenhouseEnabled: true
+    signals: [greenhouse-fleet, curated, known-ats]
+  - slug: ionq
+    name: "Ionq"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "ionq"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: iris
+    name: "Iris"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "iris"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: iterable
+    name: "Iterable"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "iterable"
+    signals: [greenhouse-fleet, curated, known-ats]
+  - slug: ithaka
+    name: "Ithaka"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "ithaka"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: jago
+    name: "Jago"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "jago"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: janestreet
+    name: "Janestreet"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "janestreet"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: jetbrains
+    name: "JetBrains"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "jetbrains"
+    greenhouseEnabled: true
+    signals: [greenhouse-fleet, known-ats]
+  - slug: jfrog
+    name: "Jfrog"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "jfrog"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: jumptrading
+    name: "Jumptrading"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "jumptrading"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: juniper-networks
+    name: "Juniper Networks"
+    category: networking
+    ats: workday
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: justworks
+    name: "Justworks"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "justworks"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: karat
+    name: "Karat"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "karat"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: kargo
+    name: "Kargo"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "kargo"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: kaseya
+    name: "Kaseya"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "kaseya"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: khanacademy
+    name: "Khanacademy"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "khanacademy"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: klarna
+    name: "Klarna"
+    category: fintech
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: knock
+    name: "Knock"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "knock"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: knowbe4
+    name: "Knowbe4"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "knowbe4"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: komodohealth
+    name: "Komodohealth"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "komodohealth"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: kpmg
+    name: "KPMG"
+    category: consulting
+    ats: workday
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: l3harris
+    name: "L3Harris"
+    category: defense
+    ats: workday
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: lacework
+    name: "Lacework"
+    category: security
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: lam-research
+    name: "Lam Research"
+    category: hardware
+    ats: workday
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: lastpass
+    name: "LastPass"
+    category: security
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: lattice
+    name: "Lattice"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "lattice"
+    signals: [greenhouse-fleet, curated, known-ats]
+  - slug: launchpotato
+    name: "Launchpotato"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "launchpotato"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: lendingclub
+    name: "LendingClub"
+    category: fintech
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: lenovo
+    name: "Lenovo"
+    category: hardware
+    ats: workday
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: lever
+    name: "Lever"
+    category: hrtech
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: lg
+    name: "LG"
+    category: hardware
+    ats: workday
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: liftoff
+    name: "Liftoff"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "liftoff"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: lightmatter
+    name: "Lightmatter"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "lightmatter"
+    greenhouseEnabled: true
+    signals: [greenhouse-fleet, known-ats]
+  - slug: lightricks
+    name: "Lightricks"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "lightricks"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: linkedin
+    name: "Linkedin"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "linkedin"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: linode
+    name: "Linode"
+    category: infra
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: linqia
+    name: "Linqia"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "linqia"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: livefront
+    name: "Livefront"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "livefront"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: lob
+    name: "Lob"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "lob"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: lockheed-martin
+    name: "Lockheed Martin"
+    category: defense
+    ats: workday
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: logicmonitor
+    name: "Logicmonitor"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "logicmonitor"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: looker
+    name: "Looker"
+    category: data
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: loom
+    name: "Loom"
+    category: product
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: lucid-motors
+    name: "Lucid Motors"
+    category: automotive
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: lucidsoftware
+    name: "Lucidsoftware"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "lucidsoftware"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: lumahealth
+    name: "Lumahealth"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "lumahealth"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: luno
+    name: "Luno"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "luno"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: lush
+    name: "Lush"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "lush"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: make
+    name: "Make"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "make"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: masterclass
+    name: "Masterclass"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "masterclass"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: mastercontrol
+    name: "Mastercontrol"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "mastercontrol"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: mattermost
+    name: "Mattermost"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "mattermost"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: mavenclinic
+    name: "Mavenclinic"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "mavenclinic"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: maymobility
+    name: "Maymobility"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "maymobility"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: medium
+    name: "Medium"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "medium"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: mejuri
+    name: "Mejuri"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "mejuri"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: melio
+    name: "Melio"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "melio"
+    signals: [greenhouse-fleet, curated, known-ats]
+  - slug: mercado-libre
+    name: "Mercado Libre"
+    category: ecommerce
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: mercury
+    name: "Mercury"
+    category: fintech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "mercury"
+    greenhouseEnabled: true
+    signals: [greenhouse-fleet, curated, known-ats]
+  - slug: mindbody
+    name: "Mindbody"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "mindbody"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: mirakl
+    name: "Mirakl"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "mirakl"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: missionlane
+    name: "Missionlane"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "missionlane"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: mode
+    name: "Mode"
+    category: data
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: modernhealth
+    name: "Modernhealth"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "modernhealth"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: mollie
+    name: "Mollie"
+    category: fintech
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: monograph
+    name: "Monograph"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "monograph"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: monzo
+    name: "Monzo"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "monzo"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: movableink
+    name: "Movableink"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "movableink"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: mozilla
+    name: "Mozilla"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "mozilla"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: muckrack
+    name: "Muckrack"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "muckrack"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: n26
+    name: "N26"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "n26"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: nanit
+    name: "Nanit"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "nanit"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: nansen
+    name: "Nansen"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "nansen"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: narvar
+    name: "Narvar"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "narvar"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: natera
+    name: "Natera"
+    category: healthtech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "natera"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: neo4j
+    name: "Neo4j"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "neo4j"
+    greenhouseEnabled: true
+    signals: [greenhouse-fleet, known-ats]
+  - slug: netapp
+    name: "NetApp"
+    category: hardware
+    ats: workday
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: netlify
+    name: "Netlify"
+    category: devtools
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "netlify"
+    greenhouseEnabled: true
+    signals: [greenhouse-fleet, curated, known-ats]
+  - slug: netskope
+    name: "Netskope"
+    category: security
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "netskope"
+    greenhouseEnabled: true
+    signals: [greenhouse-fleet, curated, known-ats]
+  - slug: neuralink
+    name: "Neuralink"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "neuralink"
+    greenhouseEnabled: true
+    signals: [greenhouse-fleet, known-ats]
+  - slug: nexhealth
+    name: "Nexhealth"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "nexhealth"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: nextiva
+    name: "Nextiva"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "nextiva"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: nextroll
+    name: "Nextroll"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "nextroll"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: nokia
+    name: "Nokia"
+    category: networking
+    ats: workday
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: nomadhealth
+    name: "Nomadhealth"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "nomadhealth"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: nubank
+    name: "Nubank"
+    category: fintech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "nubank"
+    signals: [greenhouse-fleet, curated, known-ats]
+  - slug: nucleus
+    name: "Nucleus"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "nucleus"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: offerup
+    name: "Offerup"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "offerup"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: omadahealth
+    name: "Omadahealth"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "omadahealth"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: onetrust
+    name: "Onetrust"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "onetrust"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: onrunning
+    name: "Onrunning"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "onrunning"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: opendoor
+    name: "Opendoor"
+    category: proptech
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: opentable
+    name: "Opentable"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "opentable"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: opploans
+    name: "Opploans"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "opploans"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: optimove
+    name: "Optimove"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "optimove"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: orca
+    name: "Orca"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "orca"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: orchard
+    name: "Orchard"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "orchard"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: ordergroove
+    name: "Ordergroove"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "ordergroove"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: oscar
+    name: "Oscar"
+    category: healthtech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "oscar"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: outreach
+    name: "Outreach"
+    category: product
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: outschool
+    name: "Outschool"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "outschool"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: overstory
+    name: "Overstory"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "overstory"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: oyster
+    name: "Oyster"
+    category: hrtech
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: pacaso
+    name: "Pacaso"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "pacaso"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: pagarme
+    name: "Pagarme"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "pagarme"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: pantheon
+    name: "Pantheon"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "pantheon"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: papaya
+    name: "Papaya"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "papaya"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: paramount
+    name: "Paramount"
+    category: media
+    ats: workday
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: parloa
+    name: "Parloa"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "parloa"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: parsleyhealth
+    name: "Parsleyhealth"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "parsleyhealth"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: payoneer
+    name: "Payoneer"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "payoneer"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: paypay
+    name: "Paypay"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "paypay"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: paytm
+    name: "Paytm"
+    category: fintech
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: pendo
+    name: "Pendo"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "pendo"
+    signals: [greenhouse-fleet, curated, known-ats]
+  - slug: phenom
+    name: "Phenom"
+    category: hrtech
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: phonepe
+    name: "PhonePe"
+    category: fintech
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: pilot
+    name: "Pilot"
+    category: fintech
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: pipe
+    name: "Pipe"
+    category: fintech
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: pixability
+    name: "Pixability"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "pixability"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: plume
+    name: "Plume"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "plume"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: portable
+    name: "Portable"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "portable"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: postman
+    name: "Postman"
+    category: devtools
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "postman"
+    greenhouseEnabled: true
+    signals: [greenhouse-fleet, known-ats]
+  - slug: postscript
+    name: "Postscript"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "postscript"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: prefect
+    name: "Prefect"
+    category: data
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: primerai
+    name: "Primerai"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "primerai"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: prisma
+    name: "Prisma"
+    category: devtools
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "prisma"
+    greenhouseEnabled: true
+    signals: [greenhouse-fleet, known-ats]
+  - slug: project44
+    name: "Project44"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "project44"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: prospa
+    name: "Prospa"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "prospa"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: proton
+    name: "Proton"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "proton"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: public
+    name: "Public"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "public"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: pubnub
+    name: "Pubnub"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "pubnub"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: pure-storage
+    name: "Pure Storage"
+    category: hardware
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: purestorage
+    name: "Purestorage"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "purestorage"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: pwc
+    name: "PwC"
+    category: consulting
+    ats: workday
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: qualia
+    name: "Qualia"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "qualia"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: quantifind
+    name: "Quantifind"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "quantifind"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: quintoandar
+    name: "Quintoandar"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "quintoandar"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: quip
+    name: "Quip"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "quip"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: railway
+    name: "Railway"
+    category: devtools
+    ats: ashby
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: raytheon
+    name: "Raytheon"
+    category: defense
+    ats: workday
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: razorpay
+    name: "Razorpay"
+    category: fintech
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: redfin
+    name: "Redfin"
+    category: proptech
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: reformation
+    name: "Reformation"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "reformation"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: relativity
+    name: "Relativity"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "relativity"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: relaypayments
+    name: "Relaypayments"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "relaypayments"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: remote
+    name: "Remote"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "remote"
+    signals: [greenhouse-fleet, curated, known-ats]
+  - slug: render
+    name: "Render"
+    category: devtools
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: resilience
+    name: "Resilience"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "resilience"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: revolut
+    name: "Revolut"
+    category: fintech
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: rise8
+    name: "Rise8"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "rise8"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: riskified
+    name: "Riskified"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "riskified"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: ritual
+    name: "Ritual"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "ritual"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: rivian
+    name: "Rivian"
+    category: automotive
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: roadie
+    name: "Roadie"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "roadie"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: rocketlab
+    name: "Rocketlab"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "rocketlab"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: roku
+    name: "Roku"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "roku"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: route
+    name: "Route"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "route"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: rubrik
+    name: "Rubrik"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "rubrik"
+    greenhouseEnabled: true
+    signals: [greenhouse-fleet, known-ats]
+  - slug: saic
+    name: "SAIC"
+    category: defense
+    ats: workday
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: salesloft
+    name: "Salesloft"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "salesloft"
+    signals: [greenhouse-fleet, curated, known-ats]
+  - slug: salsify
+    name: "Salsify"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "salsify"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: saltsecurity
+    name: "Saltsecurity"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "saltsecurity"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: samsara
+    name: "Samsara"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "samsara"
+    greenhouseEnabled: true
+    signals: [greenhouse-fleet, curated, known-ats]
+  - slug: sayari
+    name: "Sayari"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "sayari"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: scandit
+    name: "Scandit"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "scandit"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: science37
+    name: "Science37"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "science37"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: scopely
+    name: "Scopely"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "scopely"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: sea-limited
+    name: "Sea Limited"
+    category: gaming
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: seagate
+    name: "Seagate"
+    category: hardware
+    ats: workday
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: securityscorecard
+    name: "Securityscorecard"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "securityscorecard"
+    greenhouseEnabled: true
+    signals: [greenhouse-fleet, known-ats]
+  - slug: seekout
+    name: "Seekout"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "seekout"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: seesaw
+    name: "Seesaw"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "seesaw"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: sendbird
+    name: "Sendbird"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "sendbird"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: sentinelone
+    name: "SentinelOne"
+    category: security
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: shipmonk
+    name: "Shipmonk"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "shipmonk"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: shopmonkey
+    name: "Shopmonkey"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "shopmonkey"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: sidecarhealth
+    name: "Sidecarhealth"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "sidecarhealth"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: similarweb
+    name: "Similarweb"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "similarweb"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: simscale
+    name: "Simscale"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "simscale"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: singlestore
+    name: "Singlestore"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "singlestore"
+    greenhouseEnabled: true
+    signals: [greenhouse-fleet, known-ats]
+  - slug: skyryse
+    name: "Skyryse"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "skyryse"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: slice
+    name: "Slice"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "slice"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: smartbear
+    name: "Smartbear"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "smartbear"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: smugmug
+    name: "Smugmug"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "smugmug"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: sony
+    name: "Sony"
+    category: hardware
+    ats: workday
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: sovrn
+    name: "Sovrn"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "sovrn"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: spins
+    name: "Spins"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "spins"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: springboard
+    name: "Springboard"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "springboard"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: sproutsocial
+    name: "Sproutsocial"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "sproutsocial"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: squarespace
+    name: "Squarespace"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "squarespace"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: stabilityai
+    name: "Stabilityai"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "stabilityai"
+    greenhouseEnabled: true
+    signals: [greenhouse-fleet, known-ats]
+  - slug: stackadapt
+    name: "Stackadapt"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "stackadapt"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: stackblitz
+    name: "Stackblitz"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "stackblitz"
+    greenhouseEnabled: true
+    signals: [greenhouse-fleet, known-ats]
+  - slug: stacklok
+    name: "Stacklok"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "stacklok"
+    greenhouseEnabled: true
+    signals: [greenhouse-fleet, known-ats]
+  - slug: starburst
+    name: "Starburst"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "starburst"
+    greenhouseEnabled: true
+    signals: [greenhouse-fleet, known-ats]
+  - slug: stitch
+    name: "Stitch"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "stitch"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: stitchfix
+    name: "Stitchfix"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "stitchfix"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: stockx
+    name: "Stockx"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "stockx"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: storyblok
+    name: "Storyblok"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "storyblok"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: stytch
+    name: "Stytch"
+    category: security
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: submittable
+    name: "Submittable"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "submittable"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: sumologic
+    name: "Sumologic"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "sumologic"
+    greenhouseEnabled: true
+    signals: [greenhouse-fleet, known-ats]
+  - slug: sumup
+    name: "Sumup"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "sumup"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: supergoop
+    name: "Supergoop"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "supergoop"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: survata
+    name: "Survata"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "survata"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: surveymonkey
+    name: "Surveymonkey"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "surveymonkey"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: swordhealth
+    name: "Swordhealth"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "swordhealth"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: synack
+    name: "Synack"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "synack"
+    greenhouseEnabled: true
+    signals: [greenhouse-fleet, known-ats]
+  - slug: t-mobile
+    name: "T-Mobile"
+    category: telecom
+    ats: workday
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: tableau
+    name: "Tableau"
+    category: data
+    ats: workday
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: taboola
+    name: "Taboola"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "taboola"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: tailscale
+    name: "Tailscale"
+    category: infra
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "tailscale"
+    greenhouseEnabled: true
+    signals: [greenhouse-fleet, curated, known-ats]
+  - slug: tanium
+    name: "Tanium"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "tanium"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: taskrabbit
+    name: "Taskrabbit"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "taskrabbit"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: taxbit
+    name: "Taxbit"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "taxbit"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: tcs
+    name: "TCS"
+    category: consulting
+    ats: workday
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: tempus
+    name: "Tempus"
+    category: healthtech
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: textio
+    name: "Textio"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "textio"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: thetradedesk
+    name: "Thetradedesk"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "thetradedesk"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: thrive
+    name: "Thrive"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "thrive"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: thunes
+    name: "Thunes"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "thunes"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: tia
+    name: "Tia"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "tia"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: tines
+    name: "Tines"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "tines"
+    greenhouseEnabled: true
+    signals: [greenhouse-fleet, known-ats]
+  - slug: tipalti
+    name: "Tipalti"
+    category: fintech
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: torq
+    name: "Torq"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "torq"
+    greenhouseEnabled: true
+    signals: [greenhouse-fleet, known-ats]
+  - slug: trace3
+    name: "Trace3"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "trace3"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: transmitsecurity
+    name: "Transmitsecurity"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "transmitsecurity"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: tripactions
+    name: "Tripactions"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "tripactions"
+    signals: [greenhouse-fleet, curated, known-ats]
+  - slug: tripadvisor
+    name: "Tripadvisor"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "tripadvisor"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: triplelift
+    name: "Triplelift"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "triplelift"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: truelayer
+    name: "Truelayer"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "truelayer"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: trustedhealth
+    name: "Trustedhealth"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "trustedhealth"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: tucows
+    name: "Tucows"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "tucows"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: twistbioscience
+    name: "Twistbioscience"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "twistbioscience"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: typeform
+    name: "Typeform"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "typeform"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: udacity
+    name: "Udacity"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "udacity"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: udemy
+    name: "Udemy"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "udemy"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: ujet
+    name: "Ujet"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "ujet"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: ultimate
+    name: "Ultimate"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "ultimate"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: unbounce
+    name: "Unbounce"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "unbounce"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: understood
+    name: "Understood"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "understood"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: uniteus
+    name: "Uniteus"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "uniteus"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: unqork
+    name: "Unqork"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "unqork"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: upbound
+    name: "Upbound"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "upbound"
+    greenhouseEnabled: true
+    signals: [greenhouse-fleet, known-ats]
+  - slug: updater
+    name: "Updater"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "updater"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: upstart
+    name: "Upstart"
+    category: fintech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "upstart"
+    signals: [greenhouse-fleet, curated, known-ats]
+  - slug: urbancompass
+    name: "Urbancompass"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "urbancompass"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: vacasa
+    name: "Vacasa"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "vacasa"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: varicent
+    name: "Varicent"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "varicent"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: varo-bank
+    name: "Varo Bank"
+    category: fintech
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: veeva-systems
+    name: "Veeva Systems"
+    category: healthtech
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: veracode
+    name: "Veracode"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "veracode"
+    greenhouseEnabled: true
+    signals: [greenhouse-fleet, known-ats]
+  - slug: veriff
+    name: "Veriff"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "veriff"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: verizon
+    name: "Verizon"
+    category: telecom
+    ats: workday
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: verse
+    name: "Verse"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "verse"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: via
+    name: "Via"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "via"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: viagogo
+    name: "Viagogo"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "viagogo"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: virtru
+    name: "Virtru"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "virtru"
+    greenhouseEnabled: true
+    signals: [greenhouse-fleet, known-ats]
+  - slug: virtu
+    name: "Virtu"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "virtu"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: vonage
+    name: "Vonage"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "vonage"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: vts
+    name: "Vts"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "vts"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: warner-bros-discovery
+    name: "Warner Bros Discovery"
+    category: media
+    ats: workday
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: wasabi
+    name: "Wasabi"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "wasabi"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: watershed
+    name: "Watershed"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "watershed"
+    greenhouseEnabled: true
+    signals: [greenhouse-fleet, known-ats]
+  - slug: weave
+    name: "Weave"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "weave"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: webflow
+    name: "Webflow"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "webflow"
+    greenhouseEnabled: true
+    signals: [greenhouse-fleet, known-ats]
+  - slug: weee
+    name: "Weee"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "weee"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: wellthy
+    name: "Wellthy"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "wellthy"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: westernunion
+    name: "Westernunion"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "westernunion"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: wikimedia
+    name: "Wikimedia"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "wikimedia"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: wing
+    name: "Wing"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "wing"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: wipro
+    name: "Wipro"
+    category: consulting
+    ats: workday
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: wise
+    name: "Wise"
+    category: fintech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "wise"
+    signals: [greenhouse-fleet, curated, known-ats]
+  - slug: wiz
+    name: "Wiz"
+    category: security
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: wizinc
+    name: "Wizinc"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "wizinc"
+    greenhouseEnabled: true
+    signals: [greenhouse-fleet, known-ats]
+  - slug: wolt
+    name: "Wolt"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "wolt"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: workato
+    name: "Workato"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "workato"
+    greenhouseEnabled: true
+    signals: [greenhouse-fleet, known-ats]
+  - slug: workos
+    name: "WorkOS"
+    category: security
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: workstream
+    name: "Workstream"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "workstream"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: wrike
+    name: "Wrike"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "wrike"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: xendit
+    name: "Xendit"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "xendit"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: xometry
+    name: "Xometry"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "xometry"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: yext
+    name: "Yext"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "yext"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: yipitdata
+    name: "Yipitdata"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "yipitdata"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: yotpo
+    name: "Yotpo"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "yotpo"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: yugabyte
+    name: "Yugabyte"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "yugabyte"
+    greenhouseEnabled: true
+    signals: [greenhouse-fleet, known-ats]
+  - slug: zenbusiness
+    name: "Zenbusiness"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "zenbusiness"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: zendesk
+    name: "Zendesk"
+    category: enterprise
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: zenoti
+    name: "Zenoti"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "zenoti"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: zerocater
+    name: "Zerocater"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "zerocater"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: zetaglobal
+    name: "Zetaglobal"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "zetaglobal"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: zillow
+    name: "Zillow"
+    category: proptech
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: ziprecruiter
+    name: "Ziprecruiter"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "ziprecruiter"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: zocdoc
+    name: "Zocdoc"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "zocdoc"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: zola
+    name: "Zola"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "zola"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: zoom
+    name: "Zoom"
+    category: consumer
+    ats: greenhouse
+    atsConfidence: inferred
+    tier: 2
+    signals: [curated, known-ats]
+  - slug: zoominfo
+    name: "Zoominfo"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "zoominfo"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: zuora
+    name: "Zuora"
+    category: tech
+    ats: greenhouse
+    atsConfidence: verified
+    tier: 2
+    boardToken: "zuora"
+    signals: [greenhouse-fleet, known-ats]
+  - slug: 8vc
+    name: "8VC"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: aaa-club-alliance
+    name: "AAA Club Alliance"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: abbott
+    name: "Abbott"
+    category: healthtech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: abbvie
+    name: "AbbVie"
+    category: healthtech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: abnormal
+    name: "Abnormal"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: abnormal-security
+    name: "Abnormal Security"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: abridge
+    name: "Abridge"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: accenture-federal-services
+    name: "Accenture Federal Services"
+    category: enterprise
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: accor
+    name: "Accor"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: acrisure
+    name: "Acrisure"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: adtran
+    name: "Adtran"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: advanced-energy
+    name: "Advanced Energy"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: aerovironment
+    name: "AeroVironment"
+    category: defense
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: agile-defense
+    name: "Agile Defense"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: agilon-health
+    name: "Agilon Health"
+    category: healthtech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: ahead
+    name: "AHEAD"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: aig
+    name: "AIG"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: aj-bell
+    name: "AJ Bell"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: alarm-com
+    name: "Alarm.com"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: alation
+    name: "Alation"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: albertsons
+    name: "Albertsons"
+    category: retail
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: aledade
+    name: "Aledade"
+    category: healthtech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: allegion
+    name: "Allegion"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: allen-control-systems
+    name: "Allen Control Systems"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: allied-solutions
+    name: "Allied Solutions"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: allstate-insurance-company
+    name: "Allstate Insurance Company"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: alpha-fmc
+    name: "Alpha FMC"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: alta-resource-technologies
+    name: "Alta Resource Technologies"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: altamira-technologies
+    name: "Altamira Technologies"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: amentum
+    name: "Amentum"
+    category: enterprise
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: american-systems
+    name: "AMERICAN SYSTEMS"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: amerisure
+    name: "Amerisure"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: amh
+    name: "AMH"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: amtrust-financial
+    name: "AmTrust Financial"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: analytical-mechanics-associates
+    name: "Analytical Mechanics Associates"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: angle-health
+    name: "Angle Health"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: antares
+    name: "Antares"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: antares-nuclear
+    name: "Antares Nuclear"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: anthem-engineering
+    name: "Anthem Engineering"
+    category: healthtech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: aon
+    name: "Aon"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: apex-fintech-solutions
+    name: "Apex Fintech Solutions"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: apogee-engineering
+    name: "Apogee Engineering"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: appian-corporation
+    name: "Appian Corporation"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: aquatic-capital-management
+    name: "Aquatic Capital Management"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: arc-teryx-equipment
+    name: "Arc'teryx Equipment"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: arcadis
+    name: "Arcadis"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: arondite
+    name: "Arondite"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: artefact
+    name: "Artefact"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: ascensus
+    name: "Ascensus"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: asm-international
+    name: "ASM International"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: asr-international
+    name: "ASR INTERNATIONAL"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: assa-abloy
+    name: "ASSA ABLOY"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: assetmark
+    name: "Assetmark"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: assyst-inc
+    name: "ASSYST, Inc."
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: ast-spacemobile
+    name: "AST SpaceMobile"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: astreya
+    name: "Astreya"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: astrion
+    name: "Astrion"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: atoms
+    name: "Atoms"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: atos
+    name: "Atos"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: atpco
+    name: "ATPCO"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: aurora-innovation
+    name: "Aurora Innovation"
+    category: autonomous
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: authorium
+    name: "Authorium"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: automated-media
+    name: "Automated Media"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: avicenatech
+    name: "AvicenaTech"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: axos-bank
+    name: "Axos Bank"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: b-lab
+    name: "B Lab"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: babel-street
+    name: "Babel Street"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: backbone-systems
+    name: "Backbone Systems"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: badger-meter
+    name: "Badger Meter"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: bank-of-montreal
+    name: "Bank of Montreal"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: baton-corporation
+    name: "Baton Corporation"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: baxter-international
+    name: "Baxter International"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: bcbst
+    name: "BCBST"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: bdo-canada
+    name: "BDO Canada"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: becton-dickinson
+    name: "Becton Dickinson"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: belk
+    name: "Belk"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: belvedere-trading
+    name: "Belvedere Trading"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: berkshire-hathaway-energy
+    name: "Berkshire Hathaway Energy"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: beyond-new-horizons
+    name: "Beyond New Horizons"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: bitdeer-technologies-group
+    name: "Bitdeer Technologies Group"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: black-cape
+    name: "Black Cape"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: blackbird-labs
+    name: "Blackbird Labs"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: blackboard
+    name: "Blackboard"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: blackhawk-network-holdings
+    name: "Blackhawk Network Holdings"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: blend360
+    name: "blend360"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: blentech-corporation
+    name: "Blentech Corporation"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: blissway
+    name: "Blissway"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: bloxd
+    name: "Bloxd"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: blue-origin
+    name: "Blue Origin"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: blue-yonder
+    name: "Blue Yonder"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: bluecross-blueshield-of-tennessee
+    name: "BlueCross BlueShield of Tennessee"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: bluehawk
+    name: "Bluehawk"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: bnh
+    name: "BNH"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: boar-s-head-brand
+    name: "Boar’s Head Brand"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: bonterra
+    name: "Bonterra"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: boom-technology-inc
+    name: "Boom Technology, Inc."
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: booz-allen
+    name: "Booz Allen"
+    category: defense
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: bot-auto
+    name: "Bot Auto"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: bowhead
+    name: "Bowhead"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: brain-co
+    name: "Brain Co."
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: brain-corp
+    name: "Brain Corp"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: brainbase-labs
+    name: "Brainbase Labs"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: bridger
+    name: "Bridger"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: built-technologies
+    name: "Built Technologies"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: cadence
+    name: "Cadence"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: cadence-design-systems
+    name: "Cadence Design Systems"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: cae
+    name: "CAE"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: cai
+    name: "CAI"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: cambia-health-solutions
+    name: "Cambia Health Solutions"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: canvas-worldwide
+    name: "Canvas Worldwide"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: capital-health
+    name: "Capital Health"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: captivation
+    name: "Captivation"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: captivation-software
+    name: "Captivation Software"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: capy
+    name: "Capy"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: carbonchain
+    name: "CarbonChain"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: carebridge
+    name: "CareBridge"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: caseworthy-llc
+    name: "CaseWorthy, LLC"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: caterpillar
+    name: "Caterpillar"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: caterpillar-inc
+    name: "Caterpillar Inc."
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: cboe
+    name: "Cboe"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: cdw-corporation
+    name: "CDW Corporation"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: centific
+    name: "Centific"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: cerebras
+    name: "Cerebras"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: cerebras-systems
+    name: "Cerebras Systems"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: cesiumastro
+    name: "CesiumAstro"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: cev-multimedia-ltd
+    name: "CEV MULTIMEDIA LTD"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: chainlink-labs
+    name: "Chainlink Labs"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: chamberlain
+    name: "Chamberlain"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: chamberlain-group
+    name: "Chamberlain Group"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: charta-health
+    name: "Charta Health"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: cibc
+    name: "CIBC"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: ciena
+    name: "Ciena"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: cigna-group
+    name: "Cigna Group"
+    category: healthtech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: cincinnati-financial
+    name: "Cincinnati Financial"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: citizens-financial-group
+    name: "Citizens Financial Group"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: clearer-io
+    name: "Clearer.io"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: clera
+    name: "Clera"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: climateai
+    name: "ClimateAI"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: clinical-architecture
+    name: "Clinical Architecture"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: cme-group
+    name: "CME Group"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: cohesity
+    name: "Cohesity"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: collective
+    name: "Collective"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: college-board
+    name: "College Board"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: color
+    name: "Color"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: compa
+    name: "Compa"
+    category: tech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: dell-technologies
+    name: "Dell Technologies"
+    category: hardware
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: electronic-arts
+    name: "Electronic Arts"
+    category: gaming
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: epic-kids
+    name: "Epic Kids"
+    category: consumer
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: fidelity-national-information-services
+    name: "Fidelity National Information Services"
+    category: fintech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: garmin
+    name: "Garmin"
+    category: hardware
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: general-dynamics-information-technology
+    name: "General Dynamics Information Technology"
+    category: defense
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: general-dynamics-mission-systems
+    name: "General Dynamics Mission Systems"
+    category: defense
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: general-dynamics-uk
+    name: "General Dynamics UK"
+    category: defense
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: h-r-block
+    name: "H&R Block"
+    category: fintech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: hewlett-packard-hp
+    name: "Hewlett Packard (HP)"
+    category: hardware
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: humana
+    name: "Humana"
+    category: healthtech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: l3harris-technologies
+    name: "L3Harris Technologies"
+    category: defense
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: mercury-insurance
+    name: "Mercury Insurance"
+    category: fintech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: micron-technology
+    name: "Micron Technology"
+    category: hardware
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: nordstrom
+    name: "Nordstrom"
+    category: retail
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: nxp-semiconductors
+    name: "NXP Semiconductors"
+    category: hardware
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: nymbus
+    name: "Nymbus"
+    category: fintech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: palantir-technologies
+    name: "Palantir Technologies"
+    category: defense
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: perpay
+    name: "Perpay"
+    category: fintech
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: snap-finance
+    name: "Snap Finance"
+    category: consumer
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: state-street
+    name: "State Street"
+    category: finance
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: the-boeing-company
+    name: "The Boeing Company"
+    category: defense
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: the-walt-disney-company
+    name: "The Walt Disney Company"
+    category: consumer
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: unity
+    name: "Unity"
+    category: gaming
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]
+  - slug: vanguard
+    name: "Vanguard"
+    category: finance
+    ats: unknown
+    atsConfidence: unknown
+    tier: 3
+    earlyCareerVerified: true
+    signals: [active-early-career]

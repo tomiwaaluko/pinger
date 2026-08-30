@@ -1,7 +1,11 @@
 import { mkdirSync, mkdtempSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { describe, expect, it, vi } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
+import {
+  resetAdapterRegistryForTests,
+  setAdapterRegistryForTests,
+} from "../src/adapters/index.js";
 import {
   EMPTY_VAULT_FIT_NOTE,
   FALLBACK_FIT_NOTE,
@@ -59,9 +63,25 @@ function vaultDirWithCareer(): string {
   return root;
 }
 
+function stubListJobs(fn: (company: CompanyConfig) => Promise<Job[]>): void {
+  const listJobs = async (company: CompanyConfig) => fn(company);
+  setAdapterRegistryForTests({
+    greenhouse: { ats: "greenhouse", listJobs },
+    ashby: { ats: "ashby", listJobs },
+    workday: { ats: "workday", listJobs },
+  });
+}
+
 function baseOpts(
-  overrides: Partial<RunWatcherOptions> & Pick<RunWatcherOptions, "vaultDir">,
+  overrides: Partial<RunWatcherOptions> &
+    Pick<RunWatcherOptions, "vaultDir"> & {
+      listJobs?: (company: CompanyConfig) => Promise<Job[]>;
+    },
 ): RunWatcherOptions {
+  const { listJobs, ...rest } = overrides;
+  if (listJobs) {
+    stubListJobs(listJobs);
+  }
   return {
     config: configWith([company("vercel", "Vercel")]),
     seenPath: join(overrides.vaultDir, "seen-jobs.json"),
@@ -71,7 +91,7 @@ function baseOpts(
       GEMINI_API_KEY: "gemini-key",
     },
     now: () => new Date(now),
-    fetchJobs: async () => [],
+    fetch,
     readVaultMarkdown: async () => ({
       empty: false,
       text: "## resume.md\nNext.js internships",
@@ -80,9 +100,13 @@ function baseOpts(
     postDiscord: async () => undefined,
     readSeen,
     writeSeen,
-    ...overrides,
+    ...rest,
   };
 }
+
+afterEach(() => {
+  resetAdapterRegistryForTests();
+});
 
 function field(embed: DiscordEmbed, name: string): string | undefined {
   return embed.fields.find((item) => item.name === name)?.value;
@@ -92,23 +116,23 @@ describe("runWatcher fleet pipeline", () => {
   it("fails unsafe vault path before fetching or writing seen", async () => {
     const dir = vaultDirWithCareer();
     const write = vi.fn(writeSeen);
-    const fetchJobs = vi.fn(async (): Promise<Job[]> => [intern("1")]);
+    const listJobs = vi.fn(async (): Promise<Job[]> => [intern("1")]);
 
     await expect(
       runWatcher(
         baseOpts({
           vaultDir: dir,
+          listJobs,
           config: {
             ...configWith([company("vercel", "Vercel")]),
             vault: { careerPath: "../" },
           },
-          fetchJobs,
           writeSeen: write,
         }),
       ),
     ).rejects.toThrow(/escapes VAULT_DIR/);
 
-    expect(fetchJobs).not.toHaveBeenCalled();
+    expect(listJobs).not.toHaveBeenCalled();
     expect(write).not.toHaveBeenCalled();
     expect(await readSeen(join(dir, "seen-jobs.json"))).toEqual({});
   });
@@ -117,7 +141,7 @@ describe("runWatcher fleet pipeline", () => {
     const dir = vaultDirWithCareer();
     const seenPath = join(dir, "seen-jobs.json");
     await writeSeen(seenPath, { disabledco: { old: { title: "Old", firstSeenAt: now } } });
-    const fetchJobs = vi.fn(async (): Promise<Job[]> => [intern("1")]);
+    const listJobs = vi.fn(async (): Promise<Job[]> => [intern("1")]);
     const write = vi.fn(writeSeen);
     const consoleError = vi.spyOn(console, "error").mockImplementation(() => {});
 
@@ -126,13 +150,13 @@ describe("runWatcher fleet pipeline", () => {
         vaultDir: dir,
         seenPath,
         config: configWith([company("disabledco", "Disabled Co", false)]),
-        fetchJobs,
+        listJobs,
         writeSeen: write,
       }),
     );
 
     expect(result).toEqual({ exitCode: 0, dryRunPings: [], dryRunDeferred: [] });
-    expect(fetchJobs).not.toHaveBeenCalled();
+    expect(listJobs).not.toHaveBeenCalled();
     expect(write).not.toHaveBeenCalled();
     expect(await readSeen(seenPath)).toEqual({
       disabledco: { old: { title: "Old", firstSeenAt: now } },
@@ -144,7 +168,7 @@ describe("runWatcher fleet pipeline", () => {
     const dir = vaultDirWithCareer();
     const seenPath = join(dir, "seen-jobs.json");
     await writeSeen(seenPath, { enabledco: {} });
-    const fetchJobs = vi.fn(async (c: CompanyConfig) =>
+    const listJobs = vi.fn(async (c: CompanyConfig) =>
       c.id === "enabledco" ? [intern("1")] : [intern("2")],
     );
 
@@ -156,12 +180,12 @@ describe("runWatcher fleet pipeline", () => {
           company("enabledco", "Enabled Co"),
           company("disabledco", "Disabled Co", false),
         ]),
-        fetchJobs,
+        listJobs,
       }),
     );
 
-    expect(fetchJobs).toHaveBeenCalledTimes(1);
-    expect(fetchJobs).toHaveBeenCalledWith(company("enabledco", "Enabled Co"));
+    expect(listJobs).toHaveBeenCalledTimes(1);
+    expect(listJobs).toHaveBeenCalledWith(company("enabledco", "Enabled Co"));
   });
 
   it("snapshots first-run companies and pings existing companies in one merged write", async () => {
@@ -176,7 +200,7 @@ describe("runWatcher fleet pipeline", () => {
         vaultDir: dir,
         seenPath,
         config: configWith([company("alpha", "Alpha Inc"), company("beta", "Beta LLC")]),
-        fetchJobs: async (c) => (c.id === "alpha" ? [intern("10")] : [intern("20")]),
+        listJobs: async (c) => (c.id === "alpha" ? [intern("10")] : [intern("20")]),
         postDiscord: async (_url, embed) => {
           posted.push(embed);
         },
@@ -207,7 +231,7 @@ describe("runWatcher fleet pipeline", () => {
         vaultDir: dir,
         seenPath,
         config: configWith([company("bad", "Bad Co"), company("good", "Good Co")]),
-        fetchJobs: async (c) => {
+        listJobs: async (c) => {
           if (c.id === "bad") throw new Error("Greenhouse down");
           return [intern("20")];
         },
@@ -238,7 +262,7 @@ describe("runWatcher fleet pipeline", () => {
           company("b", "B"),
           company("disabledco", "Disabled", false),
         ]),
-        fetchJobs: async () => {
+        listJobs: async () => {
           throw new Error("Greenhouse down");
         },
         writeSeen: write,
@@ -266,7 +290,7 @@ describe("runWatcher fleet pipeline", () => {
         vaultDir: dir,
         seenPath,
         config: configWith([company("alpha", "Alpha"), company("beta", "Beta")]),
-        fetchJobs: async (c) => (c.id === "alpha" ? [intern("10")] : [intern("20")]),
+        listJobs: async (c) => (c.id === "alpha" ? [intern("10")] : [intern("20")]),
         readVaultMarkdown: async () => {
           throw new Error("ENOENT");
         },
@@ -298,7 +322,7 @@ describe("runWatcher fleet pipeline", () => {
         seenPath,
         env: { GEMINI_API_KEY: "gemini-key" },
         config: configWith([company("alpha", "Alpha"), company("beta", "Beta")]),
-        fetchJobs: async (c) => (c.id === "alpha" ? [intern("10")] : [intern("20")]),
+        listJobs: async (c) => (c.id === "alpha" ? [intern("10")] : [intern("20")]),
         readVaultMarkdown,
         postDiscord,
         generateFitNote,
@@ -326,7 +350,7 @@ describe("runWatcher fleet pipeline", () => {
         vaultDir: dir,
         seenPath,
         config: configWith([company("alpha", "Alpha"), company("beta", "Beta")]),
-        fetchJobs: async (c) =>
+        listJobs: async (c) =>
           c.id === "alpha" ? [intern("10")] : [intern("20"), intern("30")],
         postDiscord: async (_url, embed) => {
           if (embed.url.endsWith("/jobs/30")) throw new Error("Discord HTTP 400");
@@ -356,7 +380,7 @@ describe("runWatcher fleet pipeline", () => {
         vaultDir: dir,
         seenPath,
         config: configWith([company("aaa", "Aaa"), company("zzz", "Zzz")]),
-        fetchJobs: async (c) => (c.id === "aaa" ? aaaJobs : zzzJobs),
+        listJobs: async (c) => (c.id === "aaa" ? aaaJobs : zzzJobs),
         generateFitNote,
         postDiscord: async (_url, embed) => {
           posted.push(embed);
@@ -390,7 +414,7 @@ describe("runWatcher fleet pipeline", () => {
         seenPath,
         dryRun: true,
         config: configWith([company("aaa", "Aaa"), company("zzz", "Zzz")]),
-        fetchJobs: async (c) => (c.id === "aaa" ? aaaJobs : zzzJobs),
+        listJobs: async (c) => (c.id === "aaa" ? aaaJobs : zzzJobs),
         writeSeen: write,
         postDiscord,
         generateFitNote,
@@ -425,7 +449,7 @@ describe("runWatcher fleet pipeline", () => {
           company("enabledco", "Enabled"),
           company("disabledco", "Disabled", false),
         ]),
-        fetchJobs: async () => [intern("20")],
+        listJobs: async () => [intern("20")],
       }),
     );
 
@@ -449,7 +473,7 @@ describe("runWatcher fleet pipeline", () => {
         vaultDir: dir,
         seenPath,
         env: { DISCORD_WEBHOOK_URL: "https://discord.test/webhook" },
-        fetchJobs: async () => [intern("20")],
+        listJobs: async () => [intern("20")],
         generateFitNote,
         postDiscord: async (_url, embed) => {
           posted.push(embed);
@@ -464,7 +488,7 @@ describe("runWatcher fleet pipeline", () => {
       baseOpts({
         vaultDir: dir,
         seenPath,
-        fetchJobs: async () => [intern("30")],
+        listJobs: async () => [intern("30")],
         generateFitNote,
         postDiscord: async (_url, embed) => {
           posted.push(embed);
@@ -478,7 +502,7 @@ describe("runWatcher fleet pipeline", () => {
       baseOpts({
         vaultDir: dir,
         seenPath,
-        fetchJobs: async () => [intern("40")],
+        listJobs: async () => [intern("40")],
         readVaultMarkdown: async () => ({ empty: true, text: "" }),
         postDiscord: async (_url, embed) => {
           posted.push(embed);
@@ -493,7 +517,7 @@ describe("runWatcher fleet pipeline", () => {
       baseOpts({
         vaultDir: dir,
         seenPath,
-        fetchJobs: async () => [senior],
+        listJobs: async () => [senior],
         writeSeen: write,
         readVaultMarkdown,
       }),
@@ -501,5 +525,71 @@ describe("runWatcher fleet pipeline", () => {
     expect(result.exitCode).toBe(0);
     expect(write).not.toHaveBeenCalled();
     expect(readVaultMarkdown).not.toHaveBeenCalled();
+  });
+
+  it("hydrates Workday jobs in the attempt window only", async () => {
+    const dir = vaultDirWithCareer();
+    const seenPath = join(dir, "seen-jobs.json");
+    await writeSeen(seenPath, { boeing: {}, stripe: {} });
+
+    const hydrateContent = vi.fn(async (_company, _fetch, jobs: Job[]) =>
+      jobs.map((job) => ({ ...job, content: "hydrated description" })),
+    );
+    setAdapterRegistryForTests({
+      greenhouse: {
+        ats: "greenhouse",
+        listJobs: async (c) =>
+          c.id === "stripe"
+            ? [
+                intern("20", {
+                  absoluteUrl:
+                    "https://job-boards.greenhouse.io/stripe/jobs/20",
+                }),
+              ]
+            : [],
+      },
+      workday: {
+        ats: "workday",
+        listJobs: async () => [
+          intern("JR100", {
+            title: "Software Engineer Intern JR100",
+            absoluteUrl:
+              "https://boeing.wd1.myworkdayjobs.com/external_subsidiary/job/Seattle/JR100",
+            content: "",
+          }),
+        ],
+        hydrateContent,
+      },
+    });
+
+    const generateFitNote = vi.fn(async (input) => input.job.content);
+
+    await runWatcher(
+      baseOpts({
+        vaultDir: dir,
+        seenPath,
+        config: configWith([
+          {
+            id: "boeing",
+            name: "Boeing",
+            ats: "workday",
+            workday: {
+              host: "boeing.wd1.myworkdayjobs.com",
+              tenant: "boeing",
+              site: "external_subsidiary",
+            },
+            enabled: true,
+          },
+          company("stripe", "Stripe"),
+        ]),
+        generateFitNote,
+      }),
+    );
+
+    expect(hydrateContent).toHaveBeenCalledTimes(1);
+    expect(hydrateContent.mock.calls[0]?.[2]).toHaveLength(1);
+    expect(generateFitNote.mock.calls[0]?.[0].job.content).toBe(
+      "hydrated description",
+    );
   });
 });

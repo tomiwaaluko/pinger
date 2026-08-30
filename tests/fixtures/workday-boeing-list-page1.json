@@ -1,0 +1,19 @@
+{
+  "total": 25,
+  "jobPostings": [
+    {
+      "title": "Software Engineer I",
+      "locationsText": "Seattle, WA",
+      "externalPath": "/job/Seattle/Software-Engineer-I_JR100",
+      "bulletFields": ["JR100"],
+      "jobReqId": "JR100"
+    },
+    {
+      "title": "Associate Software Engineer",
+      "locationsText": "Chicago, IL",
+      "externalPath": "/job/Chicago/Associate-Software-Engineer_JR101",
+      "bulletFields": ["JR101"],
+      "jobReqId": "JR101"
+    }
+  ]
+}

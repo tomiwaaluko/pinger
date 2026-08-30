@@ -30,7 +30,9 @@ describe("loadConfig", () => {
     expect(config.companies.length).toBeGreaterThanOrEqual(500);
 
     const ids = config.companies.map((company) => company.id);
-    const boardTokens = config.companies.map((company) => company.boardToken);
+    const boardTokens = config.companies
+      .filter((company) => company.ats === "greenhouse")
+      .map((company) => company.boardToken);
     expect(new Set(ids).size).toBe(ids.length);
     expect(new Set(boardTokens).size).toBe(boardTokens.length);
 
@@ -192,18 +194,95 @@ companies:
     );
   });
 
-  it("rejects a non-greenhouse ats", () => {
+  it("loads ashby company with boardName", () => {
+    const path = writeTempYaml(`
+llm:
+  model: gemini-2.5-flash
+companies:
+  - id: notion
+    name: Notion
+    ats: ashby
+    boardName: notion
+    enabled: false
+`);
+    const config = loadConfig(path);
+    expect(config.companies[0]).toMatchObject({
+      ats: "ashby",
+      boardName: "notion",
+      enabled: false,
+    });
+  });
+
+  it("loads workday company with workday block", () => {
+    const path = writeTempYaml(`
+llm:
+  model: gemini-2.5-flash
+companies:
+  - id: boeing
+    name: Boeing
+    ats: workday
+    workday:
+      host: boeing.wd1.myworkdayjobs.com
+      tenant: boeing
+      site: external_subsidiary
+    enabled: false
+`);
+    const config = loadConfig(path);
+    expect(config.companies[0].ats).toBe("workday");
+    if (config.companies[0].ats === "workday") {
+      expect(config.companies[0].workday.site).toBe("external_subsidiary");
+    }
+  });
+
+  it("rejects custom with enabled true", () => {
+    const path = writeTempYaml(`
+llm:
+  model: gemini-2.5-flash
+companies:
+  - id: google
+    name: Google
+    ats: custom
+    enabled: true
+`);
+    expect(() => loadConfig(path)).toThrow(/custom.*enabled/i);
+  });
+
+  it("rejects duplicate workday host and site", () => {
+    const path = writeTempYaml(`
+llm:
+  model: gemini-2.5-flash
+companies:
+  - id: a
+    name: A
+    ats: workday
+    workday:
+      host: boeing.wd1.myworkdayjobs.com
+      tenant: boeing
+      site: external
+    enabled: false
+  - id: b
+    name: B
+    ats: workday
+    workday:
+      host: boeing.wd1.myworkdayjobs.com
+      tenant: boeing
+      site: external
+    enabled: false
+`);
+    expect(() => loadConfig(path)).toThrow(/duplicate/i);
+  });
+
+  it("rejects an unknown ats", () => {
     const path = writeTempYaml(`
 llm:
   model: gemini-2.5-flash
 companies:
   - id: acme
     name: Acme
-    ats: ashby
-    boardToken: acme
+    ats: lever
     enabled: true
 `);
-    expect(() => loadConfig(path)).toThrow(/greenhouse/);
+    expect(() => loadConfig(path)).toThrow(/greenhouse, ashby, workday, or custom/);
   });
 
   it("does not require careerSiteCategory", () => {

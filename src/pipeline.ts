@@ -1,8 +1,11 @@
+import { getAdapter } from "./adapters/index.js";
 import {
+  ASHBY_CONCURRENCY,
   EMPTY_VAULT_FIT_NOTE,
   FALLBACK_FIT_NOTE,
   FIT_NOTE_CAP,
   GREENHOUSE_CONCURRENCY,
+  WORKDAY_CONCURRENCY,
 } from "./constants.js";
 import { buildDiscordEmbed } from "./discord.js";
 import { matchesJob } from "./matcher.js";
@@ -11,20 +14,24 @@ import {
   newMatchingJobs,
   recordJob,
 } from "./seen-store.js";
-import { selectAttemptWindow } from "./soft-cap.js";
+import { compareJobIds, selectAttemptWindow } from "./soft-cap.js";
 import { truncate } from "./text.js";
 import type { BoundJob } from "./soft-cap.js";
 import type {
-  CompanyConfig,
+  AshbyCompany,
   DryRunPing,
   FitNoteInput,
+  GreenhouseCompany,
   Job,
   RunWatcherOptions,
   RunWatcherResult,
   SeenStore,
   VaultContents,
+  WorkdayCompany,
 } from "./types.js";
 import { resolveCareerDir } from "./vault.js";
+
+type EnabledCompany = GreenhouseCompany | AshbyCompany | WorkdayCompany;
 
 async function fitForJob(
   opts: RunWatcherOptions,
@@ -50,6 +57,56 @@ async function fitForJob(
   }
 }
 
+async function processInBatches(
+  companies: EnabledCompany[],
+  concurrency: number,
+  processCompany: (company: EnabledCompany) => Promise<void>,
+): Promise<void> {
+  for (let i = 0; i < companies.length; i += concurrency) {
+    const chunk = companies.slice(i, i + concurrency);
+    await Promise.all(chunk.map((company) => processCompany(company)));
+  }
+}
+
+async function hydrateWorkdayAttemptWindow(
+  attempt: BoundJob[],
+  enabled: EnabledCompany[],
+  fetch: RunWatcherOptions["fetch"],
+): Promise<void> {
+  const companyById = new Map(enabled.map((company) => [company.id, company]));
+  const boundsByCompany = new Map<string, BoundJob[]>();
+
+  for (const bound of attempt) {
+    const company = companyById.get(bound.companyId);
+    if (company?.ats !== "workday") {
+      continue;
+    }
+    const list = boundsByCompany.get(bound.companyId) ?? [];
+    list.push(bound);
+    boundsByCompany.set(bound.companyId, list);
+  }
+
+  for (const [companyId, bounds] of boundsByCompany) {
+    const company = companyById.get(companyId) as WorkdayCompany;
+    const adapter = getAdapter("workday");
+    if (!adapter.hydrateContent) {
+      continue;
+    }
+    const hydrated = await adapter.hydrateContent(
+      company,
+      fetch,
+      bounds.map((bound) => bound.job),
+    );
+    const byId = new Map(hydrated.map((job) => [job.id, job]));
+    for (const bound of bounds) {
+      const updated = byId.get(bound.job.id);
+      if (updated) {
+        bound.job = updated;
+      }
+    }
+  }
+}
+
 export async function runWatcher(
   opts: RunWatcherOptions,
 ): Promise<RunWatcherResult> {
@@ -64,7 +121,9 @@ export async function runWatcher(
     dryRunDeferred: [],
   });
 
-  const enabled = opts.config.companies.filter((company) => company.enabled);
+  const enabled = opts.config.companies.filter(
+    (company): company is EnabledCompany => company.enabled,
+  );
   if (enabled.length === 0) {
     console.error("No enabled companies in companies.yaml");
     return emptyResult();
@@ -89,9 +148,10 @@ export async function runWatcher(
   };
 
   try {
-    async function processCompany(company: CompanyConfig): Promise<void> {
+    async function processCompany(company: EnabledCompany): Promise<void> {
       try {
-        const jobs = await opts.fetchJobs(company);
+        const adapter = getAdapter(company.ats);
+        const jobs = await adapter.listJobs(company, opts.fetch);
         const matched = jobs.filter((job) => matchesJob(job));
 
         if (isFirstRun(store, company.id)) {
@@ -106,24 +166,29 @@ export async function runWatcher(
         }
 
         const newJobs = newMatchingJobs(matched, store[company.id] ?? {}).sort(
-          (a, b) => Number(a.id) - Number(b.id),
+          (a, b) => compareJobIds(a.id, b.id),
         );
         for (const job of newJobs) {
           discordBound.push({ companyId: company.id, job });
         }
       } catch (err) {
         console.error(
-          `Greenhouse fetch failed for ${company.id}:`,
+          `Job fetch failed for ${company.id} (${company.ats}):`,
           String(err),
         );
         fetchFailures.push(company.id);
       }
     }
 
-    for (let i = 0; i < enabled.length; i += GREENHOUSE_CONCURRENCY) {
-      const chunk = enabled.slice(i, i + GREENHOUSE_CONCURRENCY);
-      await Promise.all(chunk.map((company) => processCompany(company)));
-    }
+    const greenhouse = enabled.filter((c) => c.ats === "greenhouse");
+    const ashby = enabled.filter((c) => c.ats === "ashby");
+    const workday = enabled.filter((c) => c.ats === "workday");
+
+    await Promise.all([
+      processInBatches(greenhouse, GREENHOUSE_CONCURRENCY, processCompany),
+      processInBatches(ashby, ASHBY_CONCURRENCY, processCompany),
+      processInBatches(workday, WORKDAY_CONCURRENCY, processCompany),
+    ]);
 
     if (fetchFailures.length === enabled.length && enabled.length > 0) {
       return { exitCode: 2, dryRunPings: [], dryRunDeferred: [] };
@@ -151,6 +216,8 @@ export async function runWatcher(
       if (!webhookUrl) {
         return { exitCode: 2, dryRunPings: [], dryRunDeferred: [] };
       }
+
+      await hydrateWorkdayAttemptWindow(attempt, enabled, opts.fetch);
 
       let vault: VaultContents;
       try {
