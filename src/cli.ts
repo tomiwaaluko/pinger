@@ -1,7 +1,6 @@
 import { loadConfig } from "./config.js";
 import { postDiscord } from "./discord.js";
 import { generateFitNote } from "./fit-note.js";
-import { fetchGreenhouseJobs } from "./greenhouse.js";
 import { runWatcher } from "./pipeline.js";
 import { readSeen, writeSeen } from "./seen-store.js";
 import { readVaultMarkdown } from "./vault.js";
@@ -24,7 +23,7 @@ async function main(): Promise<void> {
       GEMINI_API_KEY: process.env.GEMINI_API_KEY,
     },
     now: () => new Date(),
-    fetchJobs: (company) => fetchGreenhouseJobs(company.boardToken),
+    fetch,
     readVaultMarkdown,
     generateFitNote,
     postDiscord,

@@ -1,0 +1,80 @@
+slug	host	tenant	site	status	jobCount
+american-express				no-url	0
+capital-one				no-url	0
+citi	citi.wd5.myworkdayjobs.com	citi	2	ok	20
+fidelity-investments				no-url	0
+mastercard	mastercard.wd1.myworkdayjobs.com	mastercard	CorporateCareers	ok	20
+morgan-stanley				no-url	0
+bank-of-america				no-url	0
+blackrock	blackrock.wd1.myworkdayjobs.com	blackrock	BlackRock_Professional	ok	20
+costco				no-url	0
+ebay	ebay.wd5.myworkdayjobs.com	ebay	apply	ok	20
+goldman-sachs				no-url	0
+jpmorgan-chase				no-url	0
+palo-alto-networks				no-url	0
+paypal	paypal.wd1.myworkdayjobs.com	paypal	jobs	ok	20
+samsung	sec.wd3.myworkdayjobs.com	sec	Samsung_Careers	ok	20
+splunk				no-url	0
+target	target.wd5.myworkdayjobs.com	target	targetcareers	ok	20
+visa	visa.wd5.myworkdayjobs.com	visa	Visa	ok	20
+walmart				no-url	0
+accenture	accenture.wd103.myworkdayjobs.com	accenture	AccentureCareers	ok	20
+applied-materials	amat.wd1.myworkdayjobs.com	amat	External	ok	20
+at-t	att.wd1.myworkdayjobs.com	att	ATTGeneral	ok	20
+bae-systems				no-url	0
+boeing	boeing.wd1.myworkdayjobs.com	boeing	external_subsidiary	ok	20
+caci				no-url	0
+capgemini				no-url	0
+cisco	cisco.wd5.myworkdayjobs.com	cisco	Cisco_Careers	ok	20
+comcast				no-url	0
+deloitte				no-url	0
+expedia	expedia.wd108.myworkdayjobs.com	expedia	search	ok	20
+general-motors	generalmotors.wd5.myworkdayjobs.com	generalmotors	Careers_GM	ok	20
+globalfoundries	globalfoundries.wd1.myworkdayjobs.com	globalfoundries	External	ok	20
+hp	hp.wd5.myworkdayjobs.com	hp	ExternalCareerSite	ok	20
+leidos	leidos.wd5.myworkdayjobs.com	leidos	External	ok	20
+marvell	marvell.wd1.myworkdayjobs.com	marvell	MarvellCareers	ok	20
+micron	micron.wd1.myworkdayjobs.com	micron	External	ok	20
+northrop-grumman	ngc.wd1.myworkdayjobs.com	ngc	Northrop_Grumman_External_Site	ok	20
+qualcomm				no-url	0
+rtx	globalhr.wd5.myworkdayjobs.com	globalhr	REC_RTX_Ext_Gateway	ok	20
+texas-instruments				no-url	0
+western-digital				no-url	0
+akamai				no-url	0
+amd				no-url	0
+asml	asml.wd3.myworkdayjobs.com	asml	ASMLEXT1	ok	20
+booking-com				no-url	0
+booz-allen-hamilton	bah.wd1.myworkdayjobs.com	bah	BAH_Jobs	ok	20
+broadcom	broadcom.wd1.myworkdayjobs.com	broadcom	External_Career	ok	20
+cognizant				no-url	0
+dell				no-url	0
+ericsson				no-url	0
+ey				no-url	0
+ford				no-url	0
+general-dynamics	gdit.wd5.myworkdayjobs.com	gdit	External_Career_Site	ok	20
+hcl-technologies				no-url	0
+hpe				no-url	0
+ibm				no-url	0
+infosys				no-url	0
+intel	intel.wd1.myworkdayjobs.com	intel	External	ok	20
+juniper-networks				no-url	0
+kpmg				no-url	0
+l3harris				no-url	0
+lam-research				no-url	0
+lenovo				no-url	0
+lg				no-url	0
+lockheed-martin				no-url	0
+netapp				no-url	0
+nokia				no-url	0
+paramount				no-url	0
+pwc	pwc.wd3.myworkdayjobs.com	pwc	Global_Experienced_Careers	ok	20
+raytheon				no-url	0
+saic				no-url	0
+seagate				no-url	0
+sony	sonyglobal.wd1.myworkdayjobs.com	sonyglobal	SonyGlobalCareers	ok	20
+t-mobile	tmobile.wd1.myworkdayjobs.com	tmobile	External	ok	20
+tableau				no-url	0
+tcs				no-url	0
+verizon				no-url	0
+warner-bros-discovery	warnerbros.wd5.myworkdayjobs.com	warnerbros	Global	ok	20
+wipro				no-url	0

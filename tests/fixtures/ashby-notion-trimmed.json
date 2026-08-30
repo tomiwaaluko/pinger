@@ -1,0 +1,20 @@
+{
+  "jobs": [
+    {
+      "id": "7f3c2a1b-0000-4000-8000-000000000001",
+      "title": "Software Engineer Intern",
+      "location": "San Francisco, CA",
+      "department": "Engineering",
+      "jobUrl": "https://jobs.ashbyhq.com/notion/7f3c2a1b-0000-4000-8000-000000000001",
+      "descriptionPlain": "Build product features with the engineering team.",
+      "isListed": true
+    },
+    {
+      "id": "7f3c2a1b-0000-4000-8000-000000000002",
+      "title": "Hidden Role",
+      "department": "Engineering",
+      "jobUrl": "https://jobs.ashbyhq.com/notion/hidden",
+      "isListed": false
+    }
+  ]
+}

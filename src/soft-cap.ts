@@ -3,6 +3,15 @@ import type { Job } from "./types.js";
 
 export type BoundJob = { companyId: string; job: Job };
 
+export function compareJobIds(a: string, b: string): number {
+  const aNum = Number(a);
+  const bNum = Number(b);
+  if (Number.isFinite(aNum) && Number.isFinite(bNum)) {
+    return aNum - bNum;
+  }
+  return a.localeCompare(b);
+}
+
 export function selectAttemptWindow(
   bound: BoundJob[],
   cap: number = DISCORD_SOFT_CAP,
@@ -17,7 +26,7 @@ export function selectAttemptWindow(
   const companyIds = [...groups.keys()].sort();
   const queues = companyIds.map((id) => {
     const jobs = groups.get(id)!;
-    jobs.sort((a, b) => Number(a.job.id) - Number(b.job.id));
+    jobs.sort((a, b) => compareJobIds(a.job.id, b.job.id));
     return jobs;
   });
 

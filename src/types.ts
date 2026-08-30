@@ -8,13 +8,42 @@ export type Job = {
   content: string;
 };
 
-export type CompanyConfig = {
+export type GreenhouseCompany = {
   id: string;
   name: string;
   ats: "greenhouse";
   boardToken: string;
   enabled: boolean;
 };
+
+export type AshbyCompany = {
+  id: string;
+  name: string;
+  ats: "ashby";
+  boardName: string;
+  enabled: boolean;
+};
+
+export type WorkdayCompany = {
+  id: string;
+  name: string;
+  ats: "workday";
+  workday: { host: string; tenant: string; site: string };
+  enabled: boolean;
+};
+
+export type CustomCompany = {
+  id: string;
+  name: string;
+  ats: "custom";
+  enabled: false;
+};
+
+export type CompanyConfig =
+  | GreenhouseCompany
+  | AshbyCompany
+  | WorkdayCompany
+  | CustomCompany;
 
 export type AppConfig = {
   vault: { careerPath: string };
@@ -29,7 +58,7 @@ export type SeenJob = {
 
 export type SeenStore = {
   [companyId: string]: {
-    [greenhouseId: string]: SeenJob;
+    [jobId: string]: SeenJob;
   };
 };
 
@@ -78,7 +107,7 @@ export type RunWatcherOptions = {
     GEMINI_API_KEY?: string;
   };
   now: () => Date;
-  fetchJobs: (company: CompanyConfig) => Promise<Job[]>;
+  fetch: FetchLike;
   readVaultMarkdown: (careerDir: string) => Promise<VaultContents>;
   generateFitNote: (input: FitNoteInput) => Promise<string>;
   postDiscord: (webhookUrl: string, embed: DiscordEmbed) => Promise<void>;

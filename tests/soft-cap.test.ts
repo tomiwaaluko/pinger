@@ -31,4 +31,22 @@ describe("selectAttemptWindow", () => {
     expect(attempt.filter((x) => x.companyId === "zzz")).toHaveLength(2);
     expect(attempt[0]?.companyId).toBe("aaa");
   });
+
+  it("sorts opaque Workday ids lexicographically", () => {
+    const jobs = [
+      { companyId: "boeing", job: makeJob({ id: "JR100" }) },
+      { companyId: "boeing", job: makeJob({ id: "JR20" }) },
+    ];
+    const { attempt } = selectAttemptWindow(jobs, 2);
+    expect(attempt.map((item) => item.job.id)).toEqual(["JR100", "JR20"]);
+  });
+
+  it("sorts numeric ids numerically", () => {
+    const jobs = [
+      { companyId: "aaa", job: makeJob({ id: "10" }) },
+      { companyId: "aaa", job: makeJob({ id: "2" }) },
+    ];
+    const { attempt } = selectAttemptWindow(jobs, 2);
+    expect(attempt.map((item) => item.job.id)).toEqual(["2", "10"]);
+  });
 });

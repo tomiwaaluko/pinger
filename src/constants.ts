@@ -1,6 +1,9 @@
 export const REQUEST_TIMEOUT_MS = 20_000;
 export const GREENHOUSE_MAX_PAGES = 50;
+export const WORKDAY_MAX_PAGES = 50;
 export const GREENHOUSE_CONCURRENCY = 10;
+export const ASHBY_CONCURRENCY = 5;
+export const WORKDAY_CONCURRENCY = 3;
 export const DISCORD_SOFT_CAP = 25;
 export const HTTP_429_MAX_RETRIES = 2;
 export const HTTP_429_RETRY_AFTER_CAP_MS = 30_000;
