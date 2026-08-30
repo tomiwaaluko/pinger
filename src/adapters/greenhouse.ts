@@ -1,10 +1,6 @@
-import {
-  GREENHOUSE_MAX_PAGES,
-  HTTP_429_MAX_RETRIES,
-  HTTP_429_RETRY_AFTER_CAP_MS,
-  REQUEST_TIMEOUT_MS,
-} from "../constants.js";
+import { GREENHOUSE_MAX_PAGES } from "../constants.js";
 import type { FetchLike, GreenhouseCompany, Job } from "../types.js";
+import { fetchWith429Retries } from "./fetch-retry.js";
 
 const BOARDS = "https://boards-api.greenhouse.io/v1/boards";
 
@@ -100,39 +96,6 @@ export function mapGreenhouseJob(raw: unknown): Job | null {
   };
 }
 
-async function fetchWith429Retries(
-  url: string,
-  fetchImpl: FetchLike,
-): Promise<Response> {
-  let attempt = 0;
-  for (;;) {
-    let response: Response;
-    try {
-      response = await fetchImpl(url, {
-        signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
-      });
-    } catch (err) {
-      throw new Error(`Greenhouse request failed: ${(err as Error).message}`);
-    }
-    if (response.status !== 429) {
-      return response;
-    }
-    if (attempt >= HTTP_429_MAX_RETRIES) {
-      return response;
-    }
-    const retryAfter = response.headers.get("retry-after");
-    let waitMs = 1000 * 2 ** attempt;
-    if (retryAfter) {
-      const secs = Number(retryAfter);
-      if (Number.isFinite(secs) && secs >= 0) {
-        waitMs = Math.min(secs * 1000, HTTP_429_RETRY_AFTER_CAP_MS);
-      }
-    }
-    await new Promise((r) => setTimeout(r, waitMs));
-    attempt += 1;
-  }
-}
-
 export async function fetchGreenhouseJobs(
   boardToken: string,
   fetchImpl: FetchLike = fetch,
@@ -155,7 +118,10 @@ export async function fetchGreenhouseJobs(
     }
     visited.add(url);
 
-    const response = await fetchWith429Retries(url, fetchImpl);
+    const response = await fetchWith429Retries(url, {
+      fetchImpl,
+      label: "Greenhouse",
+    });
     if (!response.ok) {
       throw new Error(`Greenhouse HTTP ${response.status}`);
     }

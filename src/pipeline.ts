@@ -92,17 +92,24 @@ async function hydrateWorkdayAttemptWindow(
     if (!adapter.hydrateContent) {
       continue;
     }
-    const hydrated = await adapter.hydrateContent(
-      company,
-      fetch,
-      bounds.map((bound) => bound.job),
-    );
-    const byId = new Map(hydrated.map((job) => [job.id, job]));
-    for (const bound of bounds) {
-      const updated = byId.get(bound.job.id);
-      if (updated) {
-        bound.job = updated;
+    try {
+      const hydrated = await adapter.hydrateContent(
+        company,
+        fetch,
+        bounds.map((bound) => bound.job),
+      );
+      const byId = new Map(hydrated.map((job) => [job.id, job]));
+      for (const bound of bounds) {
+        const updated = byId.get(bound.job.id);
+        if (updated) {
+          bound.job = updated;
+        }
       }
+    } catch (err) {
+      console.error(
+        `Workday hydrate failed for ${companyId}:`,
+        String(err),
+      );
     }
   }
 }

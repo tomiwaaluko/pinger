@@ -592,4 +592,58 @@ describe("runWatcher fleet pipeline", () => {
       "hydrated description",
     );
   });
+
+  it("continues when Workday hydrateContent rejects", async () => {
+    const dir = vaultDirWithCareer();
+    const seenPath = join(dir, "seen-jobs.json");
+    await writeSeen(seenPath, { boeing: {} });
+
+    const hydrateContent = vi.fn(async () => {
+      throw new Error("Workday detail timeout");
+    });
+    setAdapterRegistryForTests({
+      workday: {
+        ats: "workday",
+        listJobs: async () => [
+          intern("JR100", {
+            title: "Software Engineer Intern JR100",
+            absoluteUrl:
+              "https://boeing.wd1.myworkdayjobs.com/external_subsidiary/job/Seattle/JR100",
+            content: "",
+          }),
+        ],
+        hydrateContent,
+      },
+    });
+
+    const generateFitNote = vi.fn(async (input) => input.job.content);
+    const postDiscord = vi.fn();
+
+    const result = await runWatcher(
+      baseOpts({
+        vaultDir: dir,
+        seenPath,
+        config: configWith([
+          {
+            id: "boeing",
+            name: "Boeing",
+            ats: "workday",
+            workday: {
+              host: "boeing.wd1.myworkdayjobs.com",
+              tenant: "boeing",
+              site: "external_subsidiary",
+            },
+            enabled: true,
+          },
+        ]),
+        generateFitNote,
+        postDiscord,
+      }),
+    );
+
+    expect(result.exitCode).toBe(0);
+    expect(hydrateContent).toHaveBeenCalledTimes(1);
+    expect(postDiscord).toHaveBeenCalledTimes(1);
+    expect(generateFitNote.mock.calls[0]?.[0].job.content).toBe("");
+  });
 });

@@ -87,14 +87,19 @@ const companies = parseRefinedWorkday();
 const rows = ["slug\thost\ttenant\tsite\tstatus\tjobCount"];
 
 for (const { slug } of companies) {
-  const careersUrl = CAREERS_URLS[slug];
-  if (!careersUrl) {
-    rows.push(`${slug}\t\t\t\tno-url\t0`);
-    continue;
+  try {
+    const careersUrl = CAREERS_URLS[slug];
+    if (!careersUrl) {
+      rows.push(`${slug}\t\t\t\tno-url\t0`);
+      continue;
+    }
+    const { host, tenant, site } = parseWorkdayCareersUrl(careersUrl);
+    const result = await probeBoard(host, tenant, site);
+    rows.push(`${slug}\t${host}\t${tenant}\t${site}\t${result.status}\t${result.jobCount}`);
+  } catch (err) {
+    const message = String(err).replace(/\s+/g, " ").slice(0, 80);
+    rows.push(`${slug}\t${message}\t\t\terror\t0`);
   }
-  const { host, tenant, site } = parseWorkdayCareersUrl(careersUrl);
-  const result = await probeBoard(host, tenant, site);
-  rows.push(`${slug}\t${host}\t${tenant}\t${site}\t${result.status}\t${result.jobCount}`);
 }
 
 writeFileSync(OUT, `${rows.join("\n")}\n`, "utf8");

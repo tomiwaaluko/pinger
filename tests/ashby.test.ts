@@ -25,6 +25,11 @@ describe("mapAshbyJob", () => {
       }),
     ).toBeNull();
   });
+
+  it("drops jobs without id or title", () => {
+    expect(mapAshbyJob({ ...fixture.jobs[0], id: "" })).toBeNull();
+    expect(mapAshbyJob({ ...fixture.jobs[0], title: "" })).toBeNull();
+  });
 });
 
 describe("listAshbyJobs", () => {

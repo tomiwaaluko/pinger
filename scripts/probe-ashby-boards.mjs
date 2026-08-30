@@ -58,18 +58,23 @@ const companies = parseRefinedAshby();
 const rows = ["slug\tboardName\tstatus\tjobCount"];
 
 for (const { slug } of companies) {
-  let resolved = null;
-  for (const boardName of candidates(slug, overrides)) {
-    const result = await probeBoard(boardName);
-    if (result.status === "ok") {
-      resolved = { boardName, ...result };
-      break;
+  try {
+    let resolved = null;
+    for (const boardName of candidates(slug, overrides)) {
+      const result = await probeBoard(boardName);
+      if (result.status === "ok") {
+        resolved = { boardName, ...result };
+        break;
+      }
     }
-  }
-  if (resolved) {
-    rows.push(`${slug}\t${resolved.boardName}\t${resolved.status}\t${resolved.jobCount}`);
-  } else {
-    rows.push(`${slug}\t\tnot-found\t0`);
+    if (resolved) {
+      rows.push(`${slug}\t${resolved.boardName}\t${resolved.status}\t${resolved.jobCount}`);
+    } else {
+      rows.push(`${slug}\t\tnot-found\t0`);
+    }
+  } catch (err) {
+    const message = String(err).replace(/\s+/g, " ").slice(0, 80);
+    rows.push(`${slug}\t${message}\terror\t0`);
   }
 }
 

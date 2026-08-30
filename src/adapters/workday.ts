@@ -1,12 +1,10 @@
 import {
-  HTTP_429_MAX_RETRIES,
-  HTTP_429_RETRY_AFTER_CAP_MS,
-  REQUEST_TIMEOUT_MS,
   WORKDAY_MAX_PAGES,
 } from "../constants.js";
 import { normalizeTitle } from "../matcher.js";
 import { stripJobHtml } from "../text.js";
 import type { FetchLike, Job, WorkdayCompany } from "../types.js";
+import { fetchWith429Retries } from "./fetch-retry.js";
 
 export const WORKDAY_PAGE_SIZE = 20;
 
@@ -117,47 +115,6 @@ export function mapWorkdayListItem(
   };
 }
 
-async function fetchWith429Retries(
-  input: string,
-  init: RequestInit,
-  fetchImpl: FetchLike,
-  label: string,
-): Promise<Response> {
-  let attempt = 0;
-  for (;;) {
-    let response: Response;
-    try {
-      response = await fetchImpl(input, {
-        ...init,
-        signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
-      });
-    } catch (err) {
-      throw new Error(`${label} request failed: ${(err as Error).message}`);
-    }
-    if (response.status === 403 && attempt === 0) {
-      await new Promise((r) => setTimeout(r, 2000));
-      attempt += 1;
-      continue;
-    }
-    if (response.status !== 429) {
-      return response;
-    }
-    if (attempt >= HTTP_429_MAX_RETRIES) {
-      return response;
-    }
-    const retryAfter = response.headers.get("retry-after");
-    let waitMs = 1000 * 2 ** attempt;
-    if (retryAfter) {
-      const secs = Number(retryAfter);
-      if (Number.isFinite(secs) && secs >= 0) {
-        waitMs = Math.min(secs * 1000, HTTP_429_RETRY_AFTER_CAP_MS);
-      }
-    }
-    await new Promise((r) => setTimeout(r, waitMs));
-    attempt += 1;
-  }
-}
-
 export async function fetchWorkdayList(
   company: WorkdayCompany,
   fetchImpl: FetchLike = fetch,
@@ -175,9 +132,11 @@ export async function fetchWorkdayList(
       break;
     }
     pages += 1;
-    const response = await fetchWith429Retries(
-      `${base}/jobs`,
-      {
+    const response = await fetchWith429Retries(`${base}/jobs`, {
+      fetchImpl,
+      label: "Workday list",
+      retry403: true,
+      init: {
         method: "POST",
         headers: {
           "content-type": "application/json",
@@ -190,9 +149,7 @@ export async function fetchWorkdayList(
           searchText: "",
         }),
       },
-      fetchImpl,
-      "Workday list",
-    );
+    });
     if (!response.ok) {
       throw new Error(`Workday HTTP ${response.status}`);
     }
@@ -240,15 +197,15 @@ export async function hydrateWorkdayContent(
       continue;
     }
     try {
-      const response = await fetchWith429Retries(
-        `${base}${detailPath}`,
-        {
+      const response = await fetchWith429Retries(`${base}${detailPath}`, {
+        fetchImpl,
+        label: "Workday detail",
+        retry403: true,
+        init: {
           method: "GET",
           headers: { accept: "application/json" },
         },
-        fetchImpl,
-        "Workday detail",
-      );
+      });
       if (!response.ok) {
         hydrated.push(job);
         continue;

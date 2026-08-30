@@ -1,8 +1,4 @@
-import {
-  HTTP_429_MAX_RETRIES,
-  HTTP_429_RETRY_AFTER_CAP_MS,
-  REQUEST_TIMEOUT_MS,
-} from "../constants.js";
+import { fetchWith429Retries } from "./fetch-retry.js";
 import { stripJobHtml } from "../text.js";
 import type { AshbyCompany, FetchLike, Job } from "../types.js";
 
@@ -21,37 +17,14 @@ export type AshbyPosting = {
   isListed?: boolean;
 };
 
-async function fetchWith429Retries(
-  url: string,
-  fetchImpl: FetchLike,
-): Promise<Response> {
-  let attempt = 0;
-  for (;;) {
-    let response: Response;
-    try {
-      response = await fetchImpl(url, {
-        signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
-      });
-    } catch (err) {
-      throw new Error(`Ashby request failed: ${(err as Error).message}`);
-    }
-    if (response.status !== 429) {
-      return response;
-    }
-    if (attempt >= HTTP_429_MAX_RETRIES) {
-      return response;
-    }
-    const retryAfter = response.headers.get("retry-after");
-    let waitMs = 1000 * 2 ** attempt;
-    if (retryAfter) {
-      const secs = Number(retryAfter);
-      if (Number.isFinite(secs) && secs >= 0) {
-        waitMs = Math.min(secs * 1000, HTTP_429_RETRY_AFTER_CAP_MS);
-      }
-    }
-    await new Promise((r) => setTimeout(r, waitMs));
-    attempt += 1;
+function ashbyId(raw: unknown): string | null {
+  if (typeof raw === "string" && raw.trim()) {
+    return raw.trim();
   }
+  if (typeof raw === "number" && Number.isFinite(raw)) {
+    return String(raw);
+  }
+  return null;
 }
 
 function formatLocation(raw: AshbyPosting): string {
@@ -70,15 +43,25 @@ export function mapAshbyJob(raw: AshbyPosting): Job | null {
   if (raw.isListed === false) {
     return null;
   }
+  const id = ashbyId(raw.id);
+  if (!id) {
+    console.error("Dropping Ashby job with invalid id");
+    return null;
+  }
+  if (typeof raw.title !== "string" || !raw.title.trim()) {
+    console.error(`Dropping Ashby job id=${id} with invalid title`);
+    return null;
+  }
   const url = raw.jobUrl ?? raw.applyUrl;
   if (typeof url !== "string" || !/^https:\/\//i.test(url.trim())) {
+    console.error(`Dropping Ashby job id=${id} with invalid absolute_url`);
     return null;
   }
   const content =
     raw.descriptionPlain?.trim() ||
     (raw.descriptionHtml ? stripJobHtml(raw.descriptionHtml) : "");
   return {
-    id: String(raw.id),
+    id,
     title: raw.title,
     location: formatLocation(raw),
     departments: raw.department ? [raw.department] : [],
@@ -93,7 +76,10 @@ export async function listAshbyJobs(
   fetchImpl: FetchLike = fetch,
 ): Promise<Job[]> {
   const url = `${ASHBY_API}/${encodeURIComponent(company.boardName)}`;
-  const response = await fetchWith429Retries(url, fetchImpl);
+  const response = await fetchWith429Retries(url, {
+    fetchImpl,
+    label: "Ashby",
+  });
   if (!response.ok) {
     throw new Error(`Ashby HTTP ${response.status}`);
   }

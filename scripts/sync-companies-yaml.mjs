@@ -48,6 +48,11 @@ const WORKDAY_TIER1 = new Set([
 // Slugs that share a Workday site with another canonical slug.
 const WORKDAY_SKIP_SLUGS = new Set(["raytheon"]);
 
+// Ashby slugs that share a board with a canonical slug.
+const ASHBY_CANONICAL_ALIASES = {
+  anysphere: "cursor",
+};
+
 function readTsv(path) {
   try {
     const lines = readFileSync(path, "utf8").trim().split("\n");
@@ -141,6 +146,10 @@ for (const company of refined) {
       enabled: existing?.enabled ?? false,
     };
   } else if (company.ats === "ashby") {
+    if (ASHBY_CANONICAL_ALIASES[company.slug]) {
+      byId.delete(company.slug);
+      continue;
+    }
     const [boardName, status] = ashbyRows.get(company.slug) ?? [];
     if (!boardName || status !== "ok") continue;
     const owner = ashbyBoardOwner.get(boardName.toLowerCase());
@@ -201,6 +210,9 @@ for (const company of refined) {
   }
 
   byId.set(company.slug, row);
+  if (row.ats === "greenhouse" && row.boardToken) {
+    greenhouseTokenOwner.set(row.boardToken, company.slug);
+  }
   if (row.ats === "ashby" && row.boardName) {
     ashbyBoardOwner.set(row.boardName.toLowerCase(), company.slug);
   }

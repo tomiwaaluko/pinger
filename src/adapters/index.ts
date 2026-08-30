@@ -7,15 +7,19 @@ const notImplemented = (ats: string): AtsAdapter["listJobs"] => async () => {
   throw new Error(`${ats} adapter not implemented`);
 };
 
-let registry: Record<AtsKind, AtsAdapter> = {
-  greenhouse: { ats: "greenhouse", listJobs: listGreenhouseJobs },
-  ashby: { ats: "ashby", listJobs: listAshbyJobs },
-  workday: {
-    ats: "workday",
-    listJobs: listWorkdayJobs,
-    hydrateContent: hydrateWorkdayContent,
-  },
-};
+function defaultRegistry(): Record<AtsKind, AtsAdapter> {
+  return {
+    greenhouse: { ats: "greenhouse", listJobs: listGreenhouseJobs },
+    ashby: { ats: "ashby", listJobs: listAshbyJobs },
+    workday: {
+      ats: "workday",
+      listJobs: listWorkdayJobs,
+      hydrateContent: hydrateWorkdayContent,
+    },
+  };
+}
+
+let registry: Record<AtsKind, AtsAdapter> = defaultRegistry();
 
 export function getAdapter(ats: AtsKind): AtsAdapter {
   return registry[ats];
@@ -28,13 +32,5 @@ export function setAdapterRegistryForTests(
 }
 
 export function resetAdapterRegistryForTests(): void {
-  registry = {
-    greenhouse: { ats: "greenhouse", listJobs: listGreenhouseJobs },
-    ashby: { ats: "ashby", listJobs: listAshbyJobs },
-    workday: {
-    ats: "workday",
-    listJobs: listWorkdayJobs,
-    hydrateContent: hydrateWorkdayContent,
-  },
-  };
+  registry = defaultRegistry();
 }

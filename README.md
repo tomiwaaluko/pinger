@@ -74,7 +74,7 @@ Dry-run JSON (stdout):
 
 ## Ops budget
 
-Aim to finish a watch run in **under ~8 minutes** with **≤120 enabled** boards (concurrency 10, 20s timeouts). Cost scales with **enabled** count, not the full committed list in `companies.yaml`.
+Aim to finish a watch run in **under ~8 minutes** with **≤140 enabled** boards (concurrency 10, 20s timeouts). A full 139-board dry run currently takes about **7 minutes**. Cost scales with **enabled** count, not the full committed list in `companies.yaml`.
 
 Grow `enabled` only after quiet runs stay well under the Actions job timeout.
 
