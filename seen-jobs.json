@@ -1,0 +1,246 @@
+{
+  "apiiro": {},
+  "airtable": {},
+  "algolia": {},
+  "amplitude": {},
+  "abnormalsecurity": {},
+  "clerk": {},
+  "adyen": {},
+  "cognition": {},
+  "alphasense": {},
+  "affirm": {},
+  "cursor": {},
+  "airbnb": {},
+  "applied-intuition": {},
+  "ashby": {},
+  "anthropic": {},
+  "posthog": {},
+  "linear": {},
+  "perplexity": {},
+  "notion": {},
+  "automox": {},
+  "apollo": {},
+  "bigid": {},
+  "aviatrix": {},
+  "bitgo": {},
+  "arizeai": {},
+  "axonius": {},
+  "mistral-ai": {
+    "b7470435-0600-4597-a9b9-bb4ebb569283": {
+      "title": "Software Engineer, New Grad",
+      "firstSeenAt": "2026-08-30T08:28:15.365Z"
+    }
+  },
+  "bitwarden": {},
+  "asana": {},
+  "railway": {},
+  "supabase": {},
+  "replit": {},
+  "ramp": {
+    "67fadb77-43d8-4449-954b-d4cf2c6d3b8b": {
+      "title": "Software Engineer Internship, Android ",
+      "firstSeenAt": "2026-08-30T08:28:15.490Z"
+    }
+  },
+  "block": {},
+  "bugcrowd": {},
+  "calendly": {},
+  "circleci": {},
+  "brex": {},
+  "buildkite": {},
+  "censys": {},
+  "cockroachlabs": {},
+  "clickhouse": {},
+  "braze": {},
+  "cloudflare": {},
+  "deepmind": {},
+  "cribl": {},
+  "descope": {},
+  "discord": {},
+  "coinbase": {},
+  "corelight": {},
+  "coreweave": {},
+  "elastic": {},
+  "databricks": {},
+  "datadog": {
+    "8052095": {
+      "title": "Software Engineering Intern (Winter)",
+      "firstSeenAt": "2026-08-30T08:28:16.266Z"
+    }
+  },
+  "expel": {},
+  "hackerrank": {},
+  "fingerprint": {},
+  "fireblocks": {},
+  "grafanalabs": {},
+  "figma": {},
+  "fastly": {},
+  "gleanwork": {},
+  "gitlab": {},
+  "fivetran": {},
+  "honeycomb": {},
+  "lightmatter": {},
+  "mercury": {},
+  "intercom": {},
+  "launchdarkly": {},
+  "mixpanel": {},
+  "neo4j": {},
+  "hightouch": {},
+  "mongodb": {},
+  "jetbrains": {},
+  "prisma": {},
+  "planetscale": {},
+  "neuralink": {},
+  "pagerduty": {},
+  "netlify": {},
+  "newrelic": {},
+  "postman": {
+    "7823417003": {
+      "title": "AI Engineer, Internship - Summer 2026 - Applications Open Now",
+      "firstSeenAt": "2026-08-30T08:28:16.834Z"
+    }
+  },
+  "netskope": {},
+  "reddit": {},
+  "okta": {},
+  "stabilityai": {},
+  "singlestore": {},
+  "securityscorecard": {},
+  "robinhood": {},
+  "stacklok": {},
+  "stackblitz": {},
+  "rubrik": {},
+  "roblox": {
+    "8072713": {
+      "title": "[Summer 2027] Software Engineer Intern",
+      "firstSeenAt": "2026-08-30T08:28:17.017Z"
+    }
+  },
+  "samsara": {},
+  "scaleai": {},
+  "starburst": {},
+  "synack": {},
+  "sumologic": {},
+  "tines": {},
+  "tailscale": {},
+  "twilio": {},
+  "togetherai": {},
+  "stripe": {},
+  "torq": {},
+  "virtru": {},
+  "wizinc": {},
+  "veracode": {},
+  "upbound": {},
+  "watershed": {},
+  "workato": {},
+  "vercel": {},
+  "webflow": {},
+  "verkada": {
+    "5210813007": {
+      "title": "Backend Software Engineering Intern 2027",
+      "firstSeenAt": "2026-08-30T08:28:17.532Z"
+    },
+    "5211595007": {
+      "title": "Embedded Software Engineering Intern 2027",
+      "firstSeenAt": "2026-08-30T08:28:17.532Z"
+    },
+    "5210942007": {
+      "title": "Frontend Software Engineering Intern 2027",
+      "firstSeenAt": "2026-08-30T08:28:17.532Z"
+    },
+    "5219131007": {
+      "title": "Mobile Software Engineering Intern 2027",
+      "firstSeenAt": "2026-08-30T08:28:17.532Z"
+    },
+    "5213881007": {
+      "title": "Security Software Engineering Intern 2027",
+      "firstSeenAt": "2026-08-30T08:28:17.532Z"
+    }
+  },
+  "waymo": {},
+  "yugabyte": {},
+  "xai": {},
+  "zscaler": {},
+  "at-t": {},
+  "applied-materials": {},
+  "accenture": {},
+  "boeing": {
+    "JR2026522576": {
+      "title": "Intern - Software Engineering",
+      "firstSeenAt": "2026-08-30T08:29:37.246Z"
+    }
+  },
+  "cisco": {
+    "2022783": {
+      "title": "Software Engineer - Graduate - Slovakia",
+      "firstSeenAt": "2026-08-30T08:29:44.035Z"
+    },
+    "2023625": {
+      "title": "Software Engineer - Intern",
+      "firstSeenAt": "2026-08-30T08:29:44.035Z"
+    }
+  },
+  "citi": {},
+  "expedia": {},
+  "ebay": {},
+  "general-motors": {},
+  "globalfoundries": {},
+  "intel": {
+    "JR0286108": {
+      "title": "AI Engineer Intern",
+      "firstSeenAt": "2026-08-30T08:31:43.145Z"
+    },
+    "JR0282641": {
+      "title": "AI Software Engineering Intern",
+      "firstSeenAt": "2026-08-30T08:31:43.145Z"
+    }
+  },
+  "hp": {
+    "3160410": {
+      "title": "Browser Software Engineer Intern",
+      "firstSeenAt": "2026-08-30T08:31:49.894Z"
+    }
+  },
+  "marvell": {
+    "2502346": {
+      "title": "Software Engineer Intern",
+      "firstSeenAt": "2026-08-30T08:32:17.891Z"
+    }
+  },
+  "mastercard": {},
+  "leidos": {
+    "R-00190648": {
+      "title": "Software Engineering & AI Intern",
+      "firstSeenAt": "2026-08-30T08:32:34.461Z"
+    }
+  },
+  "micron": {
+    "JR109692": {
+      "title": "New College Grad - Software Engineer",
+      "firstSeenAt": "2026-08-30T08:32:51.522Z"
+    },
+    "JR93102": {
+      "title": "Intern – ML/AI Engineer (Product Engineering, STPG)",
+      "firstSeenAt": "2026-08-30T08:32:51.522Z"
+    }
+  },
+  "northrop-grumman": {},
+  "paypal": {},
+  "rtx": {
+    "01869890": {
+      "title": "Software Engineer Intern (Summer 2027)",
+      "firstSeenAt": "2026-08-30T08:33:49.114Z"
+    },
+    "01870007": {
+      "title": "Software Engineering Intern (Summer 2027)",
+      "firstSeenAt": "2026-08-30T08:33:49.115Z"
+    },
+    "01868801": {
+      "title": "Software Engineering Intern (Summer 2027)",
+      "firstSeenAt": "2026-08-30T08:33:49.115Z"
+    }
+  },
+  "samsung": {},
+  "target": {},
+  "visa": {}
+}

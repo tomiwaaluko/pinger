@@ -25,9 +25,11 @@ Partial failures are isolated: one bad board does not block other companies. A m
 node scripts/compile-target-companies.mjs
 node scripts/refine-target-companies.mjs
 node scripts/probe-ashby-boards.mjs      # optional; network
-node scripts/probe-workday-boards.mjs    # optional; network
+node scripts/probe-workday-boards.mjs    # optional; network; reads data/workday-careers-urls.yaml
 node scripts/sync-companies-yaml.mjs
 ```
+
+Ashby `boardName` overrides live in `data/ashby-board-overrides.yaml`. Workday careers URL seeds live in `data/workday-careers-urls.yaml` (probe verifies each CXS endpoint before sync).
 
 ## Matching
 

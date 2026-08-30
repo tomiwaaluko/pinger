@@ -870,7 +870,7 @@ companies:
   - slug: rippling
     name: "Rippling"
     category: enterprise
-    ats: ashby
+    ats: custom
     atsConfidence: inferred
     tier: 1
     signals: [tier-1, curated, known-ats]
@@ -3347,7 +3347,7 @@ companies:
   - slug: fly-io
     name: "Fly.io"
     category: devtools
-    ats: ashby
+    ats: custom
     atsConfidence: inferred
     tier: 2
     signals: [curated, known-ats]

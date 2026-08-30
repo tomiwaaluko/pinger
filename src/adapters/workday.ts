@@ -2,6 +2,7 @@ import {
   HTTP_429_MAX_RETRIES,
   HTTP_429_RETRY_AFTER_CAP_MS,
   REQUEST_TIMEOUT_MS,
+  WORKDAY_MAX_PAGES,
 } from "../constants.js";
 import { normalizeTitle } from "../matcher.js";
 import { stripJobHtml } from "../text.js";
@@ -167,8 +168,13 @@ export async function fetchWorkdayList(
   const base = workdayBase(company);
   const postings: WorkdayListItem[] = [];
   let offset = 0;
+  let pages = 0;
 
   for (;;) {
+    if (pages >= WORKDAY_MAX_PAGES) {
+      break;
+    }
+    pages += 1;
     const response = await fetchWith429Retries(
       `${base}/jobs`,
       {

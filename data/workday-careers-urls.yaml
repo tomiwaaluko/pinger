@@ -1,0 +1,34 @@
+# slug -> careers landing URL for Workday probe script.
+# Only include URLs whose CXS list endpoint returns 200 (verified 2026-08-30).
+citi: https://citi.wd5.myworkdayjobs.com/2/job/New-York/Software-Engineer_123
+mastercard: https://mastercard.wd1.myworkdayjobs.com/CorporateCareers/job/Purchase/Software-Engineer_R123
+blackrock: https://blackrock.wd1.myworkdayjobs.com/BlackRock_Professional/job/New-York/Software-Engineer_R123
+ebay: https://ebay.wd5.myworkdayjobs.com/apply/job/San-Jose/Software-Engineer_R123
+paypal: https://paypal.wd1.myworkdayjobs.com/jobs/job/San-Jose/Software-Engineer_R123
+samsung: https://sec.wd3.myworkdayjobs.com/Samsung_Careers/job/San-Jose/Software-Engineer_R123
+target: https://target.wd5.myworkdayjobs.com/targetcareers/job/Minneapolis/Software-Engineer_R123
+visa: https://visa.wd5.myworkdayjobs.com/Visa/job/Foster-City/Software-Engineer_R123
+accenture: https://accenture.wd103.myworkdayjobs.com/AccentureCareers/job/Chicago/Software-Engineer_R123
+applied-materials: https://amat.wd1.myworkdayjobs.com/External/job/Santa-Clara/Software-Engineer_R123
+at-t: https://att.wd1.myworkdayjobs.com/ATTGeneral/job/Dallas/Software-Engineer_R123
+boeing: https://boeing.wd1.myworkdayjobs.com/external_subsidiary/job/USA---Maryland/Associate-Software-Engineer_JR2026516706
+cisco: https://cisco.wd5.myworkdayjobs.com/en-US/Cisco_Careers/job/San-Jose/Software-Engineer_R123
+disney: https://disney.wd5.myworkdayjobs.com/en-US/disneycareer/job/Glendale-CA-USA/Software-Engineer-I_10158076
+expedia: https://expedia.wd108.myworkdayjobs.com/search/job/Seattle/Software-Engineer_R-123
+general-motors: https://generalmotors.wd5.myworkdayjobs.com/Careers_GM/job/Warren/Software-Engineer_R123
+globalfoundries: https://globalfoundries.wd1.myworkdayjobs.com/External/job/Malta/Software-Engineer_R123
+hp: https://hp.wd5.myworkdayjobs.com/ExternalCareerSite/job/Palo-Alto/Software-Engineer_R123
+leidos: https://leidos.wd5.myworkdayjobs.com/External/job/Reston/Software-Engineer_R123
+marvell: https://marvell.wd1.myworkdayjobs.com/MarvellCareers/job/Santa-Clara/Software-Engineer_R123
+micron: https://micron.wd1.myworkdayjobs.com/External/job/Boise/Software-Engineer_R123
+northrop-grumman: https://ngc.wd1.myworkdayjobs.com/Northrop_Grumman_External_Site/job/Falls-Church/Software-Engineer_R123
+rtx: https://globalhr.wd5.myworkdayjobs.com/REC_RTX_Ext_Gateway/job/Arlington/Software-Engineer_R123
+asml: https://asml.wd3.myworkdayjobs.com/ASMLEXT1/job/San-Jose/Software-Engineer_R123
+booz-allen-hamilton: https://bah.wd1.myworkdayjobs.com/BAH_Jobs/job/McLean/Software-Engineer_R123
+broadcom: https://broadcom.wd1.myworkdayjobs.com/External_Career/job/San-Jose/Software-Engineer_R123
+general-dynamics: https://gdit.wd5.myworkdayjobs.com/External_Career_Site/job/Falls-Church/Software-Engineer_R123
+intel: https://intel.wd1.myworkdayjobs.com/External/job/Santa-Clara/Software-Engineer_R123
+pwc: https://pwc.wd3.myworkdayjobs.com/Global_Experienced_Careers/job/New-York/Software-Engineer_R123
+sony: https://sonyglobal.wd1.myworkdayjobs.com/SonyGlobalCareers/job/New-York/Software-Engineer_R123
+t-mobile: https://tmobile.wd1.myworkdayjobs.com/External/job/Bellevue/Software-Engineer_R123
+warner-bros-discovery: https://warnerbros.wd5.myworkdayjobs.com/Global/job/New-York/Software-Engineer_R123

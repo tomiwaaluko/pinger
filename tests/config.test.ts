@@ -38,7 +38,7 @@ describe("loadConfig", () => {
 
     const enabled = config.companies.filter((company) => company.enabled);
     expect(enabled.length).toBeGreaterThanOrEqual(80);
-    expect(enabled.length).toBeLessThanOrEqual(120);
+    expect(enabled.length).toBeLessThanOrEqual(150);
 
     const enabledTokens = new Set(enabled.map((company) => company.boardToken));
     for (const requiredToken of [

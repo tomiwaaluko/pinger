@@ -710,7 +710,7 @@ companies:
   - slug: rippling
     name: "Rippling"
     category: enterprise
-    ats: ashby
+    ats: custom
     tier: 1
     source: curated
   - slug: robinhood
@@ -2776,7 +2776,7 @@ companies:
   - slug: fly-io
     name: "Fly.io"
     category: infra
-    ats: ashby
+    ats: custom
     tier: 2
     source: curated
   - slug: flyr

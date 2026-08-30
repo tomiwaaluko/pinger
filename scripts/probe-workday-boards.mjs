@@ -6,9 +6,11 @@
 import { readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { parse } from "yaml";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const REFINED = join(ROOT, "data", "target-companies-refined.yaml");
+const CAREERS_URLS_PATH = join(ROOT, "data", "workday-careers-urls.yaml");
 const OUT = join(ROOT, "data", "workday-boards.tsv");
 
 const LOCALE_SEGMENT = /^[a-z]{2}(?:-[A-Za-z]{2})?$/;
@@ -36,15 +38,15 @@ function parseWorkdayCareersUrl(url) {
   };
 }
 
-/** slug -> careers landing URL (expand over time) */
-const CAREERS_URLS = {
-  boeing:
-    "https://boeing.wd1.myworkdayjobs.com/external_subsidiary/job/USA---Maryland/Associate-Software-Engineer_JR2026516706",
-  disney:
-    "https://disney.wd5.myworkdayjobs.com/en-US/disneycareer/job/Glendale-CA-USA/Software-Engineer-I_10158076",
-  expedia:
-    "https://expedia.wd108.myworkdayjobs.com/search/job/Seattle/Software-Engineer_R-123",
-};
+function loadCareersUrls() {
+  try {
+    return parse(readFileSync(CAREERS_URLS_PATH, "utf8")) ?? {};
+  } catch {
+    return {};
+  }
+}
+
+const CAREERS_URLS = loadCareersUrls();
 
 function parseRefinedWorkday() {
   const text = readFileSync(REFINED, "utf8");

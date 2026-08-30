@@ -38,6 +38,14 @@ companies:
     ats: greenhouse
     boardToken: accelerationpartners
     enabled: false
+  - id: accenture
+    name: Accenture
+    ats: workday
+    workday:
+      host: accenture.wd103.myworkdayjobs.com
+      tenant: accenture
+      site: AccentureCareers
+    enabled: true
   - id: accesso
     name: Accesso
     ats: greenhouse
@@ -214,6 +222,19 @@ companies:
     ats: greenhouse
     boardToken: applecart
     enabled: false
+  - id: applied-intuition
+    name: Applied Intuition
+    ats: ashby
+    boardName: applied
+    enabled: true
+  - id: applied-materials
+    name: Applied Materials
+    ats: workday
+    workday:
+      host: amat.wd1.myworkdayjobs.com
+      tenant: amat
+      site: External
+    enabled: true
   - id: applovin
     name: Applovin
     ats: greenhouse
@@ -243,6 +264,14 @@ companies:
     name: Ashby
     ats: ashby
     boardName: ashby
+    enabled: true
+  - id: asml
+    name: ASML
+    ats: workday
+    workday:
+      host: asml.wd3.myworkdayjobs.com
+      tenant: asml
+      site: ASMLEXT1
     enabled: false
   - id: aspectbiosystems
     name: Aspectbiosystems
@@ -254,6 +283,14 @@ companies:
     ats: greenhouse
     boardToken: assemblyai
     enabled: false
+  - id: at-t
+    name: AT&T
+    ats: workday
+    workday:
+      host: att.wd1.myworkdayjobs.com
+      tenant: att
+      site: ATTGeneral
+    enabled: true
   - id: atlassian
     name: Atlassian
     ats: custom
@@ -392,6 +429,14 @@ companies:
     ats: greenhouse
     boardToken: blacklane
     enabled: false
+  - id: blackrock
+    name: BlackRock
+    ats: workday
+    workday:
+      host: blackrock.wd1.myworkdayjobs.com
+      tenant: blackrock
+      site: BlackRock_Professional
+    enabled: false
   - id: blacksky
     name: Blacksky
     ats: greenhouse
@@ -444,6 +489,14 @@ companies:
     ats: greenhouse
     boardToken: bombas
     enabled: false
+  - id: booz-allen-hamilton
+    name: Booz Allen Hamilton
+    ats: workday
+    workday:
+      host: bah.wd1.myworkdayjobs.com
+      tenant: bah
+      site: BAH_Jobs
+    enabled: false
   - id: branch
     name: Branch
     ats: greenhouse
@@ -472,6 +525,14 @@ companies:
     name: Bringg
     ats: greenhouse
     boardToken: bringg
+    enabled: false
+  - id: broadcom
+    name: Broadcom
+    ats: workday
+    workday:
+      host: broadcom.wd1.myworkdayjobs.com
+      tenant: broadcom
+      site: External_Career
     enabled: false
   - id: broadvoice
     name: Broadvoice
@@ -602,6 +663,14 @@ companies:
     ats: greenhouse
     boardToken: circleci
     enabled: true
+  - id: cisco
+    name: Cisco
+    ats: workday
+    workday:
+      host: cisco.wd5.myworkdayjobs.com
+      tenant: cisco
+      site: Cisco_Careers
+    enabled: true
   - id: citadel
     name: Citadel
     ats: custom
@@ -610,6 +679,14 @@ companies:
     name: Citadel Securities
     ats: custom
     enabled: false
+  - id: citi
+    name: Citi
+    ats: workday
+    workday:
+      host: citi.wd5.myworkdayjobs.com
+      tenant: citi
+      site: "2"
+    enabled: true
   - id: civisanalytics
     name: Civisanalytics
     ats: greenhouse
@@ -629,7 +706,7 @@ companies:
     name: Clerk
     ats: ashby
     boardName: clerk
-    enabled: false
+    enabled: true
   - id: clever
     name: Clever
     ats: greenhouse
@@ -918,6 +995,14 @@ companies:
     ats: greenhouse
     boardToken: earnin
     enabled: false
+  - id: ebay
+    name: eBay
+    ats: workday
+    workday:
+      host: ebay.wd5.myworkdayjobs.com
+      tenant: ebay
+      site: apply
+    enabled: true
   - id: elastic
     name: Elastic
     ats: greenhouse
@@ -1114,6 +1199,10 @@ companies:
     ats: greenhouse
     boardToken: flowcode
     enabled: false
+  - id: fly-io
+    name: Fly.io
+    ats: custom
+    enabled: false
   - id: flyr
     name: Flyr
     ats: greenhouse
@@ -1164,6 +1253,22 @@ companies:
     ats: greenhouse
     boardToken: gemini
     enabled: false
+  - id: general-dynamics
+    name: General Dynamics
+    ats: workday
+    workday:
+      host: gdit.wd5.myworkdayjobs.com
+      tenant: gdit
+      site: External_Career_Site
+    enabled: false
+  - id: general-motors
+    name: General Motors
+    ats: workday
+    workday:
+      host: generalmotors.wd5.myworkdayjobs.com
+      tenant: generalmotors
+      site: Careers_GM
+    enabled: true
   - id: genius
     name: Genius
     ats: greenhouse
@@ -1192,6 +1297,14 @@ companies:
     name: Glean
     ats: greenhouse
     boardToken: gleanwork
+    enabled: true
+  - id: globalfoundries
+    name: Globalfoundries
+    ats: workday
+    workday:
+      host: globalfoundries.wd1.myworkdayjobs.com
+      tenant: globalfoundries
+      site: External
     enabled: true
   - id: glossgenius
     name: Glossgenius
@@ -1307,6 +1420,14 @@ companies:
     ats: greenhouse
     boardToken: honor
     enabled: false
+  - id: hp
+    name: HP
+    ats: workday
+    workday:
+      host: hp.wd5.myworkdayjobs.com
+      tenant: hp
+      site: ExternalCareerSite
+    enabled: true
   - id: hubspot
     name: Hubspot
     ats: greenhouse
@@ -1390,6 +1511,14 @@ companies:
     ats: greenhouse
     boardToken: insurify
     enabled: false
+  - id: intel
+    name: Intel
+    ats: workday
+    workday:
+      host: intel.wd1.myworkdayjobs.com
+      tenant: intel
+      site: External
+    enabled: true
   - id: intercom
     name: Intercom
     ats: greenhouse
@@ -1522,6 +1651,14 @@ companies:
     ats: greenhouse
     boardToken: launchpotato
     enabled: false
+  - id: leidos
+    name: Leidos
+    ats: workday
+    workday:
+      host: leidos.wd5.myworkdayjobs.com
+      tenant: leidos
+      site: External
+    enabled: true
   - id: liftoff
     name: Liftoff
     ats: greenhouse
@@ -1541,7 +1678,7 @@ companies:
     name: Linear
     ats: ashby
     boardName: linear
-    enabled: false
+    enabled: true
   - id: linkedin
     name: Linkedin
     ats: greenhouse
@@ -1602,6 +1739,22 @@ companies:
     ats: greenhouse
     boardToken: marqeta
     enabled: false
+  - id: marvell
+    name: Marvell
+    ats: workday
+    workday:
+      host: marvell.wd1.myworkdayjobs.com
+      tenant: marvell
+      site: MarvellCareers
+    enabled: true
+  - id: mastercard
+    name: Mastercard
+    ats: workday
+    workday:
+      host: mastercard.wd1.myworkdayjobs.com
+      tenant: mastercard
+      site: CorporateCareers
+    enabled: true
   - id: masterclass
     name: Masterclass
     ats: greenhouse
@@ -1651,6 +1804,14 @@ companies:
     name: Meta
     ats: custom
     enabled: false
+  - id: micron
+    name: Micron
+    ats: workday
+    workday:
+      host: micron.wd1.myworkdayjobs.com
+      tenant: micron
+      site: External
+    enabled: true
   - id: microsoft
     name: Microsoft
     ats: custom
@@ -1674,6 +1835,11 @@ companies:
     ats: greenhouse
     boardToken: missionlane
     enabled: false
+  - id: mistral-ai
+    name: Mistral AI
+    ats: ashby
+    boardName: mistral.ai
+    enabled: true
   - id: mitratech
     name: Mitratech
     ats: greenhouse
@@ -1798,6 +1964,14 @@ companies:
     ats: greenhouse
     boardToken: nomadhealth
     enabled: false
+  - id: northrop-grumman
+    name: Northrop Grumman
+    ats: workday
+    workday:
+      host: ngc.wd1.myworkdayjobs.com
+      tenant: ngc
+      site: Northrop_Grumman_External_Site
+    enabled: true
   - id: notion
     name: Notion
     ats: ashby
@@ -1953,6 +2127,14 @@ companies:
     ats: greenhouse
     boardToken: payoneer
     enabled: false
+  - id: paypal
+    name: PayPal
+    ats: workday
+    workday:
+      host: paypal.wd1.myworkdayjobs.com
+      tenant: paypal
+      site: jobs
+    enabled: true
   - id: paypay
     name: Paypay
     ats: greenhouse
@@ -1972,7 +2154,7 @@ companies:
     name: Perplexity
     ats: ashby
     boardName: perplexity
-    enabled: false
+    enabled: true
   - id: pinterest
     name: Pinterest
     ats: greenhouse
@@ -2006,7 +2188,7 @@ companies:
     name: PostHog
     ats: ashby
     boardName: posthog
-    enabled: false
+    enabled: true
   - id: postman
     name: Postman
     ats: greenhouse
@@ -2057,6 +2239,14 @@ companies:
     ats: greenhouse
     boardToken: purestorage
     enabled: false
+  - id: pwc
+    name: PwC
+    ats: workday
+    workday:
+      host: pwc.wd3.myworkdayjobs.com
+      tenant: pwc
+      site: Global_Experienced_Careers
+    enabled: false
   - id: qualia
     name: Qualia
     ats: greenhouse
@@ -2086,7 +2276,7 @@ companies:
     name: Railway
     ats: ashby
     boardName: railway
-    enabled: false
+    enabled: true
   - id: ramp
     name: Ramp
     ats: ashby
@@ -2121,11 +2311,15 @@ companies:
     name: Replit
     ats: ashby
     boardName: replit
-    enabled: false
+    enabled: true
   - id: resilience
     name: Resilience
     ats: greenhouse
     boardToken: resilience
+    enabled: false
+  - id: rippling
+    name: Rippling
+    ats: custom
     enabled: false
   - id: rise8
     name: Rise8
@@ -2172,6 +2366,14 @@ companies:
     ats: greenhouse
     boardToken: route
     enabled: false
+  - id: rtx
+    name: RTX
+    ats: workday
+    workday:
+      host: globalhr.wd5.myworkdayjobs.com
+      tenant: globalhr
+      site: REC_RTX_Ext_Gateway
+    enabled: true
   - id: rubrik
     name: Rubrik
     ats: greenhouse
@@ -2200,6 +2402,14 @@ companies:
     name: Samsara
     ats: greenhouse
     boardToken: samsara
+    enabled: true
+  - id: samsung
+    name: Samsung
+    ats: workday
+    workday:
+      host: sec.wd3.myworkdayjobs.com
+      tenant: sec
+      site: Samsung_Careers
     enabled: true
   - id: sap
     name: SAP
@@ -2323,6 +2533,14 @@ companies:
     ats: greenhouse
     boardToken: sofi
     enabled: false
+  - id: sony
+    name: Sony
+    ats: workday
+    workday:
+      host: sonyglobal.wd1.myworkdayjobs.com
+      tenant: sonyglobal
+      site: SonyGlobalCareers
+    enabled: false
   - id: sovrn
     name: Sovrn
     ats: greenhouse
@@ -2422,7 +2640,7 @@ companies:
     name: Supabase
     ats: ashby
     boardName: supabase
-    enabled: false
+    enabled: true
   - id: supergoop
     name: Supergoop
     ats: greenhouse
@@ -2448,6 +2666,14 @@ companies:
     ats: greenhouse
     boardToken: synack
     enabled: true
+  - id: t-mobile
+    name: T-Mobile
+    ats: workday
+    workday:
+      host: tmobile.wd1.myworkdayjobs.com
+      tenant: tmobile
+      site: External
+    enabled: false
   - id: taboola
     name: Taboola
     ats: greenhouse
@@ -2463,6 +2689,14 @@ companies:
     ats: greenhouse
     boardToken: tanium
     enabled: false
+  - id: target
+    name: Target
+    ats: workday
+    workday:
+      host: target.wd5.myworkdayjobs.com
+      tenant: target
+      site: targetcareers
+    enabled: true
   - id: taskrabbit
     name: Taskrabbit
     ats: greenhouse
@@ -2482,7 +2716,7 @@ companies:
     name: Temporal
     ats: greenhouse
     boardToken: temporaltechnologies
-    enabled: true
+    enabled: false
   - id: tencent
     name: Tencent
     ats: custom
@@ -2732,6 +2966,14 @@ companies:
     ats: greenhouse
     boardToken: virtu
     enabled: false
+  - id: visa
+    name: Visa
+    ats: workday
+    workday:
+      host: visa.wd5.myworkdayjobs.com
+      tenant: visa
+      site: Visa
+    enabled: true
   - id: vonage
     name: Vonage
     ats: greenhouse
@@ -2741,6 +2983,14 @@ companies:
     name: Vts
     ats: greenhouse
     boardToken: vts
+    enabled: false
+  - id: warner-bros-discovery
+    name: Warner Bros Discovery
+    ats: workday
+    workday:
+      host: warnerbros.wd5.myworkdayjobs.com
+      tenant: warnerbros
+      site: Global
     enabled: false
   - id: wasabi
     name: Wasabi

@@ -14,14 +14,39 @@ const ASHBY_TSV = join(ROOT, "data", "ashby-boards.tsv");
 const WORKDAY_TSV = join(ROOT, "data", "workday-boards.tsv");
 
 const ASHBY_WAVE = new Set([
-  "notion",
-  "cursor",
-  "cognition",
-  "ramp",
   "applied-intuition",
+  "ashby",
+  "clerk",
+  "cognition",
+  "cursor",
+  "linear",
+  "mistral-ai",
+  "notion",
+  "perplexity",
+  "posthog",
+  "ramp",
+  "railway",
+  "replit",
+  "supabase",
 ]);
 
-const WORKDAY_TIER1 = new Set(["boeing", "disney", "expedia", "intel", "jpmorgan-chase"]);
+const WORKDAY_TIER1 = new Set([
+  "accenture",
+  "boeing",
+  "cisco",
+  "citi",
+  "ebay",
+  "expedia",
+  "intel",
+  "mastercard",
+  "paypal",
+  "samsung",
+  "target",
+  "visa",
+]);
+
+// Slugs that share a Workday site with another canonical slug.
+const WORKDAY_SKIP_SLUGS = new Set(["raytheon"]);
 
 function readTsv(path) {
   try {
@@ -64,7 +89,11 @@ function loadExisting() {
 }
 
 const resetEnabled = process.argv.includes("--reset-enabled");
-const enableWave = process.argv.find((arg) => arg.startsWith("--enable-wave="))?.split("=")[1];
+const enableWaves = new Set(
+  process.argv
+    .filter((arg) => arg.startsWith("--enable-wave="))
+    .map((arg) => arg.split("=")[1]),
+);
 
 const ashbyRows = readTsv(ASHBY_TSV);
 const workdayRows = readTsv(WORKDAY_TSV);
@@ -88,6 +117,13 @@ for (const row of byId.values()) {
   }
 }
 
+const ashbyBoardOwner = new Map();
+for (const row of byId.values()) {
+  if (row.ats === "ashby" && row.boardName) {
+    ashbyBoardOwner.set(row.boardName.toLowerCase(), row.id);
+  }
+}
+
 for (const company of refined) {
   const existing = byId.get(company.slug);
   let row;
@@ -107,6 +143,11 @@ for (const company of refined) {
   } else if (company.ats === "ashby") {
     const [boardName, status] = ashbyRows.get(company.slug) ?? [];
     if (!boardName || status !== "ok") continue;
+    const owner = ashbyBoardOwner.get(boardName.toLowerCase());
+    if (owner && owner !== company.slug) {
+      byId.delete(company.slug);
+      continue;
+    }
     row = {
       id: company.slug,
       name: company.name,
@@ -115,11 +156,16 @@ for (const company of refined) {
       enabled: existing?.enabled ?? false,
     };
   } else if (company.ats === "workday") {
+    if (WORKDAY_SKIP_SLUGS.has(company.slug)) {
+      byId.delete(company.slug);
+      continue;
+    }
     const [host, tenant, site, status] = workdayRows.get(company.slug) ?? [];
     if (!host || status !== "ok") continue;
     const siteKey = `${host}\0${site}`;
     const owner = workdaySiteOwner.get(siteKey);
     if (owner && owner !== company.slug) {
+      byId.delete(company.slug);
       continue;
     }
     row = {
@@ -143,11 +189,11 @@ for (const company of refined) {
   if (resetEnabled) {
     row.enabled = false;
   }
-  if (enableWave === "ashby" && row.ats === "ashby" && ASHBY_WAVE.has(company.slug)) {
+  if (enableWaves.has("ashby") && row.ats === "ashby" && ASHBY_WAVE.has(company.slug)) {
     row.enabled = true;
   }
   if (
-    enableWave === "workday-tier1" &&
+    enableWaves.has("workday-tier1") &&
     row.ats === "workday" &&
     (WORKDAY_TIER1.has(company.slug) || (company.tier <= 2 && company.earlyCareer))
   ) {
@@ -155,6 +201,15 @@ for (const company of refined) {
   }
 
   byId.set(company.slug, row);
+  if (row.ats === "ashby" && row.boardName) {
+    ashbyBoardOwner.set(row.boardName.toLowerCase(), company.slug);
+  }
+  if (row.ats === "workday" && row.workday) {
+    workdaySiteOwner.set(
+      `${row.workday.host}\0${row.workday.site}`,
+      company.slug,
+    );
+  }
 }
 
 data.companies = [...byId.values()].sort((a, b) => a.id.localeCompare(b.id));

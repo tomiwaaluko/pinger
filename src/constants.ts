@@ -1,5 +1,6 @@
 export const REQUEST_TIMEOUT_MS = 20_000;
 export const GREENHOUSE_MAX_PAGES = 50;
+export const WORKDAY_MAX_PAGES = 50;
 export const GREENHOUSE_CONCURRENCY = 10;
 export const ASHBY_CONCURRENCY = 5;
 export const WORKDAY_CONCURRENCY = 3;
