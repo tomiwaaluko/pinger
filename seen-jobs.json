@@ -190,6 +190,10 @@
     "2024514": {
       "title": "Software Engineer Trainee_Technical Graduate Apprentice - India UHR",
       "firstSeenAt": "2026-09-01T16:17:58.731Z"
+    },
+    "2024624": {
+      "title": "Graduate Software Engineer",
+      "firstSeenAt": "2026-09-02T16:12:49.227Z"
     }
   },
   "citi": {},
@@ -205,6 +209,14 @@
     "JR0282641": {
       "title": "AI Software Engineering Intern",
       "firstSeenAt": "2026-08-30T08:31:43.145Z"
+    },
+    "JR0286834": {
+      "title": "Software Engineering - Intern, Bachelor’s",
+      "firstSeenAt": "2026-09-02T16:12:55.065Z"
+    },
+    "JR0286836": {
+      "title": "Software Engineering - Intern, Graduate",
+      "firstSeenAt": "2026-09-02T16:13:13.288Z"
     }
   },
   "hp": {
@@ -236,7 +248,12 @@
       "firstSeenAt": "2026-08-30T08:32:51.522Z"
     }
   },
-  "northrop-grumman": {},
+  "northrop-grumman": {
+    "R10248910": {
+      "title": "2027 Software Engineer Intern - Linthicum Maryland",
+      "firstSeenAt": "2026-09-02T16:13:01.136Z"
+    }
+  },
   "paypal": {},
   "rtx": {
     "01869890": {
@@ -258,6 +275,10 @@
     "01871423": {
       "title": "Software Engineering Intern (Summer 2027)",
       "firstSeenAt": "2026-09-02T00:58:40.646Z"
+    },
+    "01870699": {
+      "title": "Software Engineering Intern (Summer 2027)",
+      "firstSeenAt": "2026-09-02T16:13:06.249Z"
     }
   },
   "samsung": {},
