@@ -163,7 +163,12 @@
   "zscaler": {},
   "at-t": {},
   "applied-materials": {},
-  "accenture": {},
+  "accenture": {
+    "R00342918": {
+      "title": "Software Engineer Intern",
+      "firstSeenAt": "2026-09-02T19:46:12.014Z"
+    }
+  },
   "boeing": {
     "JR2026522576": {
       "title": "Intern - Software Engineering",
@@ -279,6 +284,14 @@
     "01870699": {
       "title": "Software Engineering Intern (Summer 2027)",
       "firstSeenAt": "2026-09-02T16:13:06.249Z"
+    },
+    "01870191": {
+      "title": "Software Engineering Co-op (Winter/Spring 2027)",
+      "firstSeenAt": "2026-09-02T19:46:18.539Z"
+    },
+    "01870194": {
+      "title": "Software Engineering Co-op (Summer/Fall 2027)",
+      "firstSeenAt": "2026-09-02T19:46:25.438Z"
     }
   },
   "samsung": {},
