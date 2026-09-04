@@ -214,7 +214,12 @@
   "expedia": {},
   "ebay": {},
   "general-motors": {},
-  "globalfoundries": {},
+  "globalfoundries": {
+    "JR-2604056": {
+      "title": "Software Engineer, Cloud Platform (2027 New College Graduate)",
+      "firstSeenAt": "2026-09-04T19:29:35.962Z"
+    }
+  },
   "intel": {
     "JR0286108": {
       "title": "AI Engineer Intern",
@@ -272,7 +277,12 @@
       "firstSeenAt": "2026-09-02T16:13:01.136Z"
     }
   },
-  "paypal": {},
+  "paypal": {
+    "R0137237": {
+      "title": "Software Engineer - Recent Graduate",
+      "firstSeenAt": "2026-09-04T19:29:29.315Z"
+    }
+  },
   "rtx": {
     "01869890": {
       "title": "Software Engineer Intern (Summer 2027)",
