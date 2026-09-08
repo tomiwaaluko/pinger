@@ -66,6 +66,18 @@
     "8052095": {
       "title": "Software Engineering Intern (Winter)",
       "firstSeenAt": "2026-08-30T08:28:16.266Z"
+    },
+    "8052118": {
+      "title": "Software Engineering Intern (Summer)",
+      "firstSeenAt": "2026-09-08T16:15:32.969Z"
+    },
+    "8114161": {
+      "title": "Software Engineering Intern",
+      "firstSeenAt": "2026-09-08T16:16:01.078Z"
+    },
+    "8114186": {
+      "title": "Software Engineering Intern",
+      "firstSeenAt": "2026-09-08T16:16:20.783Z"
     }
   },
   "expel": {},
@@ -142,7 +154,16 @@
   "upbound": {},
   "watershed": {},
   "workato": {},
-  "vercel": {},
+  "vercel": {
+    "6181755004": {
+      "title": "Software Engineering Intern - Winter '27",
+      "firstSeenAt": "2026-09-08T16:15:53.989Z"
+    },
+    "6181759004": {
+      "title": "Software Engineering Intern - Summer '27",
+      "firstSeenAt": "2026-09-08T16:16:14.411Z"
+    }
+  },
   "webflow": {},
   "verkada": {
     "5210813007": {
@@ -249,6 +270,10 @@
     "JR0282639": {
       "title": "AI Software Engineering Intern",
       "firstSeenAt": "2026-09-03T01:06:01.412Z"
+    },
+    "JR0286934": {
+      "title": "DevOps and Software Engineering Intern",
+      "firstSeenAt": "2026-09-08T16:15:37.563Z"
     }
   },
   "hp": {
@@ -278,6 +303,10 @@
     "JR93102": {
       "title": "Intern – ML/AI Engineer (Product Engineering, STPG)",
       "firstSeenAt": "2026-08-30T08:32:51.522Z"
+    },
+    "JR108550": {
+      "title": "Intern - Software Engineer",
+      "firstSeenAt": "2026-09-08T16:15:41.806Z"
     }
   },
   "northrop-grumman": {
@@ -328,6 +357,14 @@
     "01870194": {
       "title": "Software Engineering Co-op (Summer/Fall 2027)",
       "firstSeenAt": "2026-09-02T19:46:25.438Z"
+    },
+    "01872097": {
+      "title": "Software Engineering Intern (Summer 2027)",
+      "firstSeenAt": "2026-09-08T16:15:48.167Z"
+    },
+    "01872100": {
+      "title": "Software Engineering Intern (Summer 2027)",
+      "firstSeenAt": "2026-09-08T16:16:07.157Z"
     }
   },
   "samsung": {},
