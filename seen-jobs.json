@@ -278,6 +278,10 @@
     "JR0286934": {
       "title": "DevOps and Software Engineering Intern",
       "firstSeenAt": "2026-09-08T16:15:37.563Z"
+    },
+    "JR0286933": {
+      "title": "System Software Engineering Intern",
+      "firstSeenAt": "2026-09-09T16:10:15.120Z"
     }
   },
   "hp": {
@@ -311,6 +315,10 @@
     "JR108550": {
       "title": "Intern - Software Engineer",
       "firstSeenAt": "2026-09-08T16:15:41.806Z"
+    },
+    "JR110878": {
+      "title": "New College Grad - AI Engineer, SMAI",
+      "firstSeenAt": "2026-09-09T16:10:22.429Z"
     }
   },
   "northrop-grumman": {
@@ -389,6 +397,18 @@
     "01872683": {
       "title": "Software Engineering Co-op (Fall/Spring 2027)",
       "firstSeenAt": "2026-09-09T01:11:55.270Z"
+    },
+    "01872230": {
+      "title": "Software Engineering Co-op  (Spring/Summer 2027)",
+      "firstSeenAt": "2026-09-09T16:10:28.347Z"
+    },
+    "01872236": {
+      "title": "Software Engineering Co-op (Summer/Fall 2027)",
+      "firstSeenAt": "2026-09-09T16:10:32.703Z"
+    },
+    "01872878": {
+      "title": "Software Engineering Intern (Summer 2027)",
+      "firstSeenAt": "2026-09-09T16:10:37.989Z"
     }
   },
   "samsung": {},
