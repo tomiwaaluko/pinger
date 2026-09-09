@@ -35,7 +35,12 @@
   "asana": {},
   "railway": {},
   "supabase": {},
-  "replit": {},
+  "replit": {
+    "b5e81eae-06f9-4798-8988-2d06ca936dbc": {
+      "title": "Software Engineer - New Grad (Summer 2027)",
+      "firstSeenAt": "2026-09-09T19:44:54.252Z"
+    }
+  },
   "ramp": {
     "67fadb77-43d8-4449-954b-d4cf2c6d3b8b": {
       "title": "Software Engineer Internship, Android ",
@@ -409,6 +414,14 @@
     "01872878": {
       "title": "Software Engineering Intern (Summer 2027)",
       "firstSeenAt": "2026-09-09T16:10:37.989Z"
+    },
+    "01873623": {
+      "title": "Software Engineering Intern (Summer 2027) (Open)",
+      "firstSeenAt": "2026-09-09T19:44:59.855Z"
+    },
+    "01873646": {
+      "title": "Software Engineering Intern (Summer 2027)",
+      "firstSeenAt": "2026-09-09T19:45:03.863Z"
     }
   },
   "samsung": {},
