@@ -1,0 +1,24 @@
+{
+  "jobs": [
+    {
+      "id": "8fb1615c-34bf-47c4-a1d1-b7b2f836bbd3",
+      "title": "Software Engineer, New Grad",
+      "department": "Engineering",
+      "location": "San Francisco, CA",
+      "secondaryLocations": [
+        { "location": "New York, NY" }
+      ],
+      "jobUrl": "https://jobs.ashbyhq.com/openai/8fb1615c-34bf-47c4-a1d1-b7b2f836bbd3",
+      "descriptionHtml": "<p>New graduate program for 2027 engineers.</p>",
+      "isListed": true
+    },
+    {
+      "id": "hidden",
+      "title": "Hidden Role",
+      "department": "Engineering",
+      "jobUrl": "https://jobs.ashbyhq.com/openai/hidden",
+      "isListed": false
+    }
+  ],
+  "apiVersion": "2024-01-01"
+}

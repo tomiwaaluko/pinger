@@ -12,13 +12,15 @@ import {
 } from "../src/constants.js";
 import { runWatcher } from "../src/pipeline.js";
 import { readSeen, writeSeen } from "../src/seen-store.js";
-import type {
-  AppConfig,
-  CompanyConfig,
-  DiscordEmbed,
-  Job,
-  RunWatcherOptions,
-  SeenStore,
+import {
+  PORTAL_ATS_KINDS,
+  type AppConfig,
+  type CompanyConfig,
+  type DiscordEmbed,
+  type Job,
+  type PortalAtsKind,
+  type RunWatcherOptions,
+  type SeenStore,
 } from "../src/types.js";
 import { makeJob } from "./helpers.js";
 
@@ -41,6 +43,7 @@ const intern = (id: string, overrides: Partial<Job> = {}): Job =>
     id,
     title: `Software Engineer Intern ${id}`,
     absoluteUrl: `https://job-boards.greenhouse.io/${overrides.absoluteUrl ?? "board"}/jobs/${id}`,
+    content: "Spring 2027 internship on the platform team.",
     ...overrides,
   });
 
@@ -69,8 +72,23 @@ function stubListJobs(fn: (company: CompanyConfig) => Promise<Job[]>): void {
     greenhouse: { ats: "greenhouse", listJobs },
     ashby: { ats: "ashby", listJobs },
     workday: { ats: "workday", listJobs },
+    ...Object.fromEntries(
+      PORTAL_ATS_KINDS.map((ats) => [ats, { ats, listJobs }]),
+    ),
   });
 }
+
+const portalCompany = (
+  id: string,
+  name = id.toUpperCase(),
+  ats: PortalAtsKind = "google",
+  enabled = true,
+): CompanyConfig => ({
+  id,
+  name,
+  ats,
+  enabled,
+});
 
 function baseOpts(
   overrides: Partial<RunWatcherOptions> &
@@ -218,6 +236,73 @@ describe("runWatcher fleet pipeline", () => {
       beta: { "20": { title: "Software Engineer Intern 20", firstSeenAt: now } },
     });
     expect(field(posted[0], "Company")).toBe("Beta LLC");
+  });
+
+  it("first run for portal company pings matches and writes seen key", async () => {
+    const dir = vaultDirWithCareer();
+    const seenPath = join(dir, "seen-jobs.json");
+    const posted: DiscordEmbed[] = [];
+
+    const result = await runWatcher(
+      baseOpts({
+        vaultDir: dir,
+        seenPath,
+        config: configWith([portalCompany("google", "Google")]),
+        listJobs: async () => [intern("g-1")],
+        postDiscord: async (_url, embed) => {
+          posted.push(embed);
+        },
+      }),
+    );
+
+    expect(result.exitCode).toBe(0);
+    expect(posted).toHaveLength(1);
+    expect(field(posted[0], "Company")).toBe("Google");
+    expect(await readSeen(seenPath)).toEqual({
+      google: { "g-1": { title: "Software Engineer Intern g-1", firstSeenAt: now } },
+    });
+  });
+
+  it("first run for portal company with zero matches still writes empty key", async () => {
+    const dir = vaultDirWithCareer();
+    const seenPath = join(dir, "seen-jobs.json");
+    const postDiscord = vi.fn(async () => undefined);
+
+    const result = await runWatcher(
+      baseOpts({
+        vaultDir: dir,
+        seenPath,
+        config: configWith([portalCompany("meta", "Meta", "meta")]),
+        listJobs: async () => [senior],
+        postDiscord,
+      }),
+    );
+
+    expect(result.exitCode).toBe(0);
+    expect(postDiscord).not.toHaveBeenCalled();
+    expect(await readSeen(seenPath)).toEqual({ meta: {} });
+  });
+
+  it("greenhouse first run remains silent", async () => {
+    const dir = vaultDirWithCareer();
+    const seenPath = join(dir, "seen-jobs.json");
+    const postDiscord = vi.fn(async () => undefined);
+
+    const result = await runWatcher(
+      baseOpts({
+        vaultDir: dir,
+        seenPath,
+        config: configWith([company("vercel", "Vercel")]),
+        listJobs: async () => [intern("1")],
+        postDiscord,
+      }),
+    );
+
+    expect(result.exitCode).toBe(0);
+    expect(postDiscord).not.toHaveBeenCalled();
+    expect(await readSeen(seenPath)).toEqual({
+      vercel: { "1": { title: "Software Engineer Intern 1", firstSeenAt: now } },
+    });
   });
 
   it("continues processing other companies when one fetch rejects", async () => {
@@ -527,27 +612,18 @@ describe("runWatcher fleet pipeline", () => {
     expect(readVaultMarkdown).not.toHaveBeenCalled();
   });
 
-  it("hydrates Workday jobs in the attempt window only", async () => {
+  it("hydrates Workday candidates before season match so body Spring 2027 pings", async () => {
     const dir = vaultDirWithCareer();
     const seenPath = join(dir, "seen-jobs.json");
-    await writeSeen(seenPath, { boeing: {}, stripe: {} });
+    await writeSeen(seenPath, { boeing: {} });
 
     const hydrateContent = vi.fn(async (_company, _fetch, jobs: Job[]) =>
-      jobs.map((job) => ({ ...job, content: "hydrated description" })),
+      jobs.map((job) => ({
+        ...job,
+        content: "Spring 2027 internship in the hydrated description",
+      })),
     );
     setAdapterRegistryForTests({
-      greenhouse: {
-        ats: "greenhouse",
-        listJobs: async (c) =>
-          c.id === "stripe"
-            ? [
-                intern("20", {
-                  absoluteUrl:
-                    "https://job-boards.greenhouse.io/stripe/jobs/20",
-                }),
-              ]
-            : [],
-      },
       workday: {
         ats: "workday",
         listJobs: async () => [
@@ -557,17 +633,25 @@ describe("runWatcher fleet pipeline", () => {
               "https://boeing.wd1.myworkdayjobs.com/external_subsidiary/job/Seattle/JR100",
             content: "",
           }),
+          intern("JR200", {
+            title: "Data Analyst Intern JR200",
+            absoluteUrl:
+              "https://boeing.wd1.myworkdayjobs.com/external_subsidiary/job/Seattle/JR200",
+            content: "",
+          }),
         ],
         hydrateContent,
       },
     });
 
-    const generateFitNote = vi.fn(async (input) => input.job.content);
+    const postDiscord = vi.fn();
+    const generateFitNote = vi.fn();
 
-    await runWatcher(
+    const result = await runWatcher(
       baseOpts({
         vaultDir: dir,
         seenPath,
+        dryRun: true,
         config: configWith([
           {
             id: "boeing",
@@ -580,20 +664,22 @@ describe("runWatcher fleet pipeline", () => {
             },
             enabled: true,
           },
-          company("stripe", "Stripe"),
         ]),
         generateFitNote,
+        postDiscord,
       }),
     );
 
     expect(hydrateContent).toHaveBeenCalledTimes(1);
-    expect(hydrateContent.mock.calls[0]?.[2]).toHaveLength(1);
-    expect(generateFitNote.mock.calls[0]?.[0].job.content).toBe(
-      "hydrated description",
-    );
+    expect(hydrateContent.mock.calls[0]?.[2].map((job) => job.id)).toEqual([
+      "JR100",
+    ]);
+    expect(result.dryRunPings.map((ping) => ping.jobId)).toEqual(["JR100"]);
+    expect(postDiscord).not.toHaveBeenCalled();
+    expect(generateFitNote).not.toHaveBeenCalled();
   });
 
-  it("continues when Workday hydrateContent rejects", async () => {
+  it("continues without posting when Workday hydrateContent rejects", async () => {
     const dir = vaultDirWithCareer();
     const seenPath = join(dir, "seen-jobs.json");
     await writeSeen(seenPath, { boeing: {} });
@@ -643,7 +729,7 @@ describe("runWatcher fleet pipeline", () => {
 
     expect(result.exitCode).toBe(0);
     expect(hydrateContent).toHaveBeenCalledTimes(1);
-    expect(postDiscord).toHaveBeenCalledTimes(1);
-    expect(generateFitNote.mock.calls[0]?.[0].job.content).toBe("");
+    expect(postDiscord).not.toHaveBeenCalled();
+    expect(generateFitNote).not.toHaveBeenCalled();
   });
 });

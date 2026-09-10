@@ -28,6 +28,7 @@ companies:
     ats: greenhouse
     boardToken: abnormalsecurity
     enabled: true
+    domain: abnormal.security
   - id: academy
     name: Academy
     ats: greenhouse
@@ -46,6 +47,7 @@ companies:
       tenant: accenture
       site: AccentureCareers
     enabled: true
+    domain: accenture.com
   - id: accesso
     name: Accesso
     ats: greenhouse
@@ -90,16 +92,19 @@ companies:
     ats: greenhouse
     boardToken: adyen
     enabled: true
+    domain: adyen.com
   - id: affirm
     name: Affirm
     ats: greenhouse
     boardToken: affirm
     enabled: true
+    domain: affirm.com
   - id: airbnb
     name: Airbnb
     ats: greenhouse
     boardToken: airbnb
     enabled: true
+    domain: airbnb.com
   - id: airship
     name: Airship
     ats: greenhouse
@@ -115,6 +120,7 @@ companies:
     ats: greenhouse
     boardToken: airtable
     enabled: true
+    domain: airtable.com
   - id: akqa
     name: Akqa
     ats: greenhouse
@@ -130,6 +136,7 @@ companies:
     ats: greenhouse
     boardToken: algolia
     enabled: true
+    domain: algolia.com
   - id: alibaba
     name: Alibaba
     ats: custom
@@ -149,10 +156,12 @@ companies:
     ats: greenhouse
     boardToken: alphasense
     enabled: true
+    domain: alpha-sense.com
   - id: amazon
     name: Amazon
-    ats: custom
+    ats: amazon
     enabled: false
+    domain: amazon.jobs
   - id: amperity
     name: Amperity
     ats: greenhouse
@@ -163,6 +172,7 @@ companies:
     ats: greenhouse
     boardToken: amplitude
     enabled: true
+    domain: amplitude.com
   - id: anaplan
     name: Anaplan
     ats: greenhouse
@@ -178,6 +188,7 @@ companies:
     ats: greenhouse
     boardToken: anthropic
     enabled: true
+    domain: anthropic.com
   - id: apaleo
     name: Apaleo
     ats: greenhouse
@@ -193,11 +204,13 @@ companies:
     ats: greenhouse
     boardToken: apiiro
     enabled: true
+    domain: apiiro.com
   - id: apollo
     name: Apollo
     ats: greenhouse
     boardToken: apollo
     enabled: true
+    domain: apollo.io
   - id: appdirect
     name: Appdirect
     ats: greenhouse
@@ -227,6 +240,7 @@ companies:
     ats: ashby
     boardName: applied
     enabled: true
+    domain: appliedintuition.com
   - id: applied-materials
     name: Applied Materials
     ats: workday
@@ -235,6 +249,7 @@ companies:
       tenant: amat
       site: External
     enabled: true
+    domain: appliedmaterials.com
   - id: applovin
     name: Applovin
     ats: greenhouse
@@ -255,16 +270,19 @@ companies:
     ats: greenhouse
     boardToken: arizeai
     enabled: true
+    domain: arize.com
   - id: asana
     name: Asana
     ats: greenhouse
     boardToken: asana
     enabled: true
+    domain: asana.com
   - id: ashby
     name: Ashby
     ats: ashby
     boardName: ashby
     enabled: true
+    domain: ashbyhq.com
   - id: asml
     name: ASML
     ats: workday
@@ -291,6 +309,7 @@ companies:
       tenant: att
       site: ATTGeneral
     enabled: true
+    domain: att.com
   - id: atlassian
     name: Atlassian
     ats: custom
@@ -320,6 +339,7 @@ companies:
     ats: greenhouse
     boardToken: automox
     enabled: true
+    domain: automox.com
   - id: autoscout24
     name: Autoscout24
     ats: greenhouse
@@ -335,6 +355,7 @@ companies:
     ats: greenhouse
     boardToken: aviatrix
     enabled: true
+    domain: aviatrix.com
   - id: awin
     name: Awin
     ats: greenhouse
@@ -355,6 +376,7 @@ companies:
     ats: greenhouse
     boardToken: axonius
     enabled: true
+    domain: axonius.com
   - id: backblaze
     name: Backblaze
     ats: greenhouse
@@ -389,6 +411,7 @@ companies:
     ats: greenhouse
     boardToken: bigid
     enabled: true
+    domain: bigid.com
   - id: billcom
     name: Billcom
     ats: greenhouse
@@ -404,6 +427,7 @@ companies:
     ats: greenhouse
     boardToken: bitgo
     enabled: true
+    domain: bitgo.com
   - id: bitmovin
     name: Bitmovin
     ats: greenhouse
@@ -424,6 +448,7 @@ companies:
     ats: greenhouse
     boardToken: bitwarden
     enabled: true
+    domain: bitwarden.com
   - id: blacklane
     name: Blacklane
     ats: greenhouse
@@ -457,6 +482,7 @@ companies:
     ats: greenhouse
     boardToken: block
     enabled: true
+    domain: block.xyz
   - id: bloomberg
     name: Bloomberg
     ats: custom
@@ -484,6 +510,7 @@ companies:
       tenant: boeing
       site: external_subsidiary
     enabled: true
+    domain: boeing.com
   - id: bombas
     name: Bombas
     ats: greenhouse
@@ -512,11 +539,13 @@ companies:
     ats: greenhouse
     boardToken: braze
     enabled: true
+    domain: braze.com
   - id: brex
     name: Brex
     ats: greenhouse
     boardToken: brex
     enabled: true
+    domain: brex.com
   - id: bridgewater
     name: Bridgewater
     ats: custom
@@ -544,11 +573,13 @@ companies:
     ats: greenhouse
     boardToken: bugcrowd
     enabled: true
+    domain: bugcrowd.com
   - id: buildkite
     name: Buildkite
     ats: greenhouse
     boardToken: buildkite
     enabled: true
+    domain: buildkite.com
   - id: butterflynetwork
     name: Butterflynetwork
     ats: greenhouse
@@ -573,6 +604,7 @@ companies:
     ats: greenhouse
     boardToken: calendly
     enabled: true
+    domain: calendly.com
   - id: callrail
     name: Callrail
     ats: greenhouse
@@ -633,6 +665,7 @@ companies:
     ats: greenhouse
     boardToken: censys
     enabled: true
+    domain: censys.com
   - id: ceros
     name: Ceros
     ats: greenhouse
@@ -663,6 +696,7 @@ companies:
     ats: greenhouse
     boardToken: circleci
     enabled: true
+    domain: circleci.com
   - id: cisco
     name: Cisco
     ats: workday
@@ -671,6 +705,7 @@ companies:
       tenant: cisco
       site: Cisco_Careers
     enabled: true
+    domain: cisco.com
   - id: citadel
     name: Citadel
     ats: custom
@@ -687,6 +722,7 @@ companies:
       tenant: citi
       site: "2"
     enabled: true
+    domain: citi.com
   - id: civisanalytics
     name: Civisanalytics
     ats: greenhouse
@@ -707,6 +743,7 @@ companies:
     ats: ashby
     boardName: clerk
     enabled: true
+    domain: clerk.com
   - id: clever
     name: Clever
     ats: greenhouse
@@ -717,11 +754,13 @@ companies:
     ats: greenhouse
     boardToken: clickhouse
     enabled: true
+    domain: clickhouse.com
   - id: cloudflare
     name: Cloudflare
     ats: greenhouse
     boardToken: cloudflare
     enabled: true
+    domain: cloudflare.com
   - id: clutch
     name: Clutch
     ats: greenhouse
@@ -737,6 +776,7 @@ companies:
     ats: greenhouse
     boardToken: cockroachlabs
     enabled: true
+    domain: cockroachlabs.com
   - id: cognite
     name: Cognite
     ats: greenhouse
@@ -747,6 +787,7 @@ companies:
     ats: ashby
     boardName: cognition
     enabled: true
+    domain: cognition.ai
   - id: coherehealth
     name: Coherehealth
     ats: greenhouse
@@ -757,6 +798,7 @@ companies:
     ats: greenhouse
     boardToken: coinbase
     enabled: true
+    domain: coinbase.com
   - id: collectivehealth
     name: Collectivehealth
     ats: greenhouse
@@ -802,11 +844,13 @@ companies:
     ats: greenhouse
     boardToken: corelight
     enabled: true
+    domain: corelight.com
   - id: coreweave
     name: CoreWeave
     ats: greenhouse
     boardToken: coreweave
     enabled: true
+    domain: coreweave.com
   - id: coursehero
     name: Coursehero
     ats: greenhouse
@@ -827,6 +871,7 @@ companies:
     ats: greenhouse
     boardToken: cribl
     enabled: true
+    domain: cribl.io
   - id: crisp
     name: Crisp
     ats: greenhouse
@@ -857,6 +902,7 @@ companies:
     ats: ashby
     boardName: cursor
     enabled: true
+    domain: cursor.com
   - id: customerio
     name: Customer.io
     ats: greenhouse
@@ -877,11 +923,13 @@ companies:
     ats: greenhouse
     boardToken: databricks
     enabled: true
+    domain: databricks.com
   - id: datadog
     name: Datadog
     ats: greenhouse
     boardToken: datadog
     enabled: true
+    domain: datadoghq.com
   - id: dataiku
     name: Dataiku
     ats: greenhouse
@@ -901,6 +949,7 @@ companies:
     ats: greenhouse
     boardToken: deepmind
     enabled: true
+    domain: deepmind.google
   - id: degreed
     name: Degreed
     ats: greenhouse
@@ -911,6 +960,7 @@ companies:
     ats: greenhouse
     boardToken: descope
     enabled: true
+    domain: descope.com
   - id: descript
     name: Descript
     ats: greenhouse
@@ -946,6 +996,7 @@ companies:
     ats: greenhouse
     boardToken: discord
     enabled: true
+    domain: discord.com
   - id: disney
     name: Disney
     ats: greenhouse
@@ -1003,11 +1054,13 @@ companies:
       tenant: ebay
       site: apply
     enabled: true
+    domain: ebay.com
   - id: elastic
     name: Elastic
     ats: greenhouse
     boardToken: elastic
     enabled: true
+    domain: elastic.co
   - id: elationhealth
     name: Elationhealth
     ats: greenhouse
@@ -1089,11 +1142,13 @@ companies:
       tenant: expedia
       site: search
     enabled: true
+    domain: expedia.com
   - id: expel
     name: Expel
     ats: greenhouse
     boardToken: expel
     enabled: true
+    domain: expel.com
   - id: faire
     name: Faire
     ats: greenhouse
@@ -1119,6 +1174,7 @@ companies:
     ats: greenhouse
     boardToken: fastly
     enabled: true
+    domain: fastly.com
   - id: federato
     name: Federato
     ats: greenhouse
@@ -1144,6 +1200,7 @@ companies:
     ats: greenhouse
     boardToken: figma
     enabled: true
+    domain: figma.com
   - id: figment
     name: Figment
     ats: greenhouse
@@ -1159,16 +1216,19 @@ companies:
     ats: greenhouse
     boardToken: fingerprint
     enabled: true
+    domain: fingerprint.com
   - id: fireblocks
     name: Fireblocks
     ats: greenhouse
     boardToken: fireblocks
     enabled: true
+    domain: fireblocks.com
   - id: fivetran
     name: Fivetran
     ats: greenhouse
     boardToken: fivetran
     enabled: true
+    domain: fivetran.com
   - id: flex
     name: Flex
     ats: greenhouse
@@ -1269,6 +1329,7 @@ companies:
       tenant: generalmotors
       site: Careers_GM
     enabled: true
+    domain: gm.com
   - id: genius
     name: Genius
     ats: greenhouse
@@ -1293,11 +1354,13 @@ companies:
     ats: greenhouse
     boardToken: gitlab
     enabled: true
+    domain: gitlab.com
   - id: gleanwork
     name: Glean
     ats: greenhouse
     boardToken: gleanwork
     enabled: true
+    domain: glean.com
   - id: globalfoundries
     name: Globalfoundries
     ats: workday
@@ -1306,6 +1369,7 @@ companies:
       tenant: globalfoundries
       site: External
     enabled: true
+    domain: globalfoundries.com
   - id: glossgenius
     name: Glossgenius
     ats: greenhouse
@@ -1335,6 +1399,7 @@ companies:
     ats: greenhouse
     boardToken: grafanalabs
     enabled: true
+    domain: grafana.com
   - id: greenhouse
     name: Greenhouse
     ats: greenhouse
@@ -1370,6 +1435,7 @@ companies:
     ats: greenhouse
     boardToken: hackerrank
     enabled: true
+    domain: hackerrank.com
   - id: healthjoy
     name: Healthjoy
     ats: greenhouse
@@ -1395,6 +1461,7 @@ companies:
     ats: greenhouse
     boardToken: hightouch
     enabled: true
+    domain: hightouch.com
   - id: hologram
     name: Hologram
     ats: greenhouse
@@ -1415,6 +1482,7 @@ companies:
     ats: greenhouse
     boardToken: honeycomb
     enabled: true
+    domain: honeycomb.io
   - id: honor
     name: Honor
     ats: greenhouse
@@ -1428,6 +1496,7 @@ companies:
       tenant: hp
       site: ExternalCareerSite
     enabled: true
+    domain: hp.com
   - id: hubspot
     name: Hubspot
     ats: greenhouse
@@ -1519,11 +1588,13 @@ companies:
       tenant: intel
       site: External
     enabled: true
+    domain: intel.com
   - id: intercom
     name: Intercom
     ats: greenhouse
     boardToken: intercom
     enabled: true
+    domain: intercom.com
   - id: intuit
     name: Intuit
     ats: custom
@@ -1567,6 +1638,7 @@ companies:
     ats: greenhouse
     boardToken: jetbrains
     enabled: true
+    domain: jetbrains.com
   - id: jfrog
     name: Jfrog
     ats: greenhouse
@@ -1646,6 +1718,7 @@ companies:
     ats: greenhouse
     boardToken: launchdarkly
     enabled: true
+    domain: launchdarkly.com
   - id: launchpotato
     name: Launchpotato
     ats: greenhouse
@@ -1659,6 +1732,7 @@ companies:
       tenant: leidos
       site: External
     enabled: true
+    domain: leidos.com
   - id: liftoff
     name: Liftoff
     ats: greenhouse
@@ -1669,6 +1743,7 @@ companies:
     ats: greenhouse
     boardToken: lightmatter
     enabled: true
+    domain: lightmatter.co
   - id: lightricks
     name: Lightricks
     ats: greenhouse
@@ -1679,6 +1754,7 @@ companies:
     ats: ashby
     boardName: linear
     enabled: true
+    domain: linear.app
   - id: linkedin
     name: Linkedin
     ats: greenhouse
@@ -1747,6 +1823,7 @@ companies:
       tenant: marvell
       site: MarvellCareers
     enabled: true
+    domain: marvell.com
   - id: mastercard
     name: Mastercard
     ats: workday
@@ -1755,6 +1832,7 @@ companies:
       tenant: mastercard
       site: CorporateCareers
     enabled: true
+    domain: mastercard.com
   - id: masterclass
     name: Masterclass
     ats: greenhouse
@@ -1800,6 +1878,7 @@ companies:
     ats: greenhouse
     boardToken: mercury
     enabled: true
+    domain: mercury.com
   - id: meta
     name: Meta
     ats: custom
@@ -1812,6 +1891,7 @@ companies:
       tenant: micron
       site: External
     enabled: true
+    domain: micron.com
   - id: microsoft
     name: Microsoft
     ats: custom
@@ -1840,6 +1920,7 @@ companies:
     ats: ashby
     boardName: mistral.ai
     enabled: true
+    domain: mistral.ai
   - id: mitratech
     name: Mitratech
     ats: greenhouse
@@ -1850,6 +1931,7 @@ companies:
     ats: greenhouse
     boardToken: mixpanel
     enabled: true
+    domain: mixpanel.com
   - id: modernhealth
     name: Modernhealth
     ats: greenhouse
@@ -1860,6 +1942,7 @@ companies:
     ats: greenhouse
     boardToken: mongodb
     enabled: true
+    domain: mongodb.com
   - id: monograph
     name: Monograph
     ats: greenhouse
@@ -1915,6 +1998,7 @@ companies:
     ats: greenhouse
     boardToken: neo4j
     enabled: true
+    domain: neo4j.com
   - id: netflix
     name: Netflix
     ats: custom
@@ -1924,21 +2008,25 @@ companies:
     ats: greenhouse
     boardToken: netlify
     enabled: true
+    domain: netlify.com
   - id: netskope
     name: Netskope
     ats: greenhouse
     boardToken: netskope
     enabled: true
+    domain: netskope.com
   - id: neuralink
     name: Neuralink
     ats: greenhouse
     boardToken: neuralink
     enabled: true
+    domain: neuralink.com
   - id: newrelic
     name: New Relic
     ats: greenhouse
     boardToken: newrelic
     enabled: true
+    domain: newrelic.com
   - id: nexhealth
     name: Nexhealth
     ats: greenhouse
@@ -1972,11 +2060,13 @@ companies:
       tenant: ngc
       site: Northrop_Grumman_External_Site
     enabled: true
+    domain: northropgrumman.com
   - id: notion
     name: Notion
     ats: ashby
     boardName: notion
     enabled: true
+    domain: notion.com
   - id: nubank
     name: Nubank
     ats: greenhouse
@@ -1994,8 +2084,9 @@ companies:
     enabled: false
   - id: nvidia
     name: NVIDIA
-    ats: custom
+    ats: nvidia
     enabled: false
+    domain: nvidia.com
   - id: offerup
     name: Offerup
     ats: greenhouse
@@ -2006,6 +2097,7 @@ companies:
     ats: greenhouse
     boardToken: okta
     enabled: true
+    domain: okta.com
   - id: omadahealth
     name: Omadahealth
     ats: greenhouse
@@ -2023,8 +2115,9 @@ companies:
     enabled: false
   - id: openai
     name: OpenAI
-    ats: custom
+    ats: openai
     enabled: false
+    domain: openai.com
   - id: opentable
     name: Opentable
     ats: greenhouse
@@ -2093,6 +2186,7 @@ companies:
     ats: greenhouse
     boardToken: pagerduty
     enabled: true
+    domain: pagerduty.com
   - id: palantir
     name: Palantir
     ats: custom
@@ -2135,6 +2229,7 @@ companies:
       tenant: paypal
       site: jobs
     enabled: true
+    domain: paypal.com
   - id: paypay
     name: Paypay
     ats: greenhouse
@@ -2155,6 +2250,7 @@ companies:
     ats: ashby
     boardName: perplexity
     enabled: true
+    domain: perplexity.ai
   - id: pinterest
     name: Pinterest
     ats: greenhouse
@@ -2170,6 +2266,7 @@ companies:
     ats: greenhouse
     boardToken: planetscale
     enabled: true
+    domain: planetscale.com
   - id: plume
     name: Plume
     ats: greenhouse
@@ -2189,11 +2286,13 @@ companies:
     ats: ashby
     boardName: posthog
     enabled: true
+    domain: posthog.com
   - id: postman
     name: Postman
     ats: greenhouse
     boardToken: postman
     enabled: true
+    domain: postman.com
   - id: postscript
     name: Postscript
     ats: greenhouse
@@ -2209,6 +2308,7 @@ companies:
     ats: greenhouse
     boardToken: prisma
     enabled: true
+    domain: prisma.io
   - id: project44
     name: Project44
     ats: greenhouse
@@ -2277,16 +2377,19 @@ companies:
     ats: ashby
     boardName: railway
     enabled: true
+    domain: railway.com
   - id: ramp
     name: Ramp
     ats: ashby
     boardName: ramp
     enabled: true
+    domain: ramp.com
   - id: reddit
     name: Reddit
     ats: greenhouse
     boardToken: reddit
     enabled: true
+    domain: redditinc.com
   - id: reformation
     name: Reformation
     ats: greenhouse
@@ -2312,6 +2415,7 @@ companies:
     ats: ashby
     boardName: replit
     enabled: true
+    domain: replit.com
   - id: resilience
     name: Resilience
     ats: greenhouse
@@ -2346,11 +2450,13 @@ companies:
     ats: greenhouse
     boardToken: robinhood
     enabled: true
+    domain: robinhood.com
   - id: roblox
     name: Roblox
     ats: greenhouse
     boardToken: roblox
     enabled: true
+    domain: roblox.com
   - id: rocketlab
     name: Rocketlab
     ats: greenhouse
@@ -2374,11 +2480,13 @@ companies:
       tenant: globalhr
       site: REC_RTX_Ext_Gateway
     enabled: true
+    domain: rtx.com
   - id: rubrik
     name: Rubrik
     ats: greenhouse
     boardToken: rubrik
     enabled: true
+    domain: rubrik.com
   - id: salesforce
     name: Salesforce
     ats: custom
@@ -2403,6 +2511,7 @@ companies:
     ats: greenhouse
     boardToken: samsara
     enabled: true
+    domain: samsara.com
   - id: samsung
     name: Samsung
     ats: workday
@@ -2411,6 +2520,7 @@ companies:
       tenant: sec
       site: Samsung_Careers
     enabled: true
+    domain: samsung.com
   - id: sap
     name: SAP
     ats: custom
@@ -2425,6 +2535,7 @@ companies:
     ats: greenhouse
     boardToken: scaleai
     enabled: true
+    domain: scale.com
   - id: scandit
     name: Scandit
     ats: greenhouse
@@ -2450,6 +2561,7 @@ companies:
     ats: greenhouse
     boardToken: securityscorecard
     enabled: true
+    domain: securityscorecard.com
   - id: seekout
     name: Seekout
     ats: greenhouse
@@ -2499,6 +2611,7 @@ companies:
     ats: greenhouse
     boardToken: singlestore
     enabled: true
+    domain: singlestore.com
   - id: skyryse
     name: Skyryse
     ats: greenhouse
@@ -2576,6 +2689,7 @@ companies:
     ats: greenhouse
     boardToken: stabilityai
     enabled: true
+    domain: stability.ai
   - id: stackadapt
     name: Stackadapt
     ats: greenhouse
@@ -2586,16 +2700,19 @@ companies:
     ats: greenhouse
     boardToken: stackblitz
     enabled: true
+    domain: stackblitz.com
   - id: stacklok
     name: Stacklok
     ats: greenhouse
     boardToken: stacklok
     enabled: true
+    domain: stacklok.com
   - id: starburst
     name: Starburst
     ats: greenhouse
     boardToken: starburst
     enabled: true
+    domain: starburst.io
   - id: stitch
     name: Stitch
     ats: greenhouse
@@ -2621,6 +2738,7 @@ companies:
     ats: greenhouse
     boardToken: stripe
     enabled: true
+    domain: stripe.com
   - id: submittable
     name: Submittable
     ats: greenhouse
@@ -2631,6 +2749,7 @@ companies:
     ats: greenhouse
     boardToken: sumologic
     enabled: true
+    domain: sumologic.com
   - id: sumup
     name: Sumup
     ats: greenhouse
@@ -2641,6 +2760,7 @@ companies:
     ats: ashby
     boardName: supabase
     enabled: true
+    domain: supabase.com
   - id: supergoop
     name: Supergoop
     ats: greenhouse
@@ -2666,6 +2786,7 @@ companies:
     ats: greenhouse
     boardToken: synack
     enabled: true
+    domain: synack.com
   - id: t-mobile
     name: T-Mobile
     ats: workday
@@ -2684,6 +2805,7 @@ companies:
     ats: greenhouse
     boardToken: tailscale
     enabled: true
+    domain: tailscale.com
   - id: tanium
     name: Tanium
     ats: greenhouse
@@ -2697,6 +2819,7 @@ companies:
       tenant: target
       site: targetcareers
     enabled: true
+    domain: target.com
   - id: taskrabbit
     name: Taskrabbit
     ats: greenhouse
@@ -2759,6 +2882,7 @@ companies:
     ats: greenhouse
     boardToken: tines
     enabled: true
+    domain: tines.com
   - id: toast
     name: Toast
     ats: greenhouse
@@ -2769,11 +2893,13 @@ companies:
     ats: greenhouse
     boardToken: togetherai
     enabled: true
+    domain: together.ai
   - id: torq
     name: Torq
     ats: greenhouse
     boardToken: torq
     enabled: true
+    domain: torq.io
   - id: tower-research
     name: Tower Research
     ats: custom
@@ -2823,6 +2949,7 @@ companies:
     ats: greenhouse
     boardToken: twilio
     enabled: true
+    domain: twilio.com
   - id: twistbioscience
     name: Twistbioscience
     ats: greenhouse
@@ -2891,6 +3018,7 @@ companies:
     ats: greenhouse
     boardToken: upbound
     enabled: true
+    domain: upbound.io
   - id: updater
     name: Updater
     ats: greenhouse
@@ -2926,11 +3054,13 @@ companies:
     ats: greenhouse
     boardToken: veracode
     enabled: true
+    domain: veracode.com
   - id: vercel
     name: Vercel
     ats: greenhouse
     boardToken: vercel
     enabled: true
+    domain: vercel.com
   - id: veriff
     name: Veriff
     ats: greenhouse
@@ -2941,6 +3071,7 @@ companies:
     ats: greenhouse
     boardToken: verkada
     enabled: true
+    domain: verkada.com
   - id: verse
     name: Verse
     ats: greenhouse
@@ -2961,6 +3092,7 @@ companies:
     ats: greenhouse
     boardToken: virtru
     enabled: true
+    domain: virtru.com
   - id: virtu
     name: Virtu
     ats: greenhouse
@@ -2974,6 +3106,7 @@ companies:
       tenant: visa
       site: Visa
     enabled: true
+    domain: visa.com
   - id: vonage
     name: Vonage
     ats: greenhouse
@@ -3002,11 +3135,13 @@ companies:
     ats: greenhouse
     boardToken: watershed
     enabled: true
+    domain: watershed.com
   - id: waymo
     name: Waymo
     ats: greenhouse
     boardToken: waymo
     enabled: true
+    domain: waymo.com
   - id: weave
     name: Weave
     ats: greenhouse
@@ -3017,6 +3152,7 @@ companies:
     ats: greenhouse
     boardToken: webflow
     enabled: true
+    domain: webflow.com
   - id: weee
     name: Weee
     ats: greenhouse
@@ -3052,6 +3188,7 @@ companies:
     ats: greenhouse
     boardToken: wizinc
     enabled: true
+    domain: wiz.io
   - id: wolt
     name: Wolt
     ats: greenhouse
@@ -3062,6 +3199,7 @@ companies:
     ats: greenhouse
     boardToken: workato
     enabled: true
+    domain: workato.com
   - id: workday
     name: Workday
     ats: custom
@@ -3081,6 +3219,7 @@ companies:
     ats: greenhouse
     boardToken: xai
     enabled: true
+    domain: x.ai
   - id: xendit
     name: Xendit
     ats: greenhouse
@@ -3111,6 +3250,7 @@ companies:
     ats: greenhouse
     boardToken: yugabyte
     enabled: true
+    domain: yugabyte.com
   - id: zenbusiness
     name: Zenbusiness
     ats: greenhouse
@@ -3156,6 +3296,7 @@ companies:
     ats: greenhouse
     boardToken: zscaler
     enabled: true
+    domain: zscaler.com
   - id: zuora
     name: Zuora
     ats: greenhouse

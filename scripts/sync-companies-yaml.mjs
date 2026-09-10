@@ -209,6 +209,13 @@ for (const company of refined) {
     row.enabled = true;
   }
 
+  if (typeof existing?.domain === "string" && existing.domain.trim()) {
+    row.domain = existing.domain;
+  }
+  if (typeof existing?.logoUrl === "string" && existing.logoUrl.trim()) {
+    row.logoUrl = existing.logoUrl;
+  }
+
   byId.set(company.slug, row);
   if (row.ats === "greenhouse" && row.boardToken) {
     greenhouseTokenOwner.set(row.boardToken, company.slug);

@@ -1,6 +1,8 @@
-import type { CompanyConfig, FetchLike, Job } from "../types.js";
+import type { CompanyConfig, FetchLike, Job, PortalAtsKind } from "../types.js";
 
-export type AtsKind = "greenhouse" | "ashby" | "workday";
+export type { PortalAtsKind } from "../types.js";
+
+export type AtsKind = "greenhouse" | "ashby" | "workday" | PortalAtsKind;
 
 export type AtsAdapter = {
   ats: AtsKind;

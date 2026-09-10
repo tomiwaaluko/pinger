@@ -8,7 +8,7 @@ import {
   WORKDAY_CONCURRENCY,
 } from "./constants.js";
 import { buildDiscordEmbed } from "./discord.js";
-import { matchesJob } from "./matcher.js";
+import { matchesJob, passesBaseGates } from "./matcher.js";
 import {
   isFirstRun,
   newMatchingJobs,
@@ -17,21 +17,31 @@ import {
 import { compareJobIds, selectAttemptWindow } from "./soft-cap.js";
 import { truncate } from "./text.js";
 import type { BoundJob } from "./soft-cap.js";
-import type {
-  AshbyCompany,
-  DryRunPing,
-  FitNoteInput,
-  GreenhouseCompany,
-  Job,
-  RunWatcherOptions,
-  RunWatcherResult,
-  SeenStore,
-  VaultContents,
-  WorkdayCompany,
+import {
+  isPortalAtsKind,
+  type AshbyCompany,
+  type DryRunPing,
+  type FitNoteInput,
+  type GreenhouseCompany,
+  type Job,
+  type PortalCompany,
+  type RunWatcherOptions,
+  type RunWatcherResult,
+  type SeenStore,
+  type VaultContents,
+  type WorkdayCompany,
 } from "./types.js";
 import { resolveCareerDir } from "./vault.js";
 
-type EnabledCompany = GreenhouseCompany | AshbyCompany | WorkdayCompany;
+type EnabledCompany =
+  | GreenhouseCompany
+  | AshbyCompany
+  | WorkdayCompany
+  | PortalCompany;
+
+function shouldBackfillFirstRun(company: EnabledCompany): boolean {
+  return isPortalAtsKind(company.ats);
+}
 
 async function fitForJob(
   opts: RunWatcherOptions,
@@ -79,6 +89,9 @@ async function hydrateWorkdayAttemptWindow(
   for (const bound of attempt) {
     const company = companyById.get(bound.companyId);
     if (company?.ats !== "workday") {
+      continue;
+    }
+    if (bound.job.content.trim().length > 0) {
       continue;
     }
     const list = boundsByCompany.get(bound.companyId) ?? [];
@@ -139,6 +152,15 @@ export async function runWatcher(
   const nameById = new Map(
     opts.config.companies.map((company) => [company.id, company.name] as const),
   );
+  const brandingById = new Map(
+    opts.config.companies.map(
+      (company) =>
+        [
+          company.id,
+          { domain: company.domain, logoUrl: company.logoUrl },
+        ] as const,
+    ),
+  );
 
   const store = await opts.readSeen(opts.seenPath);
   const nextStore: SeenStore = structuredClone(store);
@@ -159,9 +181,39 @@ export async function runWatcher(
       try {
         const adapter = getAdapter(company.ats);
         const jobs = await adapter.listJobs(company, opts.fetch);
-        const matched = jobs.filter((job) => matchesJob(job));
+        let matched: Job[];
+        if (adapter.hydrateContent) {
+          const candidates = jobs.filter((job) => passesBaseGates(job));
+          let hydrated = candidates;
+          try {
+            hydrated = await adapter.hydrateContent(
+              company,
+              opts.fetch,
+              candidates,
+            );
+          } catch (err) {
+            console.error(
+              `${company.name} hydrate failed for ${company.id}:`,
+              String(err),
+            );
+          }
+          matched = hydrated.filter((job) => matchesJob(job));
+        } else {
+          matched = jobs.filter((job) => matchesJob(job));
+        }
 
         if (isFirstRun(store, company.id)) {
+          if (shouldBackfillFirstRun(company)) {
+            if (!opts.dryRun) {
+              nextStore[company.id] = {};
+              firstRunCompanyIds.add(company.id);
+            }
+            for (const job of matched) {
+              discordBound.push({ companyId: company.id, job });
+            }
+            return;
+          }
+
           if (!opts.dryRun) {
             nextStore[company.id] = {};
             for (const job of matched) {
@@ -190,11 +242,13 @@ export async function runWatcher(
     const greenhouse = enabled.filter((c) => c.ats === "greenhouse");
     const ashby = enabled.filter((c) => c.ats === "ashby");
     const workday = enabled.filter((c) => c.ats === "workday");
+    const portal = enabled.filter((c) => shouldBackfillFirstRun(c));
 
     await Promise.all([
       processInBatches(greenhouse, GREENHOUSE_CONCURRENCY, processCompany),
       processInBatches(ashby, ASHBY_CONCURRENCY, processCompany),
       processInBatches(workday, WORKDAY_CONCURRENCY, processCompany),
+      processInBatches(portal, GREENHOUSE_CONCURRENCY, processCompany),
     ]);
 
     if (fetchFailures.length === enabled.length && enabled.length > 0) {
@@ -210,21 +264,24 @@ export async function runWatcher(
       location: bound.job.location,
     });
 
-    if (opts.dryRun) {
-      return {
-        exitCode: 0,
-        dryRunPings: attempt.map(toPing),
-        dryRunDeferred: deferred.map(toPing),
-      };
-    }
-
     if (attempt.length > 0) {
+      await hydrateWorkdayAttemptWindow(attempt, enabled, opts.fetch);
+      const hydratedMatches = attempt.filter((bound) => matchesJob(bound.job));
+      if (opts.dryRun) {
+        return {
+          exitCode: 0,
+          dryRunPings: hydratedMatches.map(toPing),
+          dryRunDeferred: deferred.map(toPing),
+        };
+      }
+      if (hydratedMatches.length === 0) {
+        return { exitCode: 0, dryRunPings: [], dryRunDeferred: [] };
+      }
+
       const webhookUrl = opts.env.DISCORD_WEBHOOK_URL;
       if (!webhookUrl) {
         return { exitCode: 2, dryRunPings: [], dryRunDeferred: [] };
       }
-
-      await hydrateWorkdayAttemptWindow(attempt, enabled, opts.fetch);
 
       let vault: VaultContents;
       try {
@@ -233,8 +290,9 @@ export async function runWatcher(
         return { exitCode: 2, dryRunPings: [], dryRunDeferred: [] };
       }
 
-      for (const { companyId, job } of attempt) {
+      for (const { companyId, job } of hydratedMatches) {
         const companyName = nameById.get(companyId) ?? companyId;
+        const branding = brandingById.get(companyId);
         const fit = truncate(await fitForJob(opts, vault, job), FIT_NOTE_CAP);
         try {
           await opts.postDiscord(
@@ -244,6 +302,8 @@ export async function runWatcher(
               companyName,
               companyId,
               fit,
+              domain: branding?.domain,
+              logoUrl: branding?.logoUrl,
             }),
           );
           recordJob(nextStore, companyId, job, opts.now().toISOString());

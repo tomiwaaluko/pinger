@@ -62,6 +62,18 @@ describe("loadConfig", () => {
     }
   });
 
+  it("every enabled company has domain or logoUrl", () => {
+    const enabled = loadConfig(join(repoRoot, "companies.yaml")).companies.filter(
+      (company) => company.enabled,
+    );
+    for (const company of enabled) {
+      expect(
+        ("domain" in company && company.domain) ||
+          ("logoUrl" in company && company.logoUrl),
+      ).toBeTruthy();
+    }
+  });
+
   it("parses enabled true and false", () => {
     const path = writeTempYaml(`
 llm:
@@ -234,6 +246,60 @@ companies:
     }
   });
 
+  it("rejects enabled stub portals without a fetch adapter", () => {
+    const path = writeTempYaml(`
+llm:
+  model: gemini-2.5-flash
+companies:
+  - id: google
+    name: Google
+    ats: google
+    enabled: true
+    domain: google.com
+`);
+    expect(() => loadConfig(path)).toThrow(/google.*enabled: false/i);
+  });
+
+  it("loads disabled stub portal company", () => {
+    const path = writeTempYaml(`
+llm:
+  model: gemini-2.5-flash
+companies:
+  - id: google
+    name: Google
+    ats: google
+    enabled: false
+    domain: google.com
+`);
+    expect(loadConfig(path).companies[0]).toEqual({
+      id: "google",
+      name: "Google",
+      ats: "google",
+      enabled: false,
+      domain: "google.com",
+    });
+  });
+
+  it("loads enabled implemented portal company without adapter-specific fields", () => {
+    const path = writeTempYaml(`
+llm:
+  model: gemini-2.5-flash
+companies:
+  - id: amazon
+    name: Amazon
+    ats: amazon
+    enabled: true
+    domain: amazon.jobs
+`);
+    expect(loadConfig(path).companies[0]).toEqual({
+      id: "amazon",
+      name: "Amazon",
+      ats: "amazon",
+      enabled: true,
+      domain: "amazon.jobs",
+    });
+  });
+
   it("rejects custom with enabled true", () => {
     const path = writeTempYaml(`
 llm:
@@ -282,7 +348,7 @@ companies:
     ats: lever
     enabled: true
 `);
-    expect(() => loadConfig(path)).toThrow(/greenhouse, ashby, workday, or custom/);
+    expect(() => loadConfig(path)).toThrow(/greenhouse, ashby, workday, google/);
   });
 
   it("does not require careerSiteCategory", () => {
@@ -350,5 +416,78 @@ companies:
 ${baseCompany}
 `);
     expect(loadConfig(path).vault.careerPath).toBe("Career/");
+  });
+
+  it("accepts domain and https logoUrl", () => {
+    const path = writeTempYaml(`
+vault:
+  careerPath: Career/
+llm:
+  model: gemini-2.5-flash
+companies:
+  - id: stripe
+    name: Stripe
+    ats: greenhouse
+    boardToken: stripe
+    enabled: true
+    domain: stripe.com
+    logoUrl: https://cdn.example/stripe.png
+`);
+    const company = loadConfig(path).companies[0];
+    expect(company).toMatchObject({
+      domain: "stripe.com",
+      logoUrl: "https://cdn.example/stripe.png",
+    });
+  });
+
+  it("rejects domain with path", () => {
+    expect(() =>
+      loadConfig(
+        writeTempYaml(`
+llm:
+  model: gemini-2.5-flash
+companies:
+  - id: stripe
+    name: Stripe
+    ats: greenhouse
+    boardToken: stripe
+    enabled: true
+    domain: stripe.com/foo
+`),
+      ),
+    ).toThrow(/domain/i);
+  });
+
+  it("rejects http logoUrl and userinfo", () => {
+    expect(() =>
+      loadConfig(
+        writeTempYaml(`
+llm:
+  model: gemini-2.5-flash
+companies:
+  - id: stripe
+    name: Stripe
+    ats: greenhouse
+    boardToken: stripe
+    enabled: true
+    logoUrl: http://x
+`),
+      ),
+    ).toThrow();
+    expect(() =>
+      loadConfig(
+        writeTempYaml(`
+llm:
+  model: gemini-2.5-flash
+companies:
+  - id: stripe
+    name: Stripe
+    ats: greenhouse
+    boardToken: stripe
+    enabled: true
+    logoUrl: https://user:pass@x/y
+`),
+      ),
+    ).toThrow();
   });
 });

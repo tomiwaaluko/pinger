@@ -11,11 +11,11 @@ Design and rollout notes:
 
 ## What it does
 
-1. Loads `companies.yaml` and fetches only companies with `enabled: true` via ATS adapters (`greenhouse`, `ashby`, `workday`). Custom portal rows load with `enabled: false` only.
-2. Keeps jobs whose **departments** pass allow/deny rules and whose title is early-career SWE / AI Engineer (see [Matching](#matching)).
+1. Loads `companies.yaml` and fetches only companies with `enabled: true` via ATS adapters (`greenhouse`, `ashby`, `workday`, and Phase 2 portal adapters). Portal and custom rows ship with `enabled: false` until dry-run validated.
+2. Keeps jobs that pass department, title, **US location**, and **season/year** rules (see [Matching](#matching)).
 3. Diffs job IDs against per-company keys in `seen-jobs.json`.
-4. On a company's **first run**, writes that company's key (often `{}`) and sends nothing to Discord.
-5. On later new hits, applies a fair round-robin soft cap (≤25 jobs per run before LLM/Discord). Workday descriptions are hydrated only for jobs in that attempt window. Reads `Career/` from a private Obsidian vault repo, asks Gemini for a short fit note, and posts a Discord embed whose URL is the job's `absoluteUrl`. Embed **Company** is the config `name`.
+4. On a company's **first run**, writes that company's key (often `{}`) and sends nothing to Discord (portal adapters backfill matching jobs into the attempt window on first run instead).
+5. On later new hits, applies a fair round-robin soft cap (≤25 jobs per run before LLM/Discord). Workday (and NVIDIA) job descriptions are hydrated **before** season filtering when list payloads omit text; Workday is hydrated again for empty-content jobs in the attempt window. Reads `Career/` from a private Obsidian vault repo, asks Gemini for a short fit note, and posts a Discord embed whose URL is the job's `absoluteUrl`. Embed **Company** is the config `name`; optional logo thumbnail from `logoUrl` or Google favicon CDN via `domain`.
 
 Partial failures are isolated: one bad board does not block other companies. A mid-fleet Discord failure still records successful posts and exits 2.
 
@@ -33,12 +33,52 @@ Ashby `boardName` overrides live in `data/ashby-board-overrides.yaml`. Workday c
 
 ## Matching
 
-Matching uses **departments**, not Greenhouse Career Site Categories.
+Matching uses **departments**, not Greenhouse Career Site Categories. All gates live in `src/matcher.ts`; US location heuristics in `src/location.ts`.
+
+### Departments
 
 - **Allow** (whole-token match in any department name): `engineering`, `software`, `swe`, `ai`
 - **Deny** (any match rejects the job): `sales`, `solution`, `solutions`, `field`, `non`
 
-Title rules (shared by all companies) require both an early-career phrase (intern, co-op, new grad, university, graduate, …) and a role phrase (software engineer, software engineering, ai engineer, swe). Rules live in `src/matcher.ts`.
+### Title and role
+
+Require a role phrase (software engineer, software engineering, ai engineer, swe) plus an early-career signal:
+
+- **Intern / co-op:** checked in title **and** job body (`content`).
+- **New grad / university / graduate:** checked in title only.
+
+### US location
+
+Jobs must look US-based from the `location` string (states, metros, `United States` / `USA`, postal-style `City, ST`). Plain `Remote` or `Anywhere` alone does **not** pass. International city/state false positives (e.g. Berlin, DE) are blocked.
+
+### Season / graduation year
+
+Applied after base gates. Intern/co-op roles use title + body; new-grad roles use title + body for year extraction.
+
+| Track | Rule |
+| --- | --- |
+| **Intern / co-op** | Must mention **Spring 2027** (incl. `Spring '27`, `Jan–May 2027`, `Winter/Spring 2027`). Rejects other explicit years and competing seasons (`Summer`, `Fall`, standalone `Winter`). |
+| **New grad** | Passes with **no** four-digit year, or with **2027** only. Rejects other graduation years. |
+
+### Workday hydrate-before-season
+
+Workday list responses often omit description text where season cues live. For Workday (and NVIDIA Workday-backed listings), the pipeline hydrates every job that passes base gates **before** `passesSeasonYear`, not only jobs in the Discord attempt window.
+
+### Discord logos
+
+Each company row may set optional branding on the config entry:
+
+- `logoUrl` — used directly as the embed thumbnail when set.
+- `domain` — falls back to Google favicon CDN (`https://www.google.com/s2/favicons?sz=128&domain=…`).
+
+Domain seeds live in `data/company-domains.yaml`; merge into `companies.yaml` with `node scripts/apply-company-domains.mjs`.
+
+### Phase 2 portal adapters
+
+| Company | Status |
+| --- | --- |
+| Amazon, NVIDIA, OpenAI | Adapters implemented in `src/adapters/`; rows in `companies.yaml` stay `enabled: false` until Actions dry-run confirms volume and stability. |
+| Google, Meta, Microsoft, Apple | Out of scope — no stable public unauthenticated JSON API found; stubs return `[]`. See [portal probe notes](docs/superpowers/notes/) (`2026-09-10-portal-*.md`). |
 
 ## GitHub secrets (watch workflow only)
 
@@ -114,6 +154,8 @@ Company list and Gemini model id live in `companies.yaml`. Each entry has:
   ats: greenhouse
   boardToken: acme
   enabled: true   # only enabled boards are fetched; flip to false to pause
+  domain: acme.com          # optional; Discord favicon thumbnail
+  logoUrl: https://…        # optional; overrides domain favicon
 ```
 
 `companies.yaml` ships ~500 verified Greenhouse boards (HTTP 200 probe on 2026-08-20) with ~100 enabled in the first wave. Enable more by setting `enabled: true`; disable to pause without removing coverage.

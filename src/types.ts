@@ -8,7 +8,12 @@ export type Job = {
   content: string;
 };
 
-export type GreenhouseCompany = {
+export type CompanyBranding = {
+  domain?: string;
+  logoUrl?: string;
+};
+
+export type GreenhouseCompany = CompanyBranding & {
   id: string;
   name: string;
   ats: "greenhouse";
@@ -16,7 +21,7 @@ export type GreenhouseCompany = {
   enabled: boolean;
 };
 
-export type AshbyCompany = {
+export type AshbyCompany = CompanyBranding & {
   id: string;
   name: string;
   ats: "ashby";
@@ -24,7 +29,7 @@ export type AshbyCompany = {
   enabled: boolean;
 };
 
-export type WorkdayCompany = {
+export type WorkdayCompany = CompanyBranding & {
   id: string;
   name: string;
   ats: "workday";
@@ -32,7 +37,52 @@ export type WorkdayCompany = {
   enabled: boolean;
 };
 
-export type CustomCompany = {
+export const PORTAL_ATS_KINDS = [
+  "google",
+  "meta",
+  "microsoft",
+  "amazon",
+  "apple",
+  "nvidia",
+  "openai",
+] as const;
+
+/** Portal ATS kinds with working listJobs adapters (not empty stubs). */
+export const IMPLEMENTED_PORTAL_ATS_KINDS = [
+  "amazon",
+  "nvidia",
+  "openai",
+] as const satisfies readonly PortalAtsKind[];
+
+/** Portal kinds that intentionally return [] until a public API exists. */
+export const STUB_PORTAL_ATS_KINDS = [
+  "google",
+  "meta",
+  "microsoft",
+  "apple",
+] as const satisfies readonly PortalAtsKind[];
+
+export type PortalAtsKind = (typeof PORTAL_ATS_KINDS)[number];
+export type ImplementedPortalAtsKind =
+  (typeof IMPLEMENTED_PORTAL_ATS_KINDS)[number];
+export type StubPortalAtsKind = (typeof STUB_PORTAL_ATS_KINDS)[number];
+
+export function isPortalAtsKind(value: string): value is PortalAtsKind {
+  return (PORTAL_ATS_KINDS as readonly string[]).includes(value);
+}
+
+export function isStubPortalAtsKind(value: string): value is StubPortalAtsKind {
+  return (STUB_PORTAL_ATS_KINDS as readonly string[]).includes(value);
+}
+
+export type PortalCompany = CompanyBranding & {
+  id: string;
+  name: string;
+  ats: PortalAtsKind;
+  enabled: boolean;
+};
+
+export type CustomCompany = CompanyBranding & {
   id: string;
   name: string;
   ats: "custom";
@@ -43,6 +93,7 @@ export type CompanyConfig =
   | GreenhouseCompany
   | AshbyCompany
   | WorkdayCompany
+  | PortalCompany
   | CustomCompany;
 
 export type AppConfig = {
@@ -81,6 +132,7 @@ export type DiscordEmbed = {
   url: string;
   fields: Array<{ name: string; value: string }>;
   footer: { text: string };
+  thumbnail?: { url: string };
 };
 
 export type DryRunPing = {

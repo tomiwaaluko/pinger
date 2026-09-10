@@ -1,0 +1,22 @@
+{
+  "jobs": [
+    {
+      "id": "741dc21a-3363-4e63-9555-f90219c7fd70",
+      "title": "Software Engineer Intern, Spring 2027",
+      "normalized_location": "Seattle, Washington, USA",
+      "job_path": "/en/jobs/123456/software-development-engineer-intern-spring-2027",
+      "description": "<p>Join an engineering team for a Spring 2027 internship.</p>",
+      "basic_qualifications": "<ul><li>Currently pursuing a degree in computer science.</li></ul>",
+      "preferred_qualifications": "<p>Distributed systems experience.</p>",
+      "job_category": "Software Development",
+      "business_category": "aws"
+    },
+    {
+      "id": "bad-url",
+      "title": "Software Development Engineer",
+      "normalized_location": "Austin, Texas, USA",
+      "job_path": "http://www.amazon.jobs/en/jobs/bad",
+      "job_category": "Software Development"
+    }
+  ]
+}

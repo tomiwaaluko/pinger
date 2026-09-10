@@ -1,12 +1,16 @@
 import { readFileSync } from "node:fs";
 import { parse } from "yaml";
-import type {
-  AppConfig,
-  AshbyCompany,
-  CompanyConfig,
-  CustomCompany,
-  GreenhouseCompany,
-  WorkdayCompany,
+import {
+  isPortalAtsKind,
+  isStubPortalAtsKind,
+  PORTAL_ATS_KINDS,
+  type AppConfig,
+  type AshbyCompany,
+  type CompanyConfig,
+  type CustomCompany,
+  type GreenhouseCompany,
+  type PortalCompany,
+  type WorkdayCompany,
 } from "./types.js";
 
 /** Stable seen-store / Greenhouse path segment: lowercase kebab slug, no whitespace. */
@@ -38,6 +42,43 @@ function requireBoolean(value: unknown, label: string): boolean {
   return value;
 }
 
+function optionalDomain(value: unknown, label: string): string | undefined {
+  if (value === undefined || value === null) return undefined;
+  const s = requireString(value, label);
+  if (!/^(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z]{2,}$/i.test(s)) {
+    throw new Error(`${label} must be a DNS hostname`);
+  }
+  return s.toLowerCase();
+}
+
+function optionalLogoUrl(value: unknown, label: string): string | undefined {
+  if (value === undefined || value === null) return undefined;
+  const s = requireString(value, label);
+  let url: URL;
+  try {
+    url = new URL(s);
+  } catch {
+    throw new Error(`${label} must be a valid URL`);
+  }
+  if (url.protocol !== "https:") throw new Error(`${label} must be https`);
+  if (url.username || url.password) {
+    throw new Error(`${label} must not include userinfo`);
+  }
+  return s;
+}
+
+function parseBrandingFields(
+  row: Record<string, unknown>,
+  index: number,
+): { domain?: string; logoUrl?: string } {
+  const domain = optionalDomain(row.domain, `companies[${index}].domain`);
+  const logoUrl = optionalLogoUrl(row.logoUrl, `companies[${index}].logoUrl`);
+  return {
+    ...(domain !== undefined && { domain }),
+    ...(logoUrl !== undefined && { logoUrl }),
+  };
+}
+
 function parseWorkdayBlock(
   raw: unknown,
   index: number,
@@ -62,6 +103,7 @@ function parseCompany(raw: unknown, index: number): CompanyConfig {
   const id = requireSlug(row.id, `companies[${index}].id`);
   const name = requireString(row.name, `companies[${index}].name`);
   const enabled = requireBoolean(row.enabled, `companies[${index}].enabled`);
+  const branding = parseBrandingFields(row, index);
 
   if (ats === "greenhouse") {
     return {
@@ -73,6 +115,7 @@ function parseCompany(raw: unknown, index: number): CompanyConfig {
         `companies[${index}].boardToken`,
       ),
       enabled,
+      ...branding,
     } satisfies GreenhouseCompany;
   }
 
@@ -86,6 +129,7 @@ function parseCompany(raw: unknown, index: number): CompanyConfig {
         `companies[${index}].boardName`,
       ),
       enabled,
+      ...branding,
     } satisfies AshbyCompany;
   }
 
@@ -96,7 +140,23 @@ function parseCompany(raw: unknown, index: number): CompanyConfig {
       ats: "workday",
       workday: parseWorkdayBlock(row.workday, index),
       enabled,
+      ...branding,
     } satisfies WorkdayCompany;
+  }
+
+  if (isPortalAtsKind(ats)) {
+    if (enabled && isStubPortalAtsKind(ats)) {
+      throw new Error(
+        `companies[${index}]: ${ats} portal has no fetch adapter yet and must have enabled: false`,
+      );
+    }
+    return {
+      id,
+      name,
+      ats,
+      enabled,
+      ...branding,
+    } satisfies PortalCompany;
   }
 
   if (ats === "custom") {
@@ -110,11 +170,12 @@ function parseCompany(raw: unknown, index: number): CompanyConfig {
       name,
       ats: "custom",
       enabled: false,
+      ...branding,
     } satisfies CustomCompany;
   }
 
   throw new Error(
-    `companies[${index}].ats must be greenhouse, ashby, workday, or custom`,
+    `companies[${index}].ats must be greenhouse, ashby, workday, ${PORTAL_ATS_KINDS.join(", ")}, or custom`,
   );
 }
 

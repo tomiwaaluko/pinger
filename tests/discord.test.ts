@@ -73,6 +73,41 @@ describe("buildDiscordEmbed", () => {
       /@everyone|@here/i,
     );
   });
+
+  it("sets thumbnail from company domain via Google favicon CDN", () => {
+    const embed = buildDiscordEmbed({
+      job: makeJob(),
+      companyName: "Stripe",
+      companyId: "stripe",
+      fit: "ok",
+      domain: "stripe.com",
+    });
+    expect(embed.thumbnail).toEqual({
+      url: "https://www.google.com/s2/favicons?sz=128&domain=stripe.com",
+    });
+  });
+
+  it("prefers logoUrl over domain for thumbnail", () => {
+    const embed = buildDiscordEmbed({
+      job: makeJob(),
+      companyName: "Stripe",
+      companyId: "stripe",
+      fit: "ok",
+      domain: "stripe.com",
+      logoUrl: "https://cdn.example/a.png",
+    });
+    expect(embed.thumbnail).toEqual({ url: "https://cdn.example/a.png" });
+  });
+
+  it("omits thumbnail when no domain or logoUrl", () => {
+    const embed = buildDiscordEmbed({
+      job: makeJob(),
+      companyName: "Vercel",
+      companyId: "vercel",
+      fit: "ok",
+    });
+    expect(embed.thumbnail).toBeUndefined();
+  });
 });
 
 afterEach(() => {
