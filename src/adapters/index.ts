@@ -1,9 +1,19 @@
+import { PORTAL_ATS_KINDS } from "../types.js";
 import { listAshbyJobs } from "./ashby.js";
 import { listGreenhouseJobs } from "./greenhouse.js";
 import { hydrateWorkdayContent, listWorkdayJobs } from "./workday.js";
-import type { AtsAdapter, AtsKind } from "./types.js";
+import type { AtsAdapter, AtsKind, PortalAtsKind } from "./types.js";
 
 const listNoPortalJobs: AtsAdapter["listJobs"] = async () => [];
+
+function portalAdapters(): Record<PortalAtsKind, AtsAdapter> {
+  return Object.fromEntries(
+    PORTAL_ATS_KINDS.map((ats) => [
+      ats,
+      { ats, listJobs: listNoPortalJobs },
+    ]),
+  ) as Record<PortalAtsKind, AtsAdapter>;
+}
 
 function defaultRegistry(): Record<AtsKind, AtsAdapter> {
   return {
@@ -14,13 +24,7 @@ function defaultRegistry(): Record<AtsKind, AtsAdapter> {
       listJobs: listWorkdayJobs,
       hydrateContent: hydrateWorkdayContent,
     },
-    google: { ats: "google", listJobs: listNoPortalJobs },
-    meta: { ats: "meta", listJobs: listNoPortalJobs },
-    microsoft: { ats: "microsoft", listJobs: listNoPortalJobs },
-    amazon: { ats: "amazon", listJobs: listNoPortalJobs },
-    apple: { ats: "apple", listJobs: listNoPortalJobs },
-    nvidia: { ats: "nvidia", listJobs: listNoPortalJobs },
-    openai: { ats: "openai", listJobs: listNoPortalJobs },
+    ...portalAdapters(),
   };
 }
 

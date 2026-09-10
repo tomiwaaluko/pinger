@@ -17,18 +17,19 @@ import {
 import { compareJobIds, selectAttemptWindow } from "./soft-cap.js";
 import { truncate } from "./text.js";
 import type { BoundJob } from "./soft-cap.js";
-import type {
-  AshbyCompany,
-  DryRunPing,
-  FitNoteInput,
-  GreenhouseCompany,
-  Job,
-  PortalCompany,
-  RunWatcherOptions,
-  RunWatcherResult,
-  SeenStore,
-  VaultContents,
-  WorkdayCompany,
+import {
+  isPortalAtsKind,
+  type AshbyCompany,
+  type DryRunPing,
+  type FitNoteInput,
+  type GreenhouseCompany,
+  type Job,
+  type PortalCompany,
+  type RunWatcherOptions,
+  type RunWatcherResult,
+  type SeenStore,
+  type VaultContents,
+  type WorkdayCompany,
 } from "./types.js";
 import { resolveCareerDir } from "./vault.js";
 
@@ -38,18 +39,8 @@ type EnabledCompany =
   | WorkdayCompany
   | PortalCompany;
 
-const BACKFILL_FIRST_RUN_ATS = new Set<EnabledCompany["ats"]>([
-  "google",
-  "meta",
-  "microsoft",
-  "amazon",
-  "apple",
-  "nvidia",
-  "openai",
-]);
-
 function shouldBackfillFirstRun(company: EnabledCompany): boolean {
-  return BACKFILL_FIRST_RUN_ATS.has(company.ats);
+  return isPortalAtsKind(company.ats);
 }
 
 async function fitForJob(

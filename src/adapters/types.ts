@@ -1,13 +1,6 @@
-import type { CompanyConfig, FetchLike, Job } from "../types.js";
+import type { CompanyConfig, FetchLike, Job, PortalAtsKind } from "../types.js";
 
-export type PortalAtsKind =
-  | "google"
-  | "meta"
-  | "microsoft"
-  | "amazon"
-  | "apple"
-  | "nvidia"
-  | "openai";
+export type { PortalAtsKind } from "../types.js";
 
 export type AtsKind = "greenhouse" | "ashby" | "workday" | PortalAtsKind;
 

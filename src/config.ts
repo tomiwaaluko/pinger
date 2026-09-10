@@ -1,31 +1,19 @@
 import { readFileSync } from "node:fs";
 import { parse } from "yaml";
-import type {
-  AppConfig,
-  AshbyCompany,
-  CompanyConfig,
-  CustomCompany,
-  GreenhouseCompany,
-  PortalAtsKind,
-  PortalCompany,
-  WorkdayCompany,
+import {
+  isPortalAtsKind,
+  PORTAL_ATS_KINDS,
+  type AppConfig,
+  type AshbyCompany,
+  type CompanyConfig,
+  type CustomCompany,
+  type GreenhouseCompany,
+  type PortalCompany,
+  type WorkdayCompany,
 } from "./types.js";
 
 /** Stable seen-store / Greenhouse path segment: lowercase kebab slug, no whitespace. */
 const SLUG_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
-const PORTAL_ATS = [
-  "google",
-  "meta",
-  "microsoft",
-  "amazon",
-  "apple",
-  "nvidia",
-  "openai",
-] as const satisfies readonly PortalAtsKind[];
-
-function isPortalAts(value: string): value is PortalAtsKind {
-  return (PORTAL_ATS as readonly string[]).includes(value);
-}
 
 function requireString(value: unknown, label: string): string {
   if (typeof value !== "string" || value.trim() === "") {
@@ -155,7 +143,7 @@ function parseCompany(raw: unknown, index: number): CompanyConfig {
     } satisfies WorkdayCompany;
   }
 
-  if (isPortalAts(ats)) {
+  if (isPortalAtsKind(ats)) {
     return {
       id,
       name,
@@ -181,7 +169,7 @@ function parseCompany(raw: unknown, index: number): CompanyConfig {
   }
 
   throw new Error(
-    `companies[${index}].ats must be greenhouse, ashby, workday, google, meta, microsoft, amazon, apple, nvidia, openai, or custom`,
+    `companies[${index}].ats must be greenhouse, ashby, workday, ${PORTAL_ATS_KINDS.join(", ")}, or custom`,
   );
 }
 

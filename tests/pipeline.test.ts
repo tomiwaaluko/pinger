@@ -12,13 +12,15 @@ import {
 } from "../src/constants.js";
 import { runWatcher } from "../src/pipeline.js";
 import { readSeen, writeSeen } from "../src/seen-store.js";
-import type {
-  AppConfig,
-  CompanyConfig,
-  DiscordEmbed,
-  Job,
-  RunWatcherOptions,
-  SeenStore,
+import {
+  PORTAL_ATS_KINDS,
+  type AppConfig,
+  type CompanyConfig,
+  type DiscordEmbed,
+  type Job,
+  type PortalAtsKind,
+  type RunWatcherOptions,
+  type SeenStore,
 } from "../src/types.js";
 import { makeJob } from "./helpers.js";
 
@@ -70,20 +72,16 @@ function stubListJobs(fn: (company: CompanyConfig) => Promise<Job[]>): void {
     greenhouse: { ats: "greenhouse", listJobs },
     ashby: { ats: "ashby", listJobs },
     workday: { ats: "workday", listJobs },
-    google: { ats: "google", listJobs },
-    meta: { ats: "meta", listJobs },
-    microsoft: { ats: "microsoft", listJobs },
-    amazon: { ats: "amazon", listJobs },
-    apple: { ats: "apple", listJobs },
-    nvidia: { ats: "nvidia", listJobs },
-    openai: { ats: "openai", listJobs },
+    ...Object.fromEntries(
+      PORTAL_ATS_KINDS.map((ats) => [ats, { ats, listJobs }]),
+    ),
   });
 }
 
 const portalCompany = (
   id: string,
   name = id.toUpperCase(),
-  ats: "google" | "meta" | "microsoft" | "amazon" | "apple" | "nvidia" | "openai" = "google",
+  ats: PortalAtsKind = "google",
   enabled = true,
 ): CompanyConfig => ({
   id,

@@ -37,14 +37,21 @@ export type WorkdayCompany = CompanyBranding & {
   enabled: boolean;
 };
 
-export type PortalAtsKind =
-  | "google"
-  | "meta"
-  | "microsoft"
-  | "amazon"
-  | "apple"
-  | "nvidia"
-  | "openai";
+export const PORTAL_ATS_KINDS = [
+  "google",
+  "meta",
+  "microsoft",
+  "amazon",
+  "apple",
+  "nvidia",
+  "openai",
+] as const;
+
+export type PortalAtsKind = (typeof PORTAL_ATS_KINDS)[number];
+
+export function isPortalAtsKind(value: string): value is PortalAtsKind {
+  return (PORTAL_ATS_KINDS as readonly string[]).includes(value);
+}
 
 export type PortalCompany = CompanyBranding & {
   id: string;
