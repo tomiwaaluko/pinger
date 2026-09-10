@@ -182,7 +182,7 @@ export async function runWatcher(
         const adapter = getAdapter(company.ats);
         const jobs = await adapter.listJobs(company, opts.fetch);
         let matched: Job[];
-        if (company.ats === "workday" && adapter.hydrateContent) {
+        if (adapter.hydrateContent) {
           const candidates = jobs.filter((job) => passesBaseGates(job));
           let hydrated = candidates;
           try {
@@ -193,7 +193,7 @@ export async function runWatcher(
             );
           } catch (err) {
             console.error(
-              `Workday hydrate failed for ${company.id}:`,
+              `${company.name} hydrate failed for ${company.id}:`,
               String(err),
             );
           }

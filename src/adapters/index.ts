@@ -2,6 +2,7 @@ import { PORTAL_ATS_KINDS } from "../types.js";
 import { listAmazonJobs } from "./amazon.js";
 import { listAshbyJobs } from "./ashby.js";
 import { listGreenhouseJobs } from "./greenhouse.js";
+import { hydrateNvidiaContent, listNvidiaJobs } from "./nvidia.js";
 import { hydrateWorkdayContent, listWorkdayJobs } from "./workday.js";
 import type { AtsAdapter, AtsKind, PortalAtsKind } from "./types.js";
 
@@ -28,6 +29,11 @@ function defaultRegistry(): Record<AtsKind, AtsAdapter> {
     ...portalAdapters(),
   };
   registry.amazon = { ats: "amazon", listJobs: listAmazonJobs };
+  registry.nvidia = {
+    ats: "nvidia",
+    listJobs: listNvidiaJobs,
+    hydrateContent: hydrateNvidiaContent,
+  };
   return registry;
 }
 

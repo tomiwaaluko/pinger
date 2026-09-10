@@ -2084,8 +2084,9 @@ companies:
     enabled: false
   - id: nvidia
     name: NVIDIA
-    ats: custom
+    ats: nvidia
     enabled: false
+    domain: nvidia.com
   - id: offerup
     name: Offerup
     ats: greenhouse
