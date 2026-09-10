@@ -132,6 +132,18 @@ describe("matchesJob", () => {
     ).toBe(true);
   });
 
+  it("keeps Winter-May 2027 spring window", () => {
+    expect(
+      matchesJob(
+        makeJob({
+          title: "Software Engineer Intern",
+          location: "Boston, MA",
+          content: "Internship dates: Winter-May 2027",
+        }),
+      ),
+    ).toBe(true);
+  });
+
   it("keeps yearless new grad in US", () => {
     expect(
       matchesJob(

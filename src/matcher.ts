@@ -78,7 +78,7 @@ function extractFourDigitYears(normalized: string): number[] {
 function hasSpring2027(normalized: string): boolean {
   return (
     /\bspring\s*'?(?:2027|27)\b/.test(normalized) ||
-    /\b(?:jan(?:uary)?)\s+may\s+2027\b/.test(normalized) ||
+    /\b(?:jan(?:uary)?|winter)\s+may\s+2027\b/.test(normalized) ||
     /\bwinter\s*\/\s*spring\s*'?(?:2027|27)\b/.test(normalized)
   );
 }
@@ -89,7 +89,8 @@ function hasCompetingNonSpringSeason(normalized: string): boolean {
   }
   return (
     /\bwinter\b/.test(normalized) &&
-    !/\bwinter\s*\/\s*spring\s*'?(?:2027|27)\b/.test(normalized)
+    !/\bwinter\s*\/\s*spring\s*'?(?:2027|27)\b/.test(normalized) &&
+    !/\bwinter\s+may\s+2027\b/.test(normalized)
   );
 }
 
