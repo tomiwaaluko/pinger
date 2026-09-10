@@ -6,11 +6,26 @@ import type {
   CompanyConfig,
   CustomCompany,
   GreenhouseCompany,
+  PortalAtsKind,
+  PortalCompany,
   WorkdayCompany,
 } from "./types.js";
 
 /** Stable seen-store / Greenhouse path segment: lowercase kebab slug, no whitespace. */
 const SLUG_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+const PORTAL_ATS = [
+  "google",
+  "meta",
+  "microsoft",
+  "amazon",
+  "apple",
+  "nvidia",
+  "openai",
+] as const satisfies readonly PortalAtsKind[];
+
+function isPortalAts(value: string): value is PortalAtsKind {
+  return (PORTAL_ATS as readonly string[]).includes(value);
+}
 
 function requireString(value: unknown, label: string): string {
   if (typeof value !== "string" || value.trim() === "") {
@@ -140,6 +155,16 @@ function parseCompany(raw: unknown, index: number): CompanyConfig {
     } satisfies WorkdayCompany;
   }
 
+  if (isPortalAts(ats)) {
+    return {
+      id,
+      name,
+      ats,
+      enabled,
+      ...branding,
+    } satisfies PortalCompany;
+  }
+
   if (ats === "custom") {
     if (enabled) {
       throw new Error(
@@ -156,7 +181,7 @@ function parseCompany(raw: unknown, index: number): CompanyConfig {
   }
 
   throw new Error(
-    `companies[${index}].ats must be greenhouse, ashby, workday, or custom`,
+    `companies[${index}].ats must be greenhouse, ashby, workday, google, meta, microsoft, amazon, apple, nvidia, openai, or custom`,
   );
 }
 

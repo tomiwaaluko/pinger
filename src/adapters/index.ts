@@ -3,9 +3,7 @@ import { listGreenhouseJobs } from "./greenhouse.js";
 import { hydrateWorkdayContent, listWorkdayJobs } from "./workday.js";
 import type { AtsAdapter, AtsKind } from "./types.js";
 
-const notImplemented = (ats: string): AtsAdapter["listJobs"] => async () => {
-  throw new Error(`${ats} adapter not implemented`);
-};
+const listNoPortalJobs: AtsAdapter["listJobs"] = async () => [];
 
 function defaultRegistry(): Record<AtsKind, AtsAdapter> {
   return {
@@ -16,6 +14,13 @@ function defaultRegistry(): Record<AtsKind, AtsAdapter> {
       listJobs: listWorkdayJobs,
       hydrateContent: hydrateWorkdayContent,
     },
+    google: { ats: "google", listJobs: listNoPortalJobs },
+    meta: { ats: "meta", listJobs: listNoPortalJobs },
+    microsoft: { ats: "microsoft", listJobs: listNoPortalJobs },
+    amazon: { ats: "amazon", listJobs: listNoPortalJobs },
+    apple: { ats: "apple", listJobs: listNoPortalJobs },
+    nvidia: { ats: "nvidia", listJobs: listNoPortalJobs },
+    openai: { ats: "openai", listJobs: listNoPortalJobs },
   };
 }
 

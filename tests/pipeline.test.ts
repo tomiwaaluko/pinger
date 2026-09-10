@@ -70,8 +70,27 @@ function stubListJobs(fn: (company: CompanyConfig) => Promise<Job[]>): void {
     greenhouse: { ats: "greenhouse", listJobs },
     ashby: { ats: "ashby", listJobs },
     workday: { ats: "workday", listJobs },
+    google: { ats: "google", listJobs },
+    meta: { ats: "meta", listJobs },
+    microsoft: { ats: "microsoft", listJobs },
+    amazon: { ats: "amazon", listJobs },
+    apple: { ats: "apple", listJobs },
+    nvidia: { ats: "nvidia", listJobs },
+    openai: { ats: "openai", listJobs },
   });
 }
+
+const portalCompany = (
+  id: string,
+  name = id.toUpperCase(),
+  ats: "google" | "meta" | "microsoft" | "amazon" | "apple" | "nvidia" | "openai" = "google",
+  enabled = true,
+): CompanyConfig => ({
+  id,
+  name,
+  ats,
+  enabled,
+});
 
 function baseOpts(
   overrides: Partial<RunWatcherOptions> &
@@ -219,6 +238,73 @@ describe("runWatcher fleet pipeline", () => {
       beta: { "20": { title: "Software Engineer Intern 20", firstSeenAt: now } },
     });
     expect(field(posted[0], "Company")).toBe("Beta LLC");
+  });
+
+  it("first run for portal company pings matches and writes seen key", async () => {
+    const dir = vaultDirWithCareer();
+    const seenPath = join(dir, "seen-jobs.json");
+    const posted: DiscordEmbed[] = [];
+
+    const result = await runWatcher(
+      baseOpts({
+        vaultDir: dir,
+        seenPath,
+        config: configWith([portalCompany("google", "Google")]),
+        listJobs: async () => [intern("g-1")],
+        postDiscord: async (_url, embed) => {
+          posted.push(embed);
+        },
+      }),
+    );
+
+    expect(result.exitCode).toBe(0);
+    expect(posted).toHaveLength(1);
+    expect(field(posted[0], "Company")).toBe("Google");
+    expect(await readSeen(seenPath)).toEqual({
+      google: { "g-1": { title: "Software Engineer Intern g-1", firstSeenAt: now } },
+    });
+  });
+
+  it("first run for portal company with zero matches still writes empty key", async () => {
+    const dir = vaultDirWithCareer();
+    const seenPath = join(dir, "seen-jobs.json");
+    const postDiscord = vi.fn(async () => undefined);
+
+    const result = await runWatcher(
+      baseOpts({
+        vaultDir: dir,
+        seenPath,
+        config: configWith([portalCompany("meta", "Meta", "meta")]),
+        listJobs: async () => [senior],
+        postDiscord,
+      }),
+    );
+
+    expect(result.exitCode).toBe(0);
+    expect(postDiscord).not.toHaveBeenCalled();
+    expect(await readSeen(seenPath)).toEqual({ meta: {} });
+  });
+
+  it("greenhouse first run remains silent", async () => {
+    const dir = vaultDirWithCareer();
+    const seenPath = join(dir, "seen-jobs.json");
+    const postDiscord = vi.fn(async () => undefined);
+
+    const result = await runWatcher(
+      baseOpts({
+        vaultDir: dir,
+        seenPath,
+        config: configWith([company("vercel", "Vercel")]),
+        listJobs: async () => [intern("1")],
+        postDiscord,
+      }),
+    );
+
+    expect(result.exitCode).toBe(0);
+    expect(postDiscord).not.toHaveBeenCalled();
+    expect(await readSeen(seenPath)).toEqual({
+      vercel: { "1": { title: "Software Engineer Intern 1", firstSeenAt: now } },
+    });
   });
 
   it("continues processing other companies when one fetch rejects", async () => {

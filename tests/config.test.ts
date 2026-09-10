@@ -246,6 +246,26 @@ companies:
     }
   });
 
+  it("loads enabled portal company without adapter-specific fields", () => {
+    const path = writeTempYaml(`
+llm:
+  model: gemini-2.5-flash
+companies:
+  - id: google
+    name: Google
+    ats: google
+    enabled: true
+    domain: google.com
+`);
+    expect(loadConfig(path).companies[0]).toEqual({
+      id: "google",
+      name: "Google",
+      ats: "google",
+      enabled: true,
+      domain: "google.com",
+    });
+  });
+
   it("rejects custom with enabled true", () => {
     const path = writeTempYaml(`
 llm:
@@ -294,7 +314,7 @@ companies:
     ats: lever
     enabled: true
 `);
-    expect(() => loadConfig(path)).toThrow(/greenhouse, ashby, workday, or custom/);
+    expect(() => loadConfig(path)).toThrow(/greenhouse, ashby, workday, google/);
   });
 
   it("does not require careerSiteCategory", () => {

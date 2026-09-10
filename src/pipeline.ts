@@ -23,6 +23,7 @@ import type {
   FitNoteInput,
   GreenhouseCompany,
   Job,
+  PortalCompany,
   RunWatcherOptions,
   RunWatcherResult,
   SeenStore,
@@ -31,7 +32,25 @@ import type {
 } from "./types.js";
 import { resolveCareerDir } from "./vault.js";
 
-type EnabledCompany = GreenhouseCompany | AshbyCompany | WorkdayCompany;
+type EnabledCompany =
+  | GreenhouseCompany
+  | AshbyCompany
+  | WorkdayCompany
+  | PortalCompany;
+
+const BACKFILL_FIRST_RUN_ATS = new Set<EnabledCompany["ats"]>([
+  "google",
+  "meta",
+  "microsoft",
+  "amazon",
+  "apple",
+  "nvidia",
+  "openai",
+]);
+
+function shouldBackfillFirstRun(company: EnabledCompany): boolean {
+  return BACKFILL_FIRST_RUN_ATS.has(company.ats);
+}
 
 async function fitForJob(
   opts: RunWatcherOptions,
@@ -193,6 +212,17 @@ export async function runWatcher(
         }
 
         if (isFirstRun(store, company.id)) {
+          if (shouldBackfillFirstRun(company)) {
+            if (!opts.dryRun) {
+              nextStore[company.id] = {};
+              firstRunCompanyIds.add(company.id);
+            }
+            for (const job of matched) {
+              discordBound.push({ companyId: company.id, job });
+            }
+            return;
+          }
+
           if (!opts.dryRun) {
             nextStore[company.id] = {};
             for (const job of matched) {
@@ -221,11 +251,13 @@ export async function runWatcher(
     const greenhouse = enabled.filter((c) => c.ats === "greenhouse");
     const ashby = enabled.filter((c) => c.ats === "ashby");
     const workday = enabled.filter((c) => c.ats === "workday");
+    const portal = enabled.filter((c) => shouldBackfillFirstRun(c));
 
     await Promise.all([
       processInBatches(greenhouse, GREENHOUSE_CONCURRENCY, processCompany),
       processInBatches(ashby, ASHBY_CONCURRENCY, processCompany),
       processInBatches(workday, WORKDAY_CONCURRENCY, processCompany),
+      processInBatches(portal, GREENHOUSE_CONCURRENCY, processCompany),
     ]);
 
     if (fetchFailures.length === enabled.length && enabled.length > 0) {

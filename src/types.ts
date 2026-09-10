@@ -37,6 +37,22 @@ export type WorkdayCompany = CompanyBranding & {
   enabled: boolean;
 };
 
+export type PortalAtsKind =
+  | "google"
+  | "meta"
+  | "microsoft"
+  | "amazon"
+  | "apple"
+  | "nvidia"
+  | "openai";
+
+export type PortalCompany = CompanyBranding & {
+  id: string;
+  name: string;
+  ats: PortalAtsKind;
+  enabled: boolean;
+};
+
 export type CustomCompany = CompanyBranding & {
   id: string;
   name: string;
@@ -48,6 +64,7 @@ export type CompanyConfig =
   | GreenhouseCompany
   | AshbyCompany
   | WorkdayCompany
+  | PortalCompany
   | CustomCompany;
 
 export type AppConfig = {
