@@ -246,7 +246,7 @@ companies:
     }
   });
 
-  it("loads enabled portal company without adapter-specific fields", () => {
+  it("rejects enabled stub portals without a fetch adapter", () => {
     const path = writeTempYaml(`
 llm:
   model: gemini-2.5-flash
@@ -257,12 +257,46 @@ companies:
     enabled: true
     domain: google.com
 `);
+    expect(() => loadConfig(path)).toThrow(/google.*enabled: false/i);
+  });
+
+  it("loads disabled stub portal company", () => {
+    const path = writeTempYaml(`
+llm:
+  model: gemini-2.5-flash
+companies:
+  - id: google
+    name: Google
+    ats: google
+    enabled: false
+    domain: google.com
+`);
     expect(loadConfig(path).companies[0]).toEqual({
       id: "google",
       name: "Google",
       ats: "google",
-      enabled: true,
+      enabled: false,
       domain: "google.com",
+    });
+  });
+
+  it("loads enabled implemented portal company without adapter-specific fields", () => {
+    const path = writeTempYaml(`
+llm:
+  model: gemini-2.5-flash
+companies:
+  - id: amazon
+    name: Amazon
+    ats: amazon
+    enabled: true
+    domain: amazon.jobs
+`);
+    expect(loadConfig(path).companies[0]).toEqual({
+      id: "amazon",
+      name: "Amazon",
+      ats: "amazon",
+      enabled: true,
+      domain: "amazon.jobs",
     });
   });
 

@@ -43,6 +43,19 @@ const US_METROS = [
   "redmond","cupertino","mountain view","palo alto","menlo park","sunnyvale",
 ] as const;
 
+/** Explicit non-US country tokens (names / common codes), not ambiguous state abbrs. */
+const FOREIGN_COUNTRY = [
+  "united kingdom","uk","u.k.","england","scotland","wales","northern ireland",
+  "ireland","canada","mexico","india","germany","france","spain","italy",
+  "netherlands","australia","japan","china","singapore","brazil","poland",
+  "sweden","switzerland","israel","uae","united arab emirates","south korea",
+  "korea","philippines","taiwan","hong kong","new zealand","austria","belgium",
+  "denmark","norway","finland","portugal","czech republic","romania","hungary",
+  "turkey","vietnam","thailand","malaysia","indonesia","pakistan","bangladesh",
+  "nigeria","south africa","argentina","chile","colombia","peru","russia",
+  "ukraine","egypt","saudi arabia",
+] as const;
+
 function hasWholePhrase(haystack: string, phrase: string): boolean {
   const escaped = phrase.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
   return new RegExp(`\\b${escaped}\\b`, "i").test(haystack);
@@ -81,11 +94,47 @@ function hasGeorgiaUsContext(haystack: string): boolean {
   return false;
 }
 
+function hasForeignCountry(haystack: string): boolean {
+  return FOREIGN_COUNTRY.some((country) => hasWholePhrase(haystack, country));
+}
+
+function locationSegments(normalized: string): string[] {
+  return normalized
+    .split(/\s*(?:;|\||\/|\bor\b)\s*/i)
+    .map((segment) => segment.trim())
+    .filter(Boolean);
+}
+
+function segmentHasUsSignal(segment: string): boolean {
+  if (US_COUNTRY.test(segment) || STANDALONE_US.test(segment)) return true;
+  if (STATE_NAMES.some((s) => hasWholePhrase(segment, s))) return true;
+  if (STATE_ABBR.some((s) => hasUsStateAbbr(segment, s))) return true;
+  if (hasGeorgiaUsContext(segment)) return true;
+  if (US_METROS.some((s) => hasWholePhrase(segment, s))) return true;
+  return false;
+}
+
+/**
+ * Explicit foreign segments (e.g. "London, UK") do not count as US.
+ * Multi-location strings stay US only when another non-foreign segment has a US signal.
+ */
+function rejectsForeignOnlyLocation(normalized: string): boolean {
+  const segments = locationSegments(normalized);
+  if (segments.length === 0) return false;
+  const foreign = segments.filter((segment) => hasForeignCountry(segment));
+  if (foreign.length === 0) return false;
+  const usElsewhere = segments.some(
+    (segment) => !hasForeignCountry(segment) && segmentHasUsSignal(segment),
+  );
+  return !usElsewhere;
+}
+
 export function isUsLocation(location: string): boolean {
   const raw = location.trim();
   if (!raw) return false;
   const normalized = raw.toLowerCase().replace(/-/g, " ").replace(/\s+/g, " ");
   if (/^(remote|remote work|anywhere)$/i.test(normalized)) return false;
+  if (rejectsForeignOnlyLocation(normalized)) return false;
   if (US_COUNTRY.test(normalized) || STANDALONE_US.test(normalized)) return true;
   if (STATE_NAMES.some((s) => hasWholePhrase(normalized, s))) return true;
   if (STATE_ABBR.some((s) => hasUsStateAbbr(normalized, s))) return true;

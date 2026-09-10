@@ -8,9 +8,7 @@ const EARLY_CAREER_PHRASES = [
   "coop",
   "new grad",
   "newgrad",
-  "university",
-  "graduate",
-  "grad",
+  "new graduate",
 ] as const;
 
 const ROLE_PHRASES = [
@@ -64,8 +62,8 @@ function isInternship(normalized: string): boolean {
 }
 
 function isNewGradTrack(normalized: string): boolean {
-  return ["new grad", "newgrad", "new graduate", "graduate", "university"].some(
-    (phrase) => hasPhrase(normalized, phrase),
+  return ["new grad", "newgrad", "new graduate"].some((phrase) =>
+    hasPhrase(normalized, phrase),
   );
 }
 

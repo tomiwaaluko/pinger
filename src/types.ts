@@ -47,10 +47,32 @@ export const PORTAL_ATS_KINDS = [
   "openai",
 ] as const;
 
+/** Portal ATS kinds with working listJobs adapters (not empty stubs). */
+export const IMPLEMENTED_PORTAL_ATS_KINDS = [
+  "amazon",
+  "nvidia",
+  "openai",
+] as const satisfies readonly PortalAtsKind[];
+
+/** Portal kinds that intentionally return [] until a public API exists. */
+export const STUB_PORTAL_ATS_KINDS = [
+  "google",
+  "meta",
+  "microsoft",
+  "apple",
+] as const satisfies readonly PortalAtsKind[];
+
 export type PortalAtsKind = (typeof PORTAL_ATS_KINDS)[number];
+export type ImplementedPortalAtsKind =
+  (typeof IMPLEMENTED_PORTAL_ATS_KINDS)[number];
+export type StubPortalAtsKind = (typeof STUB_PORTAL_ATS_KINDS)[number];
 
 export function isPortalAtsKind(value: string): value is PortalAtsKind {
   return (PORTAL_ATS_KINDS as readonly string[]).includes(value);
+}
+
+export function isStubPortalAtsKind(value: string): value is StubPortalAtsKind {
+  return (STUB_PORTAL_ATS_KINDS as readonly string[]).includes(value);
 }
 
 export type PortalCompany = CompanyBranding & {

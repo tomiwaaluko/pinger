@@ -2,6 +2,7 @@ import { readFileSync } from "node:fs";
 import { parse } from "yaml";
 import {
   isPortalAtsKind,
+  isStubPortalAtsKind,
   PORTAL_ATS_KINDS,
   type AppConfig,
   type AshbyCompany,
@@ -144,6 +145,11 @@ function parseCompany(raw: unknown, index: number): CompanyConfig {
   }
 
   if (isPortalAtsKind(ats)) {
+    if (enabled && isStubPortalAtsKind(ats)) {
+      throw new Error(
+        `companies[${index}]: ${ats} portal has no fetch adapter yet and must have enabled: false`,
+      );
+    }
     return {
       id,
       name,

@@ -15,6 +15,8 @@ describe("isUsLocation", () => {
     ["Remote work", false],
     ["Anywhere", false],
     ["London, UK", false],
+    ["Washington, UK", false],
+    ["Portland, UK", false],
     ["Bangalore, India", false],
     ["Toronto, Canada", false],
     ["Tbilisi, Georgia", false],
@@ -23,6 +25,8 @@ describe("isUsLocation", () => {
     ["La Rochelle, France", false],
     ["Atlanta, GA", true],
     ["Los Angeles, CA", true],
+    ["San Francisco, CA; London, UK", true],
+    ["Remote - United Kingdom", false],
   ])("%j → %s", (location, expected) => {
     expect(isUsLocation(location)).toBe(expected);
   });
