@@ -1,5 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { matchesJob, normalizeTitle } from "../src/matcher.js";
+import {
+  matchesJob,
+  normalizeTitle,
+  passesBaseGates,
+  passesSeasonYear,
+} from "../src/matcher.js";
 import { makeJob } from "./helpers.js";
 
 describe("normalizeTitle", () => {
@@ -12,11 +17,11 @@ describe("normalizeTitle", () => {
 
 describe("matchesJob", () => {
   it.each([
-    ["Software Engineer Intern", ["Engineering"], true],
-    ["SOFTWARE ENGINEER INTERNSHIP", ["Engineering"], true],
-    ["Software Engineer Co-op", ["Engineering"], true],
-    ["Software Engineer Co op", ["Engineering"], true],
-    ["Software Engineer Coop", ["Engineering"], true],
+    ["Software Engineer Intern", ["Engineering"], false],
+    ["SOFTWARE ENGINEER INTERNSHIP", ["Engineering"], false],
+    ["Software Engineer Co-op", ["Engineering"], false],
+    ["Software Engineer Co op", ["Engineering"], false],
+    ["Software Engineer Coop", ["Engineering"], false],
     ["New Grad Software Engineer", ["Engineering"], true],
     ["New-Grad Software Engineer", ["Engineering"], true],
     ["Newgrad Software Engineer", ["Engineering"], true],
@@ -51,16 +56,138 @@ describe("matchesJob", () => {
     ["Software Engineer, AI SDK", ["Engineering"], false],
     ["Member of the Technical Staff, Internal Agent ", ["Engineering"], false],
     ["Undergraduate Software Engineer", ["Engineering"], false],
-  ])("title %s depts %j → %s", (title, departments, expected) => {
+  ])("title %s depts %j -> %s", (title, departments, expected) => {
+    const internshipContent =
+      expected && /\b(?:intern|internship|co-?op|coop)\b/i.test(title)
+        ? "Spring 2027 internship on the platform team."
+        : "";
     expect(
       matchesJob(
         makeJob({
           title,
           departments,
           careerSiteCategory: "Engineering",
+          content: internshipContent,
         }),
       ),
     ).toBe(expected);
+  });
+
+  it("keeps US Spring 2027 intern with season in description only", () => {
+    expect(
+      matchesJob(
+        makeJob({
+          title: "Software Engineer Intern",
+          location: "San Francisco, CA",
+          content: "Spring 2027 internship on the platform team.",
+        }),
+      ),
+    ).toBe(true);
+  });
+
+  it("drops season-less intern", () => {
+    expect(
+      matchesJob(
+        makeJob({
+          title: "Software Engineer Intern",
+          location: "San Francisco, CA",
+          content: "Build APIs.",
+        }),
+      ),
+    ).toBe(false);
+  });
+
+  it("drops Summer 2027 intern", () => {
+    expect(
+      matchesJob(
+        makeJob({
+          title: "Software Engineer Intern (Summer 2027)",
+          location: "Seattle, WA",
+        }),
+      ),
+    ).toBe(false);
+  });
+
+  it("drops Spring/Summer 2027 dual tag", () => {
+    expect(
+      matchesJob(
+        makeJob({
+          title: "Software Engineer Intern",
+          location: "Austin, TX",
+          content: "Spring/Summer 2027 internship",
+        }),
+      ),
+    ).toBe(false);
+  });
+
+  it("keeps Jan-May 2027 spring window", () => {
+    expect(
+      matchesJob(
+        makeJob({
+          title: "Software Engineer Intern",
+          location: "Boston, MA",
+          content: "Internship dates: January-May 2027",
+        }),
+      ),
+    ).toBe(true);
+  });
+
+  it("keeps yearless new grad in US", () => {
+    expect(
+      matchesJob(
+        makeJob({
+          title: "New Grad Software Engineer",
+          location: "New York, NY",
+          content: "",
+        }),
+      ),
+    ).toBe(true);
+  });
+
+  it("drops 2026 new grad", () => {
+    expect(
+      matchesJob(
+        makeJob({
+          title: "New Grad Software Engineer 2026",
+          location: "San Francisco, CA",
+        }),
+      ),
+    ).toBe(false);
+  });
+
+  it("intern path wins over university wording for Summer", () => {
+    expect(
+      matchesJob(
+        makeJob({
+          title: "University Software Engineer Intern",
+          location: "Remote - United States",
+          content: "Summer 2027 university recruiting",
+        }),
+      ),
+    ).toBe(false);
+  });
+
+  it("drops London-only location", () => {
+    expect(
+      matchesJob(
+        makeJob({
+          title: "New Grad Software Engineer",
+          location: "London, UK",
+        }),
+      ),
+    ).toBe(false);
+  });
+
+  it("exports passesBaseGates true for Workday list intern before season", () => {
+    const job = makeJob({
+      title: "Software Engineer Intern",
+      location: "San Jose, CA",
+      content: "",
+    });
+
+    expect(passesBaseGates(job)).toBe(true);
+    expect(passesSeasonYear(job)).toBe(false);
+    expect(matchesJob(job)).toBe(false);
   });
 
   it("ignores Career Site Categories even when Engineering", () => {
@@ -70,6 +197,7 @@ describe("matchesJob", () => {
           title: "Software Engineer Intern",
           careerSiteCategory: "Engineering",
           departments: ["Security"],
+          content: "Spring 2027 internship on the platform team.",
         }),
       ),
     ).toBe(false);

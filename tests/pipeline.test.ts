@@ -41,6 +41,7 @@ const intern = (id: string, overrides: Partial<Job> = {}): Job =>
     id,
     title: `Software Engineer Intern ${id}`,
     absoluteUrl: `https://job-boards.greenhouse.io/${overrides.absoluteUrl ?? "board"}/jobs/${id}`,
+    content: "Spring 2027 internship on the platform team.",
     ...overrides,
   });
 
@@ -533,7 +534,10 @@ describe("runWatcher fleet pipeline", () => {
     await writeSeen(seenPath, { boeing: {}, stripe: {} });
 
     const hydrateContent = vi.fn(async (_company, _fetch, jobs: Job[]) =>
-      jobs.map((job) => ({ ...job, content: "hydrated description" })),
+      jobs.map((job) => ({
+        ...job,
+        content: "Spring 2027 internship in the hydrated description",
+      })),
     );
     setAdapterRegistryForTests({
       greenhouse: {
@@ -589,11 +593,11 @@ describe("runWatcher fleet pipeline", () => {
     expect(hydrateContent).toHaveBeenCalledTimes(1);
     expect(hydrateContent.mock.calls[0]?.[2]).toHaveLength(1);
     expect(generateFitNote.mock.calls[0]?.[0].job.content).toBe(
-      "hydrated description",
+      "Spring 2027 internship in the hydrated description",
     );
   });
 
-  it("continues when Workday hydrateContent rejects", async () => {
+  it("continues without posting when Workday hydrateContent rejects", async () => {
     const dir = vaultDirWithCareer();
     const seenPath = join(dir, "seen-jobs.json");
     await writeSeen(seenPath, { boeing: {} });
@@ -643,7 +647,7 @@ describe("runWatcher fleet pipeline", () => {
 
     expect(result.exitCode).toBe(0);
     expect(hydrateContent).toHaveBeenCalledTimes(1);
-    expect(postDiscord).toHaveBeenCalledTimes(1);
-    expect(generateFitNote.mock.calls[0]?.[0].job.content).toBe("");
+    expect(postDiscord).not.toHaveBeenCalled();
+    expect(generateFitNote).not.toHaveBeenCalled();
   });
 });

@@ -8,7 +8,7 @@ import {
   WORKDAY_CONCURRENCY,
 } from "./constants.js";
 import { buildDiscordEmbed } from "./discord.js";
-import { matchesJob } from "./matcher.js";
+import { matchesJob, passesBaseGates } from "./matcher.js";
 import {
   isFirstRun,
   newMatchingJobs,
@@ -159,10 +159,26 @@ export async function runWatcher(
       try {
         const adapter = getAdapter(company.ats);
         const jobs = await adapter.listJobs(company, opts.fetch);
-        const matched = jobs.filter((job) => matchesJob(job));
+        let matched = jobs.filter((job) =>
+          company.ats === "workday" ? passesBaseGates(job) : matchesJob(job),
+        );
 
         if (isFirstRun(store, company.id)) {
           if (!opts.dryRun) {
+            if (company.ats === "workday") {
+              const firstRunBounds = matched.map((job) => ({
+                companyId: company.id,
+                job,
+              }));
+              await hydrateWorkdayAttemptWindow(
+                firstRunBounds,
+                enabled,
+                opts.fetch,
+              );
+              matched = firstRunBounds
+                .filter((bound) => matchesJob(bound.job))
+                .map((bound) => bound.job);
+            }
             nextStore[company.id] = {};
             for (const job of matched) {
               recordJob(nextStore, company.id, job, opts.now().toISOString());
@@ -210,21 +226,24 @@ export async function runWatcher(
       location: bound.job.location,
     });
 
-    if (opts.dryRun) {
-      return {
-        exitCode: 0,
-        dryRunPings: attempt.map(toPing),
-        dryRunDeferred: deferred.map(toPing),
-      };
-    }
-
     if (attempt.length > 0) {
+      await hydrateWorkdayAttemptWindow(attempt, enabled, opts.fetch);
+      const hydratedMatches = attempt.filter((bound) => matchesJob(bound.job));
+      if (opts.dryRun) {
+        return {
+          exitCode: 0,
+          dryRunPings: hydratedMatches.map(toPing),
+          dryRunDeferred: deferred.map(toPing),
+        };
+      }
+      if (hydratedMatches.length === 0) {
+        return { exitCode: 0, dryRunPings: [], dryRunDeferred: [] };
+      }
+
       const webhookUrl = opts.env.DISCORD_WEBHOOK_URL;
       if (!webhookUrl) {
         return { exitCode: 2, dryRunPings: [], dryRunDeferred: [] };
       }
-
-      await hydrateWorkdayAttemptWindow(attempt, enabled, opts.fetch);
 
       let vault: VaultContents;
       try {
@@ -233,7 +252,7 @@ export async function runWatcher(
         return { exitCode: 2, dryRunPings: [], dryRunDeferred: [] };
       }
 
-      for (const { companyId, job } of attempt) {
+      for (const { companyId, job } of hydratedMatches) {
         const companyName = nameById.get(companyId) ?? companyId;
         const fit = truncate(await fitForJob(opts, vault, job), FIT_NOTE_CAP);
         try {
