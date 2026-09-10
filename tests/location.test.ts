@@ -17,6 +17,12 @@ describe("isUsLocation", () => {
     ["London, UK", false],
     ["Bangalore, India", false],
     ["Toronto, Canada", false],
+    ["Tbilisi, Georgia", false],
+    ["Berlin, DE", false],
+    ["Paris or London", false],
+    ["La Rochelle, France", false],
+    ["Atlanta, GA", true],
+    ["Los Angeles, CA", true],
   ])("%j → %s", (location, expected) => {
     expect(isUsLocation(location)).toBe(expected);
   });
