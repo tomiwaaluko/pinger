@@ -1,4 +1,5 @@
 import { PORTAL_ATS_KINDS } from "../types.js";
+import { listAmazonJobs } from "./amazon.js";
 import { listAshbyJobs } from "./ashby.js";
 import { listGreenhouseJobs } from "./greenhouse.js";
 import { hydrateWorkdayContent, listWorkdayJobs } from "./workday.js";
@@ -16,7 +17,7 @@ function portalAdapters(): Record<PortalAtsKind, AtsAdapter> {
 }
 
 function defaultRegistry(): Record<AtsKind, AtsAdapter> {
-  return {
+  const registry = {
     greenhouse: { ats: "greenhouse", listJobs: listGreenhouseJobs },
     ashby: { ats: "ashby", listJobs: listAshbyJobs },
     workday: {
@@ -26,6 +27,8 @@ function defaultRegistry(): Record<AtsKind, AtsAdapter> {
     },
     ...portalAdapters(),
   };
+  registry.amazon = { ats: "amazon", listJobs: listAmazonJobs };
+  return registry;
 }
 
 let registry: Record<AtsKind, AtsAdapter> = defaultRegistry();

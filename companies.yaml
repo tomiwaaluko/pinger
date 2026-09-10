@@ -159,8 +159,9 @@ companies:
     domain: alpha-sense.com
   - id: amazon
     name: Amazon
-    ats: custom
+    ats: amazon
     enabled: false
+    domain: amazon.jobs
   - id: amperity
     name: Amperity
     ats: greenhouse
