@@ -528,10 +528,10 @@ describe("runWatcher fleet pipeline", () => {
     expect(readVaultMarkdown).not.toHaveBeenCalled();
   });
 
-  it("hydrates Workday jobs in the attempt window only", async () => {
+  it("hydrates Workday candidates before season match so body Spring 2027 pings", async () => {
     const dir = vaultDirWithCareer();
     const seenPath = join(dir, "seen-jobs.json");
-    await writeSeen(seenPath, { boeing: {}, stripe: {} });
+    await writeSeen(seenPath, { boeing: {} });
 
     const hydrateContent = vi.fn(async (_company, _fetch, jobs: Job[]) =>
       jobs.map((job) => ({
@@ -540,18 +540,6 @@ describe("runWatcher fleet pipeline", () => {
       })),
     );
     setAdapterRegistryForTests({
-      greenhouse: {
-        ats: "greenhouse",
-        listJobs: async (c) =>
-          c.id === "stripe"
-            ? [
-                intern("20", {
-                  absoluteUrl:
-                    "https://job-boards.greenhouse.io/stripe/jobs/20",
-                }),
-              ]
-            : [],
-      },
       workday: {
         ats: "workday",
         listJobs: async () => [
@@ -561,17 +549,25 @@ describe("runWatcher fleet pipeline", () => {
               "https://boeing.wd1.myworkdayjobs.com/external_subsidiary/job/Seattle/JR100",
             content: "",
           }),
+          intern("JR200", {
+            title: "Data Analyst Intern JR200",
+            absoluteUrl:
+              "https://boeing.wd1.myworkdayjobs.com/external_subsidiary/job/Seattle/JR200",
+            content: "",
+          }),
         ],
         hydrateContent,
       },
     });
 
-    const generateFitNote = vi.fn(async (input) => input.job.content);
+    const postDiscord = vi.fn();
+    const generateFitNote = vi.fn();
 
-    await runWatcher(
+    const result = await runWatcher(
       baseOpts({
         vaultDir: dir,
         seenPath,
+        dryRun: true,
         config: configWith([
           {
             id: "boeing",
@@ -584,17 +580,19 @@ describe("runWatcher fleet pipeline", () => {
             },
             enabled: true,
           },
-          company("stripe", "Stripe"),
         ]),
         generateFitNote,
+        postDiscord,
       }),
     );
 
     expect(hydrateContent).toHaveBeenCalledTimes(1);
-    expect(hydrateContent.mock.calls[0]?.[2]).toHaveLength(1);
-    expect(generateFitNote.mock.calls[0]?.[0].job.content).toBe(
-      "Spring 2027 internship in the hydrated description",
-    );
+    expect(hydrateContent.mock.calls[0]?.[2].map((job) => job.id)).toEqual([
+      "JR100",
+    ]);
+    expect(result.dryRunPings.map((ping) => ping.jobId)).toEqual(["JR100"]);
+    expect(postDiscord).not.toHaveBeenCalled();
+    expect(generateFitNote).not.toHaveBeenCalled();
   });
 
   it("continues without posting when Workday hydrateContent rejects", async () => {

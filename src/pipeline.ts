@@ -81,6 +81,9 @@ async function hydrateWorkdayAttemptWindow(
     if (company?.ats !== "workday") {
       continue;
     }
+    if (bound.job.content.trim().length > 0) {
+      continue;
+    }
     const list = boundsByCompany.get(bound.companyId) ?? [];
     list.push(bound);
     boundsByCompany.set(bound.companyId, list);
@@ -159,26 +162,29 @@ export async function runWatcher(
       try {
         const adapter = getAdapter(company.ats);
         const jobs = await adapter.listJobs(company, opts.fetch);
-        let matched = jobs.filter((job) =>
-          company.ats === "workday" ? passesBaseGates(job) : matchesJob(job),
-        );
+        let matched: Job[];
+        if (company.ats === "workday" && adapter.hydrateContent) {
+          const candidates = jobs.filter((job) => passesBaseGates(job));
+          let hydrated = candidates;
+          try {
+            hydrated = await adapter.hydrateContent(
+              company,
+              opts.fetch,
+              candidates,
+            );
+          } catch (err) {
+            console.error(
+              `Workday hydrate failed for ${company.id}:`,
+              String(err),
+            );
+          }
+          matched = hydrated.filter((job) => matchesJob(job));
+        } else {
+          matched = jobs.filter((job) => matchesJob(job));
+        }
 
         if (isFirstRun(store, company.id)) {
           if (!opts.dryRun) {
-            if (company.ats === "workday") {
-              const firstRunBounds = matched.map((job) => ({
-                companyId: company.id,
-                job,
-              }));
-              await hydrateWorkdayAttemptWindow(
-                firstRunBounds,
-                enabled,
-                opts.fetch,
-              );
-              matched = firstRunBounds
-                .filter((bound) => matchesJob(bound.job))
-                .map((bound) => bound.job);
-            }
             nextStore[company.id] = {};
             for (const job of matched) {
               recordJob(nextStore, company.id, job, opts.now().toISOString());
