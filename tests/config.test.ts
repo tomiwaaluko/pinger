@@ -351,4 +351,77 @@ ${baseCompany}
 `);
     expect(loadConfig(path).vault.careerPath).toBe("Career/");
   });
+
+  it("accepts domain and https logoUrl", () => {
+    const path = writeTempYaml(`
+vault:
+  careerPath: Career/
+llm:
+  model: gemini-2.5-flash
+companies:
+  - id: stripe
+    name: Stripe
+    ats: greenhouse
+    boardToken: stripe
+    enabled: true
+    domain: stripe.com
+    logoUrl: https://cdn.example/stripe.png
+`);
+    const company = loadConfig(path).companies[0];
+    expect(company).toMatchObject({
+      domain: "stripe.com",
+      logoUrl: "https://cdn.example/stripe.png",
+    });
+  });
+
+  it("rejects domain with path", () => {
+    expect(() =>
+      loadConfig(
+        writeTempYaml(`
+llm:
+  model: gemini-2.5-flash
+companies:
+  - id: stripe
+    name: Stripe
+    ats: greenhouse
+    boardToken: stripe
+    enabled: true
+    domain: stripe.com/foo
+`),
+      ),
+    ).toThrow(/domain/i);
+  });
+
+  it("rejects http logoUrl and userinfo", () => {
+    expect(() =>
+      loadConfig(
+        writeTempYaml(`
+llm:
+  model: gemini-2.5-flash
+companies:
+  - id: stripe
+    name: Stripe
+    ats: greenhouse
+    boardToken: stripe
+    enabled: true
+    logoUrl: http://x
+`),
+      ),
+    ).toThrow();
+    expect(() =>
+      loadConfig(
+        writeTempYaml(`
+llm:
+  model: gemini-2.5-flash
+companies:
+  - id: stripe
+    name: Stripe
+    ats: greenhouse
+    boardToken: stripe
+    enabled: true
+    logoUrl: https://user:pass@x/y
+`),
+      ),
+    ).toThrow();
+  });
 });

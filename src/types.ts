@@ -8,7 +8,12 @@ export type Job = {
   content: string;
 };
 
-export type GreenhouseCompany = {
+export type CompanyBranding = {
+  domain?: string;
+  logoUrl?: string;
+};
+
+export type GreenhouseCompany = CompanyBranding & {
   id: string;
   name: string;
   ats: "greenhouse";
@@ -16,7 +21,7 @@ export type GreenhouseCompany = {
   enabled: boolean;
 };
 
-export type AshbyCompany = {
+export type AshbyCompany = CompanyBranding & {
   id: string;
   name: string;
   ats: "ashby";
@@ -24,7 +29,7 @@ export type AshbyCompany = {
   enabled: boolean;
 };
 
-export type WorkdayCompany = {
+export type WorkdayCompany = CompanyBranding & {
   id: string;
   name: string;
   ats: "workday";
@@ -32,7 +37,7 @@ export type WorkdayCompany = {
   enabled: boolean;
 };
 
-export type CustomCompany = {
+export type CustomCompany = CompanyBranding & {
   id: string;
   name: string;
   ats: "custom";
