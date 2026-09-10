@@ -3,6 +3,7 @@ import { listAmazonJobs } from "./amazon.js";
 import { listAshbyJobs } from "./ashby.js";
 import { listGreenhouseJobs } from "./greenhouse.js";
 import { hydrateNvidiaContent, listNvidiaJobs } from "./nvidia.js";
+import { listOpenAiJobs } from "./openai.js";
 import { hydrateWorkdayContent, listWorkdayJobs } from "./workday.js";
 import type { AtsAdapter, AtsKind, PortalAtsKind } from "./types.js";
 
@@ -18,7 +19,7 @@ function portalAdapters(): Record<PortalAtsKind, AtsAdapter> {
 }
 
 function defaultRegistry(): Record<AtsKind, AtsAdapter> {
-  const registry = {
+  const registry: Record<AtsKind, AtsAdapter> = {
     greenhouse: { ats: "greenhouse", listJobs: listGreenhouseJobs },
     ashby: { ats: "ashby", listJobs: listAshbyJobs },
     workday: {
@@ -34,6 +35,7 @@ function defaultRegistry(): Record<AtsKind, AtsAdapter> {
     listJobs: listNvidiaJobs,
     hydrateContent: hydrateNvidiaContent,
   };
+  registry.openai = { ats: "openai", listJobs: listOpenAiJobs };
   return registry;
 }
 

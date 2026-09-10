@@ -2115,8 +2115,9 @@ companies:
     enabled: false
   - id: openai
     name: OpenAI
-    ats: custom
+    ats: openai
     enabled: false
+    domain: openai.com
   - id: opentable
     name: Opentable
     ats: greenhouse
