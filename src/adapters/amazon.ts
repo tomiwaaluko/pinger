@@ -2,8 +2,9 @@ import { stripJobHtml } from "../text.js";
 import type { FetchLike, Job } from "../types.js";
 import { fetchWith429Retries } from "./fetch-retry.js";
 
-const AMAZON_SEARCH_URL =
-  "https://www.amazon.jobs/en/search.json?offset=0&result_limit=100&sort=relevant&base_query=software%20engineer";
+const AMAZON_SEARCH_URL = "https://www.amazon.jobs/en/search.json";
+const AMAZON_PAGE_SIZE = 100;
+const AMAZON_MAX_PAGES = 10;
 
 type AmazonJob = {
   id?: unknown;
@@ -24,6 +25,16 @@ type AmazonJob = {
 type AmazonSearchResponse = {
   jobs?: AmazonJob[];
 };
+
+function amazonSearchUrl(offset: number): string {
+  const params = new URLSearchParams({
+    offset: String(offset),
+    result_limit: String(AMAZON_PAGE_SIZE),
+    sort: "relevant",
+    base_query: "software engineer",
+  });
+  return `${AMAZON_SEARCH_URL}?${params.toString()}`;
+}
 
 function stringField(value: unknown): string {
   return typeof value === "string" ? value.trim() : "";
@@ -98,19 +109,31 @@ export async function listAmazonJobs(
   _company: unknown,
   fetchImpl: FetchLike = fetch,
 ): Promise<Job[]> {
-  const response = await fetchWith429Retries(AMAZON_SEARCH_URL, {
-    fetchImpl,
-    label: "Amazon",
-    init: {
-      headers: { accept: "application/json" },
-    },
-  });
-  if (!response.ok) {
-    throw new Error(`Amazon HTTP ${response.status}`);
+  const mapped: Job[] = [];
+  for (let page = 0; page < AMAZON_MAX_PAGES; page += 1) {
+    const response = await fetchWith429Retries(
+      amazonSearchUrl(page * AMAZON_PAGE_SIZE),
+      {
+        fetchImpl,
+        label: "Amazon",
+        init: {
+          headers: { accept: "application/json" },
+        },
+      },
+    );
+    if (!response.ok) {
+      throw new Error(`Amazon HTTP ${response.status}`);
+    }
+    const body = (await response.json()) as AmazonSearchResponse;
+    const jobs = Array.isArray(body.jobs) ? body.jobs : [];
+    mapped.push(
+      ...jobs
+        .map((job) => mapAmazonJob(job))
+        .filter((job): job is Job => job !== null),
+    );
+    if (jobs.length < AMAZON_PAGE_SIZE) {
+      break;
+    }
   }
-  const body = (await response.json()) as AmazonSearchResponse;
-  const jobs = Array.isArray(body.jobs) ? body.jobs : [];
-  return jobs
-    .map((job) => mapAmazonJob(job))
-    .filter((job): job is Job => job !== null);
+  return mapped;
 }

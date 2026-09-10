@@ -42,9 +42,37 @@ describe("listAmazonJobs", () => {
     });
 
     expect(urls).toEqual([
-      "https://www.amazon.jobs/en/search.json?offset=0&result_limit=100&sort=relevant&base_query=software%20engineer",
+      "https://www.amazon.jobs/en/search.json?offset=0&result_limit=100&sort=relevant&base_query=software+engineer",
     ]);
     expect(jobs).toHaveLength(1);
+  });
+
+  it("paginates until Amazon returns a short page", async () => {
+    const pageOne = Array.from({ length: 100 }, (_, index) => ({
+      ...fixture.jobs[0],
+      id: `page-one-${index}`,
+    }));
+    const pageTwo = [{ ...fixture.jobs[0], id: "page-two-0" }];
+    const urls: string[] = [];
+
+    const jobs = await listAmazonJobs({}, async (input) => {
+      const url = String(input);
+      urls.push(url);
+      const body = url.includes("offset=100")
+        ? { jobs: pageTwo }
+        : { jobs: pageOne };
+      return new Response(JSON.stringify(body), {
+        status: 200,
+        headers: { "content-type": "application/json" },
+      });
+    });
+
+    expect(urls).toEqual([
+      "https://www.amazon.jobs/en/search.json?offset=0&result_limit=100&sort=relevant&base_query=software+engineer",
+      "https://www.amazon.jobs/en/search.json?offset=100&result_limit=100&sort=relevant&base_query=software+engineer",
+    ]);
+    expect(jobs).toHaveLength(101);
+    expect(jobs.at(-1)?.id).toBe("page-two-0");
   });
 
   it("throws on non-200 responses", async () => {
