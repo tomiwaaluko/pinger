@@ -86,6 +86,7 @@ export type DiscordEmbed = {
   url: string;
   fields: Array<{ name: string; value: string }>;
   footer: { text: string };
+  thumbnail?: { url: string };
 };
 
 export type DryRunPing = {

@@ -6,6 +6,7 @@ import {
   HTTP_429_RETRY_AFTER_CAP_MS,
   REQUEST_TIMEOUT_MS,
 } from "./constants.js";
+import { resolveLogoThumbnailUrl } from "./logo.js";
 import { truncate } from "./text.js";
 import type { DiscordEmbed, FetchLike, Job } from "./types.js";
 
@@ -18,7 +19,13 @@ export function buildDiscordEmbed(input: {
   companyName: string;
   companyId: string;
   fit: string;
+  domain?: string;
+  logoUrl?: string;
 }): DiscordEmbed {
+  const thumb = resolveLogoThumbnailUrl({
+    domain: input.domain,
+    logoUrl: input.logoUrl,
+  });
   return {
     title: truncate(
       stripRolePings(input.job.title.trim()).trim(),
@@ -34,6 +41,7 @@ export function buildDiscordEmbed(input: {
       { name: "Fit", value: truncate(stripRolePings(input.fit), FIT_NOTE_CAP) },
     ],
     footer: { text: `pinger · ${input.companyId}` },
+    ...(thumb ? { thumbnail: { url: thumb } } : {}),
   };
 }
 

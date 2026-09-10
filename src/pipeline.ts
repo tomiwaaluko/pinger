@@ -142,6 +142,15 @@ export async function runWatcher(
   const nameById = new Map(
     opts.config.companies.map((company) => [company.id, company.name] as const),
   );
+  const brandingById = new Map(
+    opts.config.companies.map(
+      (company) =>
+        [
+          company.id,
+          { domain: company.domain, logoUrl: company.logoUrl },
+        ] as const,
+    ),
+  );
 
   const store = await opts.readSeen(opts.seenPath);
   const nextStore: SeenStore = structuredClone(store);
@@ -260,6 +269,7 @@ export async function runWatcher(
 
       for (const { companyId, job } of hydratedMatches) {
         const companyName = nameById.get(companyId) ?? companyId;
+        const branding = brandingById.get(companyId);
         const fit = truncate(await fitForJob(opts, vault, job), FIT_NOTE_CAP);
         try {
           await opts.postDiscord(
@@ -269,6 +279,8 @@ export async function runWatcher(
               companyName,
               companyId,
               fit,
+              domain: branding?.domain,
+              logoUrl: branding?.logoUrl,
             }),
           );
           recordJob(nextStore, companyId, job, opts.now().toISOString());
