@@ -156,6 +156,32 @@ describe("matchesJob", () => {
     ).toBe(true);
   });
 
+  it("matches Scale-style university graduate SWE wording when present", () => {
+    expect(
+      matchesJob(
+        makeJob({
+          title: "Software Engineer, New Grad",
+          departments: ["Engineering"],
+          location: "San Francisco, CA",
+          content: "New graduate program 2027",
+        }),
+      ),
+    ).toBe(true);
+  });
+
+  it("matches Stripe-style internship with Spring in body", () => {
+    expect(
+      matchesJob(
+        makeJob({
+          title: "Software Engineering Intern",
+          departments: ["Engineering"],
+          location: "Seattle, WA",
+          content: "Our Spring 2027 internship cohort",
+        }),
+      ),
+    ).toBe(true);
+  });
+
   it("drops 2026 new grad", () => {
     expect(
       matchesJob(

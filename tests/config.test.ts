@@ -62,6 +62,18 @@ describe("loadConfig", () => {
     }
   });
 
+  it("every enabled company has domain or logoUrl", () => {
+    const enabled = loadConfig(join(repoRoot, "companies.yaml")).companies.filter(
+      (company) => company.enabled,
+    );
+    for (const company of enabled) {
+      expect(
+        ("domain" in company && company.domain) ||
+          ("logoUrl" in company && company.logoUrl),
+      ).toBeTruthy();
+    }
+  });
+
   it("parses enabled true and false", () => {
     const path = writeTempYaml(`
 llm:
