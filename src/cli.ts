@@ -20,6 +20,7 @@ async function main(): Promise<void> {
     dryRun,
     env: {
       DISCORD_WEBHOOK_URL: process.env.DISCORD_WEBHOOK_URL,
+      DISCORD_WEBHOOK_URL_INTERN: process.env.DISCORD_WEBHOOK_URL_INTERN,
       GEMINI_API_KEY: process.env.GEMINI_API_KEY,
     },
     now: () => new Date(),

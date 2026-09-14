@@ -73,27 +73,34 @@ function extractFourDigitYears(normalized: string): number[] {
   );
 }
 
-function hasSpring2027(normalized: string): boolean {
+function has2027InternSeason(normalized: string): boolean {
   return (
-    /\bspring\s*'?(?:2027|27)\b/.test(normalized) ||
+    /\b(?:spring|summer|fall|autumn|winter)\s*'?(?:2027|27)\b/.test(
+      normalized,
+    ) ||
     /\b(?:jan(?:uary)?|winter)\s+may\s+2027\b/.test(normalized) ||
-    /\bwinter\s*\/\s*spring\s*'?(?:2027|27)\b/.test(normalized)
-  );
-}
-
-function hasCompetingNonSpringSeason(normalized: string): boolean {
-  if (/\b(?:summer|fall|autumn)\b/.test(normalized)) {
-    return true;
-  }
-  return (
-    /\bwinter\b/.test(normalized) &&
-    !/\bwinter\s*\/\s*spring\s*'?(?:2027|27)\b/.test(normalized) &&
-    !/\bwinter\s+may\s+2027\b/.test(normalized)
+    /\b(?:spring|summer|fall|autumn|winter)\s*\/\s*(?:spring|summer|fall|autumn|winter)\s*'?(?:2027|27)\b/.test(
+      normalized,
+    )
   );
 }
 
 function titleAndContent(job: Job): string {
   return `${normalizeText(job.title)} ${normalizeText(job.content)}`.trim();
+}
+
+export type JobTrack = "intern" | "new-grad";
+
+/** Which Discord channel a job routes to. Only meaningful for jobs that already pass matchesJob. */
+export function jobTrack(job: Job): JobTrack | null {
+  const blob = titleAndContent(job);
+  if (isInternship(blob)) {
+    return "intern";
+  }
+  if (isNewGradTrack(blob)) {
+    return "new-grad";
+  }
+  return null;
 }
 
 export function passesBaseGates(job: Job): boolean {
@@ -120,13 +127,10 @@ export function passesSeasonYear(job: Job): boolean {
   const blob = titleAndContent(job);
 
   if (isInternship(blob)) {
-    if (hasCompetingNonSpringSeason(blob)) {
-      return false;
-    }
     if (extractFourDigitYears(blob).some((year) => year !== 2027)) {
       return false;
     }
-    return hasSpring2027(blob);
+    return has2027InternSeason(blob);
   }
 
   if (!isNewGradTrack(blob)) {

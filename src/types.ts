@@ -156,6 +156,7 @@ export type RunWatcherOptions = {
   dryRun: boolean;
   env: {
     DISCORD_WEBHOOK_URL?: string;
+    DISCORD_WEBHOOK_URL_INTERN?: string;
     GEMINI_API_KEY?: string;
   };
   now: () => Date;

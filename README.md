@@ -1,6 +1,6 @@
 # pinger
 
-Personal GitHub Actions watcher. It polls Greenhouse, Ashby, and Workday job boards a few times a day and pings **one** Discord channel when a new intern, co-op, or new-grad Software Engineer or AI Engineer role appears at any enabled company.
+Personal GitHub Actions watcher. It polls Greenhouse, Ashby, and Workday job boards a few times a day and pings a Discord channel when a new intern, co-op, or new-grad Software Engineer or AI Engineer role appears at any enabled company. Internship/co-op hits and new-grad hits route to two separate webhooks/channels (see [GitHub secrets](#github-secrets-watch-workflow-only)).
 
 There is no web UI and no always-on host.
 
@@ -57,7 +57,7 @@ Applied after base gates. Intern/co-op roles use title + body; new-grad roles us
 
 | Track | Rule |
 | --- | --- |
-| **Intern / co-op** | Must mention **Spring 2027** (incl. `Spring '27`, `Jan–May 2027`, `Winter/Spring 2027`). Rejects other explicit years and competing seasons (`Summer`, `Fall`, standalone `Winter`). |
+| **Intern / co-op** | Must mention **Winter, Spring, Summer, or Fall 2027** (incl. `Spring '27`, `Jan–May 2027`, dual tags like `Winter/Spring 2027` or `Spring/Summer 2027`). Rejects other explicit years and season-less postings. |
 | **New grad** | Passes with **no** four-digit year, or with **2027** only. Rejects other graduation years. |
 
 ### Workday hydrate-before-season
@@ -84,12 +84,13 @@ Domain seeds live in `data/company-domains.yaml`; merge into `companies.yaml` wi
 
 | Name | Purpose |
 | --- | --- |
-| `DISCORD_WEBHOOK_URL` | Discord incoming webhook |
+| `DISCORD_WEBHOOK_URL` | Discord incoming webhook for **new-grad** hits |
+| `DISCORD_WEBHOOK_URL_INTERN` | Discord incoming webhook for **intern / co-op** hits |
 | `VAULT_REPO` | `owner/name` of the private vault repo |
 | `VAULT_TOKEN` | PAT or fine-grained token with `contents: read` on that repo |
 | `GEMINI_API_KEY` | Gemini API key |
 
-Set all four before the first watch run that should ping Discord. `test.yml` does not receive them and sets `permissions: contents: read`, so the test workflow cannot push even if the repo default token is write-capable.
+Set all five before the first watch run that should ping Discord. A run only requires the webhook for tracks it actually has matches for that run — e.g. an intern-only run with `DISCORD_WEBHOOK_URL` unset still posts fine as long as `DISCORD_WEBHOOK_URL_INTERN` is set — but if a needed webhook is missing, the whole run exits 2 and posts nothing (matched jobs stay unrecorded in `seen-jobs.json` and are retried next run). `test.yml` does not receive them and sets `permissions: contents: read`, so the test workflow cannot push even if the repo default token is write-capable.
 
 The watch workflow needs to push `seen-jobs.json`. Repo **Settings → Actions → General → Workflow permissions** must be **Read and write**. `permissions: contents: write` in `watch.yml` is not enough if the org/repo default is read-only; the `chore: record seen jobs` push will fail.
 
