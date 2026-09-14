@@ -47,6 +47,15 @@ const intern = (id: string, overrides: Partial<Job> = {}): Job =>
     ...overrides,
   });
 
+const newGrad = (id: string, overrides: Partial<Job> = {}): Job =>
+  makeJob({
+    id,
+    title: `New Grad Software Engineer ${id}`,
+    absoluteUrl: `https://job-boards.greenhouse.io/${overrides.absoluteUrl ?? "board"}/jobs/${id}`,
+    content: "",
+    ...overrides,
+  });
+
 const senior = makeJob({
   id: "senior",
   title: "Staff Software Engineer",
@@ -106,6 +115,7 @@ function baseOpts(
     dryRun: false,
     env: {
       DISCORD_WEBHOOK_URL: "https://discord.test/webhook",
+      DISCORD_WEBHOOK_URL_INTERN: "https://discord.test/webhook-intern",
       GEMINI_API_KEY: "gemini-key",
     },
     now: () => new Date(now),
@@ -557,7 +567,7 @@ describe("runWatcher fleet pipeline", () => {
       baseOpts({
         vaultDir: dir,
         seenPath,
-        env: { DISCORD_WEBHOOK_URL: "https://discord.test/webhook" },
+        env: { DISCORD_WEBHOOK_URL_INTERN: "https://discord.test/webhook-intern" },
         listJobs: async () => [intern("20")],
         generateFitNote,
         postDiscord: async (_url, embed) => {
@@ -731,5 +741,104 @@ describe("runWatcher fleet pipeline", () => {
     expect(hydrateContent).toHaveBeenCalledTimes(1);
     expect(postDiscord).not.toHaveBeenCalled();
     expect(generateFitNote).not.toHaveBeenCalled();
+  });
+
+  it("routes intern hits to the intern webhook and new-grad hits to the new-grad webhook", async () => {
+    const dir = vaultDirWithCareer();
+    const seenPath = join(dir, "seen-jobs.json");
+    await writeSeen(seenPath, { vercel: {} });
+    const posted: { url: string; embed: DiscordEmbed }[] = [];
+
+    const result = await runWatcher(
+      baseOpts({
+        vaultDir: dir,
+        seenPath,
+        listJobs: async () => [intern("10"), newGrad("20")],
+        postDiscord: async (url, embed) => {
+          posted.push({ url, embed });
+        },
+      }),
+    );
+
+    expect(result.exitCode).toBe(0);
+    expect(posted).toHaveLength(2);
+    expect(posted.find((p) => p.embed.url.endsWith("/jobs/10"))?.url).toBe(
+      "https://discord.test/webhook-intern",
+    );
+    expect(posted.find((p) => p.embed.url.endsWith("/jobs/20"))?.url).toBe(
+      "https://discord.test/webhook",
+    );
+  });
+
+  it("exits 2 and posts nothing when the intern webhook is missing but intern jobs matched", async () => {
+    const dir = vaultDirWithCareer();
+    const seenPath = join(dir, "seen-jobs.json");
+    await writeSeen(seenPath, { vercel: {} });
+    const postDiscord = vi.fn(async () => undefined);
+
+    const result = await runWatcher(
+      baseOpts({
+        vaultDir: dir,
+        seenPath,
+        env: {
+          DISCORD_WEBHOOK_URL: "https://discord.test/webhook",
+          GEMINI_API_KEY: "gemini-key",
+        },
+        listJobs: async () => [intern("10")],
+        postDiscord,
+      }),
+    );
+
+    expect(result.exitCode).toBe(2);
+    expect(postDiscord).not.toHaveBeenCalled();
+    expect(await readSeen(seenPath)).toEqual({ vercel: {} });
+  });
+
+  it("exits 2 and posts nothing when the new-grad webhook is missing but new-grad jobs matched", async () => {
+    const dir = vaultDirWithCareer();
+    const seenPath = join(dir, "seen-jobs.json");
+    await writeSeen(seenPath, { vercel: {} });
+    const postDiscord = vi.fn(async () => undefined);
+
+    const result = await runWatcher(
+      baseOpts({
+        vaultDir: dir,
+        seenPath,
+        env: {
+          DISCORD_WEBHOOK_URL_INTERN: "https://discord.test/webhook-intern",
+          GEMINI_API_KEY: "gemini-key",
+        },
+        listJobs: async () => [newGrad("20")],
+        postDiscord,
+      }),
+    );
+
+    expect(result.exitCode).toBe(2);
+    expect(postDiscord).not.toHaveBeenCalled();
+    expect(await readSeen(seenPath)).toEqual({ vercel: {} });
+  });
+
+  it("fails the whole run when a mixed batch is missing just one track's webhook", async () => {
+    const dir = vaultDirWithCareer();
+    const seenPath = join(dir, "seen-jobs.json");
+    await writeSeen(seenPath, { vercel: {} });
+    const postDiscord = vi.fn(async () => undefined);
+
+    const result = await runWatcher(
+      baseOpts({
+        vaultDir: dir,
+        seenPath,
+        env: {
+          DISCORD_WEBHOOK_URL: "https://discord.test/webhook",
+          GEMINI_API_KEY: "gemini-key",
+        },
+        listJobs: async () => [intern("10"), newGrad("20")],
+        postDiscord,
+      }),
+    );
+
+    expect(result.exitCode).toBe(2);
+    expect(postDiscord).not.toHaveBeenCalled();
+    expect(await readSeen(seenPath)).toEqual({ vercel: {} });
   });
 });

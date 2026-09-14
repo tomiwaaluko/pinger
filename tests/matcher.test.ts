@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
+  jobTrack,
   matchesJob,
   normalizeTitle,
   passesBaseGates,
@@ -97,7 +98,7 @@ describe("matchesJob", () => {
     ).toBe(false);
   });
 
-  it("drops Summer 2027 intern", () => {
+  it("keeps Summer 2027 intern", () => {
     expect(
       matchesJob(
         makeJob({
@@ -105,10 +106,33 @@ describe("matchesJob", () => {
           location: "Seattle, WA",
         }),
       ),
-    ).toBe(false);
+    ).toBe(true);
   });
 
-  it("drops Spring/Summer 2027 dual tag", () => {
+  it("keeps Fall 2027 intern", () => {
+    expect(
+      matchesJob(
+        makeJob({
+          title: "Software Engineer Intern (Fall 2027)",
+          location: "Seattle, WA",
+        }),
+      ),
+    ).toBe(true);
+  });
+
+  it("keeps standalone Winter 2027 intern", () => {
+    expect(
+      matchesJob(
+        makeJob({
+          title: "Software Engineer Intern",
+          location: "Denver, CO",
+          content: "Winter 2027 internship",
+        }),
+      ),
+    ).toBe(true);
+  });
+
+  it("keeps Spring/Summer 2027 dual tag", () => {
     expect(
       matchesJob(
         makeJob({
@@ -117,7 +141,89 @@ describe("matchesJob", () => {
           content: "Spring/Summer 2027 internship",
         }),
       ),
+    ).toBe(true);
+  });
+
+  it("drops Summer 2026 intern", () => {
+    expect(
+      matchesJob(
+        makeJob({
+          title: "Software Engineer Intern (Summer 2026)",
+          location: "Seattle, WA",
+        }),
+      ),
     ).toBe(false);
+  });
+
+  it("keeps Fall '27 short-year intern", () => {
+    expect(
+      matchesJob(
+        makeJob({
+          title: "Software Engineer Intern",
+          location: "Chicago, IL",
+          content: "Fall '27 internship cohort",
+        }),
+      ),
+    ).toBe(true);
+  });
+
+  it("drops conflicting short-year season tags", () => {
+    expect(
+      matchesJob(
+        makeJob({
+          title: "Software Engineer Intern",
+          location: "Chicago, IL",
+          content: "Summer '27 / Winter '26 internship cohort",
+        }),
+      ),
+    ).toBe(false);
+  });
+
+  it("drops Winter 2026 intern", () => {
+    expect(
+      matchesJob(
+        makeJob({
+          title: "Software Engineer Intern (Winter 2026)",
+          location: "Seattle, WA",
+        }),
+      ),
+    ).toBe(false);
+  });
+
+  it("keeps Winter/Fall 2027 dual tag", () => {
+    expect(
+      matchesJob(
+        makeJob({
+          title: "Software Engineer Intern",
+          location: "Austin, TX",
+          content: "Winter/Fall 2027 internship",
+        }),
+      ),
+    ).toBe(true);
+  });
+
+  it("still drops season-less-but-yeared intern (2027 with no season word)", () => {
+    expect(
+      matchesJob(
+        makeJob({
+          title: "Software Engineer Intern",
+          location: "San Francisco, CA",
+          content: "Join our 2027 internship class.",
+        }),
+      ),
+    ).toBe(false);
+  });
+
+  it("new-grad track ignores season words entirely", () => {
+    expect(
+      matchesJob(
+        makeJob({
+          title: "New Grad Software Engineer",
+          location: "New York, NY",
+          content: "Our Summer 2027 new-grad onboarding cohort.",
+        }),
+      ),
+    ).toBe(true);
   });
 
   it("keeps Jan-May 2027 spring window", () => {
@@ -193,7 +299,7 @@ describe("matchesJob", () => {
     ).toBe(false);
   });
 
-  it("intern path wins over university wording for Summer", () => {
+  it("intern path wins over university wording for Summer 2027", () => {
     expect(
       matchesJob(
         makeJob({
@@ -202,7 +308,7 @@ describe("matchesJob", () => {
           content: "Summer 2027 university recruiting",
         }),
       ),
-    ).toBe(false);
+    ).toBe(true);
   });
 
   it("drops London-only location", () => {
@@ -239,5 +345,41 @@ describe("matchesJob", () => {
         }),
       ),
     ).toBe(false);
+  });
+});
+
+describe("jobTrack", () => {
+  it("classifies an intern title as intern", () => {
+    expect(
+      jobTrack(
+        makeJob({
+          title: "Software Engineer Intern",
+          content: "Summer 2027 internship",
+        }),
+      ),
+    ).toBe("intern");
+  });
+
+  it("classifies a new-grad title as new-grad", () => {
+    expect(
+      jobTrack(makeJob({ title: "New Grad Software Engineer" })),
+    ).toBe("new-grad");
+  });
+
+  it("intern classification wins when both intern and new-grad language appear", () => {
+    expect(
+      jobTrack(
+        makeJob({
+          title: "University Software Engineer Intern",
+          content: "Summer 2027 university recruiting",
+        }),
+      ),
+    ).toBe("intern");
+  });
+
+  it("returns null for a job with neither track signal", () => {
+    expect(
+      jobTrack(makeJob({ title: "Staff Software Engineer", content: "" })),
+    ).toBe(null);
   });
 });

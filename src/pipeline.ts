@@ -8,7 +8,8 @@ import {
   WORKDAY_CONCURRENCY,
 } from "./constants.js";
 import { buildDiscordEmbed } from "./discord.js";
-import { matchesJob, passesBaseGates } from "./matcher.js";
+import { jobTrack, matchesJob, passesBaseGates } from "./matcher.js";
+import type { JobTrack } from "./matcher.js";
 import {
   isFirstRun,
   newMatchingJobs,
@@ -278,8 +279,17 @@ export async function runWatcher(
         return { exitCode: 0, dryRunPings: [], dryRunDeferred: [] };
       }
 
-      const webhookUrl = opts.env.DISCORD_WEBHOOK_URL;
-      if (!webhookUrl) {
+      const webhookUrlByTrack: Record<JobTrack, string | undefined> = {
+        "new-grad": opts.env.DISCORD_WEBHOOK_URL,
+        intern: opts.env.DISCORD_WEBHOOK_URL_INTERN,
+      };
+      const neededTracks = new Set(
+        hydratedMatches.map(({ job }) => jobTrack(job) ?? "new-grad"),
+      );
+      const missingWebhook = [...neededTracks].some(
+        (track) => !webhookUrlByTrack[track],
+      );
+      if (missingWebhook) {
         return { exitCode: 2, dryRunPings: [], dryRunDeferred: [] };
       }
 
@@ -294,6 +304,7 @@ export async function runWatcher(
         const companyName = nameById.get(companyId) ?? companyId;
         const branding = brandingById.get(companyId);
         const fit = truncate(await fitForJob(opts, vault, job), FIT_NOTE_CAP);
+        const webhookUrl = webhookUrlByTrack[jobTrack(job) ?? "new-grad"]!;
         try {
           await opts.postDiscord(
             webhookUrl,

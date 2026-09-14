@@ -73,27 +73,43 @@ function extractFourDigitYears(normalized: string): number[] {
   );
 }
 
-function hasSpring2027(normalized: string): boolean {
-  return (
-    /\bspring\s*'?(?:2027|27)\b/.test(normalized) ||
-    /\b(?:jan(?:uary)?|winter)\s+may\s+2027\b/.test(normalized) ||
-    /\bwinter\s*\/\s*spring\s*'?(?:2027|27)\b/.test(normalized)
-  );
+function extractInternSeasonYears(normalized: string): number[] {
+  return [
+    ...normalized.matchAll(
+      /\b(?:spring|summer|fall|autumn|winter)\s*['’]?(\d{2}|\d{4})\b/g,
+    ),
+  ].map((match) => {
+    const value = Number(match[1]);
+    return match[1].length === 2 ? 2000 + value : value;
+  });
 }
 
-function hasCompetingNonSpringSeason(normalized: string): boolean {
-  if (/\b(?:summer|fall|autumn)\b/.test(normalized)) {
-    return true;
-  }
+function has2027InternSeason(normalized: string): boolean {
   return (
-    /\bwinter\b/.test(normalized) &&
-    !/\bwinter\s*\/\s*spring\s*'?(?:2027|27)\b/.test(normalized) &&
-    !/\bwinter\s+may\s+2027\b/.test(normalized)
+    extractInternSeasonYears(normalized).includes(2027) ||
+    /\b(?:jan(?:uary)?|winter)\s+may\s+2027\b/.test(normalized) ||
+    /\b(?:spring|summer|fall|autumn|winter)\s*\/\s*(?:spring|summer|fall|autumn|winter)\s*'?(?:2027|27)\b/.test(
+      normalized,
+    )
   );
 }
 
 function titleAndContent(job: Job): string {
   return `${normalizeText(job.title)} ${normalizeText(job.content)}`.trim();
+}
+
+export type JobTrack = "intern" | "new-grad";
+
+/** Which Discord channel a job routes to. Only meaningful for jobs that already pass matchesJob. */
+export function jobTrack(job: Job): JobTrack | null {
+  const blob = titleAndContent(job);
+  if (isInternship(blob)) {
+    return "intern";
+  }
+  if (isNewGradTrack(blob)) {
+    return "new-grad";
+  }
+  return null;
 }
 
 export function passesBaseGates(job: Job): boolean {
@@ -120,13 +136,13 @@ export function passesSeasonYear(job: Job): boolean {
   const blob = titleAndContent(job);
 
   if (isInternship(blob)) {
-    if (hasCompetingNonSpringSeason(blob)) {
+    if (extractInternSeasonYears(blob).some((year) => year !== 2027)) {
       return false;
     }
     if (extractFourDigitYears(blob).some((year) => year !== 2027)) {
       return false;
     }
-    return hasSpring2027(blob);
+    return has2027InternSeason(blob);
   }
 
   if (!isNewGradTrack(blob)) {
