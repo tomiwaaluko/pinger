@@ -167,6 +167,18 @@ describe("matchesJob", () => {
     ).toBe(true);
   });
 
+  it("drops conflicting short-year season tags", () => {
+    expect(
+      matchesJob(
+        makeJob({
+          title: "Software Engineer Intern",
+          location: "Chicago, IL",
+          content: "Summer '27 / Winter '26 internship cohort",
+        }),
+      ),
+    ).toBe(false);
+  });
+
   it("drops Winter 2026 intern", () => {
     expect(
       matchesJob(

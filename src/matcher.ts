@@ -73,11 +73,20 @@ function extractFourDigitYears(normalized: string): number[] {
   );
 }
 
+function extractInternSeasonYears(normalized: string): number[] {
+  return [
+    ...normalized.matchAll(
+      /\b(?:spring|summer|fall|autumn|winter)\s*['’]?(\d{2}|\d{4})\b/g,
+    ),
+  ].map((match) => {
+    const value = Number(match[1]);
+    return match[1].length === 2 ? 2000 + value : value;
+  });
+}
+
 function has2027InternSeason(normalized: string): boolean {
   return (
-    /\b(?:spring|summer|fall|autumn|winter)\s*'?(?:2027|27)\b/.test(
-      normalized,
-    ) ||
+    extractInternSeasonYears(normalized).includes(2027) ||
     /\b(?:jan(?:uary)?|winter)\s+may\s+2027\b/.test(normalized) ||
     /\b(?:spring|summer|fall|autumn|winter)\s*\/\s*(?:spring|summer|fall|autumn|winter)\s*'?(?:2027|27)\b/.test(
       normalized,
@@ -127,6 +136,9 @@ export function passesSeasonYear(job: Job): boolean {
   const blob = titleAndContent(job);
 
   if (isInternship(blob)) {
+    if (extractInternSeasonYears(blob).some((year) => year !== 2027)) {
+      return false;
+    }
     if (extractFourDigitYears(blob).some((year) => year !== 2027)) {
       return false;
     }
