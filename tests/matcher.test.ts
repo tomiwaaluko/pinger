@@ -1,6 +1,9 @@
 import { describe, expect, it } from "vitest";
 import {
+  allowEmptyContentAfterHydrate,
   capBucket,
+  hasRolePhrase,
+  isInternTitle,
   jobTrack,
   matchesJob,
   normalizeTitle,
@@ -8,6 +11,29 @@ import {
   passesSeasonYear,
 } from "../src/matcher.js";
 import { makeJob } from "./helpers.js";
+
+describe("isInternTitle", () => {
+  it("reads intern from the title only", () => {
+    expect(
+      isInternTitle(makeJob({ title: "Software Engineer Intern", content: "" })),
+    ).toBe(true);
+    expect(
+      isInternTitle(
+        makeJob({
+          title: "Software Engineer",
+          content: "internship experience preferred",
+        }),
+      ),
+    ).toBe(false);
+  });
+});
+
+describe("hasRolePhrase", () => {
+  it("matches whole-token sde but not sdet", () => {
+    expect(hasRolePhrase("SDE I")).toBe(true);
+    expect(hasRolePhrase("SDET")).toBe(false);
+  });
+});
 
 describe("normalizeTitle", () => {
   it("trims, lowercases, and collapses hyphens and whitespace", () => {
@@ -523,3 +549,44 @@ describe("capBucket", () => {
     );
   });
 });
+
+describe("allowEmptyContentAfterHydrate", () => {
+  it("rejects yearless empty-body SWE", () => {
+    expect(
+      allowEmptyContentAfterHydrate(
+        makeJob({ title: "Software Engineer", content: "" }),
+      ),
+    ).toBe(false);
+  });
+
+  it("keeps when the title itself is 2027-only", () => {
+    expect(
+      allowEmptyContentAfterHydrate(
+        makeJob({ title: "Software Engineer, 2027", content: "" }),
+      ),
+    ).toBe(true);
+  });
+
+  it("keeps intern titles whose title has a 2027 season, including short year", () => {
+    expect(
+      allowEmptyContentAfterHydrate(
+        makeJob({
+          title: "Software Engineer Intern Fall '27",
+          content: "",
+        }),
+      ),
+    ).toBe(true);
+  });
+
+  it("ignores intern season that exists only in the body", () => {
+    expect(
+      allowEmptyContentAfterHydrate(
+        makeJob({
+          title: "Software Engineer Intern",
+          content: "Summer 2027 internship",
+        }),
+      ),
+    ).toBe(false);
+  });
+});
+

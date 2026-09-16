@@ -79,6 +79,13 @@ describe("normalizeCompanyName", () => {
   });
 });
 
+describe("slugFromNormalizedName", () => {
+  it("turns a normalized name into a slug", () => {
+    expect(slugFromNormalizedName("unknown co")).toBe("unknown-co");
+    expect(slugFromNormalizedName("")).toBe("company");
+  });
+});
+
 describe("adapterCanFetch", () => {
   it("is true for greenhouse/amazon and false for custom/google stubs", () => {
     expect(adapterCanFetch("greenhouse")).toBe(true);
