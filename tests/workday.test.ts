@@ -8,6 +8,8 @@ import {
   listWorkdayJobs,
   mapWorkdayListItem,
 } from "../src/adapters/workday.js";
+import { jobTrack } from "../src/matcher.js";
+import { makeJob } from "./helpers.js";
 import detailFixture from "./fixtures/workday-boeing-detail.json";
 import page1 from "./fixtures/workday-boeing-list-page1.json";
 import page2 from "./fixtures/workday-boeing-list-page2.json";
@@ -52,6 +54,36 @@ describe("mapWorkdayListItem", () => {
       jobReqId: "JR200",
     });
     expect(job?.departments).toEqual([]);
+  });
+
+  it("infers Engineering for SDE I with no department field", () => {
+    const job = mapWorkdayListItem(boeingCompany, {
+      title: "SDE I",
+      locationsText: "Austin, TX",
+      externalPath: "/job/Austin/SDE-I_JR300",
+      jobReqId: "JR300",
+    });
+    expect(job?.departments).toEqual(["Engineering"]);
+  });
+});
+
+describe("jobTrack", () => {
+  it("returns null for Staff Software Engineer", () => {
+    expect(
+      jobTrack(makeJob({ title: "Staff Software Engineer", content: "" })),
+    ).toBe(null);
+  });
+
+  it("classifies associate, bare SWE, Software Engineer 1, and SDE I as new-grad", () => {
+    for (const title of [
+      "Associate Software Engineer",
+      "Software Engineer",
+      "Junior Software Engineer",
+      "Software Engineer 1",
+      "SDE I",
+    ]) {
+      expect(jobTrack(makeJob({ title, content: "" }))).toBe("new-grad");
+    }
   });
 });
 

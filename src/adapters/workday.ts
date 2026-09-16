@@ -1,19 +1,12 @@
 import {
   WORKDAY_MAX_PAGES,
 } from "../constants.js";
-import { normalizeTitle } from "../matcher.js";
+import { hasRolePhrase } from "../matcher.js";
 import { stripJobHtml } from "../text.js";
 import type { FetchLike, Job, WorkdayCompany } from "../types.js";
 import { fetchWith429Retries } from "./fetch-retry.js";
 
 export const WORKDAY_PAGE_SIZE = 20;
-
-const SWE_ROLE_PHRASES = [
-  "software engineer",
-  "software engineering",
-  "ai engineer",
-  "swe",
-] as const;
 
 type WorkdayListItem = {
   title?: string;
@@ -34,14 +27,8 @@ type WorkdayDetailResponse = {
   jobDescription?: string;
 };
 
-function hasPhrase(normalized: string, phrase: string): boolean {
-  const escaped = phrase.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-  return new RegExp(`\\b${escaped}\\b`).test(normalized);
-}
-
 function titleHasSweRole(title: string): boolean {
-  const normalized = normalizeTitle(title);
-  return SWE_ROLE_PHRASES.some((phrase) => hasPhrase(normalized, phrase));
+  return hasRolePhrase(title);
 }
 
 function workdayBase(company: WorkdayCompany): string {

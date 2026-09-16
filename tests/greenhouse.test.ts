@@ -66,9 +66,12 @@ describe("mapGreenhouseJob", () => {
     );
   });
 
-  it("does not match any captured live fixture job as intern/new-grad SWE", () => {
+  it("keeps the captured Vercel Software Engineer, AI SDK job after matcher widen", () => {
     const mapped = fixture.jobs.map((row) => mapGreenhouseJob(row));
-    expect(mapped.filter((job) => matchesJob(job))).toEqual([]);
+    const matched = mapped.filter((job) => matchesJob(job));
+    expect(matched.map((job) => job.title)).toEqual([
+      "Software Engineer, AI SDK",
+    ]);
   });
 
   it("returns null when absolute_url is missing, empty, or not https", () => {
