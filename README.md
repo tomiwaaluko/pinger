@@ -170,3 +170,11 @@ node scripts/probe-greenhouse-boards.mjs > probe-gh-boards.tsv
 ```
 
 The probe is **manual maintenance only** — not wired into npm scripts or CI. Ignore gitignored artifacts `probe-gh-boards.tsv` and `companies.generated.yaml`.
+
+## Simplify coverage checklist
+
+Manual. Not part of `watch.yml`. Does not ping Discord or edit `companies.yaml`.
+
+    node scripts/simplify-coverage.mjs
+
+Writes gitignored `data/simplify-coverage-report.md` and `data/companies.suggested.yaml`. Copy `enable:` ids into `companies.yaml` in waves.
