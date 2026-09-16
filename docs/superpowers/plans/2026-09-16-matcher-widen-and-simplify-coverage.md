@@ -1098,6 +1098,8 @@ git commit -m "docs: record matcher-widen dry-run volume gate"
 
 If the gate fails, do **not** commit a pass note. Matcher must not merge. Tasks 5–6 may still proceed (they only need Task 1 matcher APIs).
 
+**Task 4 result (2026-09-16):** FAIL. Fleet dry-run `n=25`, intern=0, high-signal=1, yearless-bare=24 (`24 > 12.5`). No silent matcher tweak. Matcher slice stays merge-blocked pending a product decision on Discord volume. Coverage slice (Tasks 5–6) remains on this branch because it only needs Task 1 APIs.
+
 ---
 
 ### Task 5: Coverage classify / join / render (offline)

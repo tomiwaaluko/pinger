@@ -68,7 +68,9 @@ describe("mapGreenhouseJob", () => {
 
   it("keeps the captured Vercel Software Engineer, AI SDK job after matcher widen", () => {
     const mapped = fixture.jobs.map((row) => mapGreenhouseJob(row));
-    const matched = mapped.filter((job) => matchesJob(job));
+    const matched = mapped.flatMap((job) =>
+      job !== null && matchesJob(job) ? [job] : [],
+    );
     expect(matched.map((job) => job.title)).toEqual([
       "Software Engineer, AI SDK",
     ]);
