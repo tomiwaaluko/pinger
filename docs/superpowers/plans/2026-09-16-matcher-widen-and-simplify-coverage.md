@@ -18,19 +18,22 @@
 - Role phrases: existing set plus whole-token `sde` (must not match `sdet`).
 - Soft cap fills intern + high-signal new-grad first (fair across companies), then yearless-bare / other non-signal new-grad.
 - High-signal title tokens: `junior`, `entry level`, `early career`, `early in career`, `associate`, `new grad`, `college grad`, `university grad`, `fresh grad`, `engineer 1`, `engineer i`, `sde 1`, `sde i`.
-- Workday/NVIDIA: list-phase is dept → role → title deny → US (and title-only intern class). Hydrate only those survivors. Season/year runs after hydrate. Do not hydrate the whole board.
+- Workday/NVIDIA: list-phase is `passesBaseGates` (dept → role → title deny → US). Intern class is title-only but is **not** a list-phase keep/drop filter. Hydrate only those survivors. Season/year runs after hydrate. Do not hydrate the whole board. After hydrate, a still-empty body must not yearless-keep (title-only 2027 / intern season in the title may still keep).
 - Coverage script is manual. Do not edit `.github/workflows/watch.yml`. Do not overwrite `companies.yaml`. Do not ping Discord from Simplify lists.
 - Suggested `enable:` is join + `adapterCanFetch` only — not gated on synthetic `matchesJob`. Never enable ids `google` / `meta` / `microsoft` / `apple`.
 - All unit tests offline. No live GitHub, ATS, or Discord in CI.
-- Do not start Task 5 until Task 4’s dry-run volume gate is recorded and passing.
+- Task 4 is the matcher **merge** gate (non-empty dry-run window, not majority yearless-bare). Task 5 depends on Task 1 matcher APIs and may proceed even if Task 4 fails.
 
 ## File structure
 
 | File | Responsibility |
 | --- | --- |
-| `src/matcher.ts` | Role phrases, title deny, title-only intern class, new-grad year for all non-intern role matches, `jobTrack`, `capBucket` |
+| `src/matcher.ts` | Role phrases, title deny, title-only intern class, new-grad year for all non-intern role matches, `jobTrack`, `capBucket`, `allowEmptyContentAfterHydrate` |
+| `src/adapters/workday.ts` | Infer Engineering from matcher `hasRolePhrase` (includes `sde`) |
 | `src/soft-cap.ts` | Two-tier fair window: preferred (intern + high-signal) then overflow |
-| `src/pipeline.ts` | Unchanged hydrate order; dry-run pings include `track` + `capBucket` |
+| `src/pipeline.ts` | Unchanged hydrate order; drop yearless-keep on empty post-hydrate bodies; dry-run pings include `track` + `capBucket` |
+| `tests/greenhouse.test.ts` | Vercel AI SDK fixture becomes a keep |
+| `tests/workday.test.ts` | `SDE I` infers Engineering |
 | `src/types.ts` | Optional `track` / `capBucket` on `DryRunPing` |
 | `src/cli.ts` | Dry-run JSON includes bucket counts |
 | `src/simplify-coverage.ts` | Join, SWE-equivalent filter, classify, render report + suggested yaml, fetch-with-retry |
@@ -51,7 +54,10 @@ Matcher (Tasks 1–4) ships on its own. Checklist (Tasks 5–6) is a second ship
 
 **Files:**
 - Modify: `src/matcher.ts`
+- Modify: `src/adapters/workday.ts`
 - Modify: `tests/matcher.test.ts`
+- Modify: `tests/workday.test.ts`
+- Modify: `tests/greenhouse.test.ts`
 
 **Interfaces:**
 - Produces:
@@ -60,6 +66,7 @@ Matcher (Tasks 1–4) ships on its own. Checklist (Tasks 5–6) is a second ship
   - `hasRolePhrase(title: string): boolean`
   - `isInternTitle(job: Job): boolean`
   - `capBucket(job: Job): CapBucket` where `CapBucket = "intern" | "high-signal-new-grad" | "yearless-bare"`
+  - `allowEmptyContentAfterHydrate(job: Job): boolean` — true only when the **title** itself has intern 2027 season or a 2027-only year; false for yearless empty bodies
   - `passesBaseGates(job: Job): boolean` — dept, role, **not** title-denied, US. No early-career phrase required.
   - `passesSeasonYear(job: Job): boolean` — intern **title** → intern 2027 season on title+body; else new-grad year rule on title+body (no “new grad” words required)
 
@@ -222,6 +229,32 @@ describe("capBucket", () => {
 
 Add `capBucket` to the existing import from `../src/matcher.js`.
 
+In `tests/greenhouse.test.ts`, replace the empty-match assertion:
+
+```typescript
+  it("keeps the captured Vercel Software Engineer, AI SDK job after matcher widen", () => {
+    const mapped = fixture.jobs.map((row) => mapGreenhouseJob(row));
+    const matched = mapped.filter((job) => matchesJob(job));
+    expect(matched.map((job) => job.title)).toEqual([
+      "Software Engineer, AI SDK",
+    ]);
+  });
+```
+
+In `tests/workday.test.ts`, add:
+
+```typescript
+  it("infers Engineering for SDE I with no department field", () => {
+    const job = mapWorkdayListItem(boeingCompany, {
+      title: "SDE I",
+      locationsText: "Austin, TX",
+      externalPath: "/job/Austin/SDE-I_JR300",
+      jobReqId: "JR300",
+    });
+    expect(job?.departments).toEqual(["Engineering"]);
+  });
+```
+
 Also update the existing `jobTrack` example that expects `null` for Staff (keep it) and add:
 
 ```typescript
@@ -242,7 +275,7 @@ Also update the existing `jobTrack` example that expects `null` for Staff (keep 
 
 Run: `npm test -- tests/matcher.test.ts`
 
-Expected: FAIL — Associate/Junior/bare SWE still dropped; `capBucket` not exported; SDE I has no role phrase.
+Expected: FAIL — Associate/Junior/bare SWE still dropped; `capBucket` not exported; SDE I has no role phrase; greenhouse fixture still expects zero matches; Workday `SDE I` does not infer Engineering.
 
 - [ ] **Step 4: Replace `src/matcher.ts` with the widened matcher**
 
@@ -360,6 +393,19 @@ export function capBucket(job: Job): CapBucket {
   return "yearless-bare";
 }
 
+/** After Workday/NVIDIA hydrate, empty bodies must not yearless-keep. Title-only 2027 / intern season may still keep. */
+export function allowEmptyContentAfterHydrate(job: Job): boolean {
+  const title = normalizeTitle(job.title);
+  if (isInternTitle(job)) {
+    return has2027InternSeason(title);
+  }
+  const years = extractFourDigitYears(title);
+  if (years.length === 0) {
+    return false;
+  }
+  return years.every((year) => year === 2027);
+}
+
 function extractFourDigitYears(normalized: string): number[] {
   return [...normalized.matchAll(/\b(20\d{2})\b/g)].map((match) =>
     Number(match[1]),
@@ -443,18 +489,30 @@ export function matchesJob(job: Job): boolean {
 }
 ```
 
-Keep intern season regexes identical to the current file. Do not reintroduce `EARLY_CAREER_PHRASES`. Do not classify intern from `job.content`.
+Keep intern season regexes identical to the current file. Do not reintroduce `EARLY_CAREER_PHRASES`. Do not classify intern from `job.content`. `has2027InternSeason` and `extractFourDigitYears` stay file-private; `allowEmptyContentAfterHydrate` is the export Task 3 uses.
 
-- [ ] **Step 5: Run matcher tests**
+In `src/adapters/workday.ts`, delete the local `SWE_ROLE_PHRASES` / `hasPhrase` copies and route `titleHasSweRole` through matcher `hasRolePhrase`:
 
-Run: `npm test -- tests/matcher.test.ts`
+```typescript
+import { hasRolePhrase } from "../matcher.js";
+
+function titleHasSweRole(title: string): boolean {
+  return hasRolePhrase(title);
+}
+```
+
+Drop unused `normalizeTitle` from that import if nothing else in the file needs it. NVIDIA list jobs already go through `listWorkdayJobs`, so this covers NVIDIA too.
+
+- [ ] **Step 5: Run matcher + Workday + Greenhouse tests**
+
+Run: `npm test -- tests/matcher.test.ts tests/workday.test.ts tests/greenhouse.test.ts`
 
 Expected: PASS
 
 - [ ] **Step 6: Commit**
 
 ```bash
-git add src/matcher.ts tests/matcher.test.ts
+git add src/matcher.ts src/adapters/workday.ts tests/matcher.test.ts tests/workday.test.ts tests/greenhouse.test.ts
 git commit -m "feat: widen SWE matcher and classify intern from title only"
 ```
 
@@ -794,7 +852,7 @@ Keep the existing intern-vs-newGrad webhook tests. They must still pass.
 
 Run: `npm test -- tests/pipeline.test.ts`
 
-Expected: FAIL — `capBucket` missing on dry-run pings; mixed intern + 40 bare SWE may still round-robin by company id without preferring `zzz`.
+Expected: FAIL — `capBucket` / `track` are not on `DryRunPing` yet. Cap preference through `selectAttemptWindow` already landed in Task 2; do not re-open soft-cap or hydrate order to make the `zzz` assertion pass.
 
 - [ ] **Step 3: Extend `DryRunPing` and `toPing`**
 
@@ -812,10 +870,16 @@ export type DryRunPing = {
 };
 ```
 
-In `src/pipeline.ts`, import `capBucket` next to `jobTrack` and change `toPing`:
+In `src/pipeline.ts`, import `allowEmptyContentAfterHydrate` and `capBucket` next to `jobTrack` and change `toPing`:
 
 ```typescript
-import { capBucket, jobTrack, matchesJob, passesBaseGates } from "./matcher.js";
+import {
+  allowEmptyContentAfterHydrate,
+  capBucket,
+  jobTrack,
+  matchesJob,
+  passesBaseGates,
+} from "./matcher.js";
 ```
 
 ```typescript
@@ -830,7 +894,72 @@ import { capBucket, jobTrack, matchesJob, passesBaseGates } from "./matcher.js";
     });
 ```
 
-Do not change Workday/NVIDIA hydrate order. `passesBaseGates` from Task 1 is already the list-phase filter.
+Inside `processCompany`, replace `matched = hydrated.filter((job) => matchesJob(job))` with:
+
+```typescript
+          matched = hydrated.filter((job) => {
+            if (!matchesJob(job)) return false;
+            if (job.content.trim().length > 0) return true;
+            return allowEmptyContentAfterHydrate(job);
+          });
+```
+
+Keep the non-hydrate branch as `matched = jobs.filter((job) => matchesJob(job))` (Greenhouse/Ashby already have list content). Do not change Workday/NVIDIA hydrate order. `passesBaseGates` from Task 1 is already the list-phase filter.
+
+Append this pipeline test next to the existing hydrate-reject case (that case uses an intern title and must still pass):
+
+```typescript
+  it("does not Discord-ping yearless bare SWE when Workday hydrate leaves content empty", async () => {
+    const dir = vaultDirWithCareer();
+    const seenPath = join(dir, "seen-jobs.json");
+    await writeSeen(seenPath, { boeing: {} });
+    const hydrateContent = vi.fn(async () => {
+      throw new Error("detail 500");
+    });
+    setAdapterRegistryForTests({
+      workday: {
+        ats: "workday",
+        listJobs: async () => [
+          makeJob({
+            id: "JR1",
+            title: "Software Engineer",
+            location: "Seattle, WA",
+            content: "",
+          }),
+        ],
+        hydrateContent,
+      },
+    });
+    const postDiscord = vi.fn(async () => undefined);
+    const result = await runWatcher(
+      baseOpts({
+        vaultDir: dir,
+        seenPath,
+        config: {
+          vault: { careerPath: "Career/" },
+          llm: { model: "gemini-2.5-flash" },
+          companies: [
+            {
+              id: "boeing",
+              name: "Boeing",
+              ats: "workday",
+              workday: {
+                host: "boeing.wd1.myworkdayjobs.com",
+                tenant: "boeing",
+                site: "external",
+              },
+              enabled: true,
+            },
+          ],
+        },
+        postDiscord,
+      }),
+    );
+    expect(hydrateContent).toHaveBeenCalled();
+    expect(postDiscord).not.toHaveBeenCalled();
+    expect(result.exitCode).toBe(0);
+  });
+```
 
 - [ ] **Step 4: Print bucket counts from the CLI dry-run JSON**
 
@@ -919,8 +1048,9 @@ This must not post Discord or write `seen-jobs.json`. Copy `bucketCounts` and th
 
 Let `n` = number of attempt pings (≤ 25). Let `bare` = `bucketCounts.yearlessBare`.
 
-- If `bare > n / 2`, **do not ship**. Stop and report the counts. Cap preference is already on; if the **selected** 25 are still majority yearless-bare, matcher widen is too loud for this fleet and needs a product decision (not a silent tweak).
-- If `bare <= n / 2` (or `n === 0`), gate passes.
+- If `n === 0` or dry-run `exitCode !== 0`, **do not ship**. Silence is not a pass (first-run companies and fetch/hydrate storms can empty the window). Stop and report why the sample is empty.
+- If `n > 0` and `bare > n / 2`, **do not ship**. Stop and report the counts. Cap preference is already on; if the **selected** window is still majority yearless-bare, matcher widen is too loud for this fleet and needs a product decision (not a silent tweak).
+- If `n > 0` and `bare <= n / 2`, gate passes.
 
 Also record intern / high-signal / yearless-bare counts for the attempt window.
 
@@ -966,7 +1096,7 @@ git add docs/superpowers/notes/2026-09-16-matcher-dry-run.md
 git commit -m "docs: record matcher-widen dry-run volume gate"
 ```
 
-If the gate fails, do **not** commit a pass note and do **not** start Task 5.
+If the gate fails, do **not** commit a pass note. Matcher must not merge. Tasks 5–6 may still proceed (they only need Task 1 matcher APIs).
 
 ---
 
@@ -992,7 +1122,6 @@ export type SimplifyCoverageOptions = {
   companiesYamlPath: string;
   reportPath: string;
   suggestedPath: string;
-  listingUrls?: { newGrad: string; intern: string };
 };
 
 export type SimplifyCoverageResult = {
@@ -1182,7 +1311,7 @@ describe("runSimplifyCoverage", () => {
     const report = readFileSync(paths.reportPath, "utf8");
     expect(report).toContain("would-ping");
     expect(report).toContain("matcher-drop");
-    expect(report).toContain("departments are assumed Engineering");
+    expect(report).toContain("Departments are assumed Engineering");
     expect(report).toMatch(/Senior Software Engineer[\s\S]*matcher-drop/);
     expect(report).toMatch(/Unknown Co[\s\S]*missing/);
     expect(report).toMatch(/Google[\s\S]*custom-no-adapter/);
@@ -1323,7 +1452,6 @@ export type SimplifyCoverageOptions = {
   companiesYamlPath: string;
   reportPath: string;
   suggestedPath: string;
-  listingUrls?: { newGrad: string; intern: string };
 };
 
 export type SimplifyCoverageResult = {
@@ -1513,7 +1641,7 @@ function renderReport(rows: Array<{
 export async function runSimplifyCoverage(
   opts: SimplifyCoverageOptions,
 ): Promise<SimplifyCoverageResult> {
-  const urls = opts.listingUrls ?? DEFAULT_LISTING_URLS;
+  const urls = DEFAULT_LISTING_URLS;
   try {
     const [newGradRaw, internRaw] = await Promise.all([
       fetchListingsJson(urls.newGrad, opts.fetch, opts.githubToken),
@@ -1762,4 +1890,4 @@ Do not run the live script in CI. A local `node scripts/simplify-coverage.mjs` i
 | Fail closed writes no files; gitignore outputs; no watch.yml Simplify | Task 5–6 |
 | LinkedIn / Jobright / auto-merge / scheduled Action / year-extractor rewrite | Deferred — do not implement |
 
-No TBD placeholders. Matcher can merge after Task 4 even if Tasks 5–6 are a follow-up PR.
+No TBD placeholders. Matcher merge waits on Task 4. Tasks 5–6 may ship as a follow-up even if Task 4 fails.
