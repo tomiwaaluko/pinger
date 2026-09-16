@@ -7,9 +7,9 @@ This spec builds on:
 - [2026-09-09-us-season-filters-and-big-tech-portals-design.md](./2026-09-09-us-season-filters-and-big-tech-portals-design.md) (shipped in PR #4)
 - Internship dual-webhook routing (PR #5: `feat: added internship pings`)
 
-Unchanged unless this spec overrides: vault sandbox, fit-note semantics, dry-run, merge-write seen-store, workflow commit-only-`seen-jobs.json`, fair 25-post soft cap, per-company fetch isolation, GitHub Actions hosting, US location gate, intern 2027 season rule, new-grad year extractor, portal trust boundary (public unauthenticated JSON only).
+Unchanged unless this spec overrides: vault sandbox, fit-note semantics, dry-run, merge-write seen-store, workflow commit-only-`seen-jobs.json`, per-company fetch isolation, GitHub Actions hosting, US location gate, intern **2027 season** rule (once a job is classified intern), new-grad year extractor, portal trust boundary (public unauthenticated JSON only).
 
-This document **replaces** the Sep 9 “closed Scale AI / Stripe matcher-polish corpus” with the explicit keep/drop title rules below. US, year, intern-season, and dual-webhook behavior stay as shipped.
+This document **replaces** the Sep 9 “closed Scale AI / Stripe matcher-polish corpus” with the explicit keep/drop title rules below. It **overrides** intern *classification* to **title-only** (body mentions of internships must not steal or drop a SWE title). Dual webhooks stay. Soft cap stays 25 but **fills intern + high-signal new-grad before yearless bare SWE**.
 
 ## Motivation
 
@@ -20,9 +20,9 @@ Scraping that README as a ping source would duplicate ATS jobs, add Simplify tra
 ## Goals
 
 - Ping the **new-grad** webhook for US SWE/AI titles that are junior / entry / early-career / associate / L1 (`engineer 1` / `sde i`) **or** bare `Software Engineer` / `AI Engineer` / `SWE` / `SDE` with no intern language, subject to the yearless-or-2027 rule.
-- Keep intern/co-op on `DISCORD_WEBHOOK_URL_INTERN` with PR #5 season rules.
-- Drop mid/senior titles (`senior`, `staff`, `II`, manager, …) so opening bare `Software Engineer` does not flood the new-grad channel.
-- Add a **manual** coverage script against Simplify new-grad SWE + Summer 2027 internship listings. Print miss reasons and a **delta** yaml suggestion. Never ping Discord from those lists.
+- Keep intern/co-op on `DISCORD_WEBHOOK_URL_INTERN` with PR #5 **season** rules. Intern vs new-grad is decided from the **title**, not the JD body.
+- Drop mid/senior titles (`senior`, `staff`, `II`, manager, …). Soft cap **prefers** intern and high-signal new-grad titles so yearless bare SWE cannot consume the whole 25-window.
+- Add a **manual** coverage script against Simplify new-grad SWE + Summer 2027 internship listings. Write miss reasons to `data/simplify-coverage-report.md` and a **delta** yaml suggestion to `data/companies.suggested.yaml`. Never ping Discord from those lists.
 - Stay on first-party ATS polling in `watch.yml`.
 
 ## Non-goals
@@ -33,7 +33,8 @@ Scraping that README as a ping source would duplicate ATS jobs, add Simplify tra
 - Enabling Google, Meta, Microsoft, or Apple from the checklist.
 - Overwriting `companies.yaml` from the script or from watch.
 - Wiring the checklist into `watch.yml` or a weekly Action.
-- Changing intern season rules, US location rules, soft cap, or first-run silence.
+- Changing intern **season** rules, US location rules, cap **size** (still 25), or first-run silence.
+- Rewriting the new-grad year extractor (any `20xx` in title+body). Dry-run may show incidental years eating keeps; that is a follow-up, not this spec.
 - Auto-apply, extra Discord fields, or always-on hosting.
 
 ## Decisions (locked)
@@ -41,15 +42,18 @@ Scraping that README as a ping source would duplicate ATS jobs, add Simplify tra
 | Topic | Choice |
 | --- | --- |
 | Scope | Matcher widen + offline Simplify checklist. Not a third ping source. |
-| Relation to Sep 9 | Same US + year + intern-season gates. New title keep/drop list replaces closed-corpus polish. |
-| Intern routing | Unchanged from PR #5. Intern language wins; intern webhook. |
+| Relation to Sep 9 | Same US + year + intern-**season** gates. Intern **class** is title-only (this spec). New title keep/drop list replaces closed-corpus polish. Hydrate-before-season stays with updated list-phase gates. |
+| Intern classification | **Title only.** `intern` / `internship` / `co op` / `coop` in the title → intern path + intern webhook. The same words in the **body alone** do not classify intern (avoids “internship experience preferred” stealing or dropping bare SWE). Intern **season/year** still scans title+body once classified intern (PR #5). |
+| Intern vs new-grad in title | If the title has intern language, intern wins even when it also says new-grad. |
 | Bare SWE | Keep. Non-intern role matches take the new-grad path even without the words “new grad”. |
+| Soft cap | Still 25. Fill **intern + high-signal new-grad** first (fair across companies), then yearless bare SWE. High-signal title tokens: `junior`, `entry level`, `early career`, `early in career`, `associate`, `new grad`, `college grad`, `university grad`, `fresh grad`, `engineer 1`, `engineer i`, `sde 1`, `sde i`. |
+| Dry-run gate | After matcher lands, one fleet dry-run records intern / high-signal new-grad / yearless-bare counts. **Ship is blocked** if, *without* cap preference, yearless-bare would be more than half of the 25-window (or of all new-grad would-pings when fewer than 25). Then cap preference must be on; re-run dry-run; ship only if the **posted 25** are not majority yearless-bare. |
 | Associate SWE | Keep (new-grad path). `associate` is **not** a deny token. |
 | Mid/senior deny | Title-only: `senior`, `sr`, `staff`, `principal`, `lead`, `manager`, `director`, roman `ii`/`iii`/`iv`, and role+level `2`/`3`/`4` (see Matcher). |
 | Role phrases | Existing set plus `sde` so `SDE I` can pass. |
 | Checklist sources | `listings.json` from New-Grad-Positions (SWE) and Summer2027-Internships (SWE-equivalent). Not README HTML. |
 | Checklist apply | Sidecar delta yaml. Human copies into `companies.yaml` in waves. |
-| Suggested enables | Existing Greenhouse / Ashby / Workday rows; Amazon / NVIDIA / OpenAI if still disabled and they have adapters. |
+| Suggested enables | Every joined listing whose yaml row is `enabled: false` and `getAdapter(ats)` exists (including Amazon/NVIDIA/OpenAI). **Not** gated on synthetic `matchesJob`. Never enable `google` / `meta` / `microsoft` / `apple`. |
 | Suggested adds | Unknown companies as `ats: custom`, `enabled: false`. |
 | Aggregators | LinkedIn / Jobright named only as later work. |
 
@@ -58,23 +62,29 @@ Scraping that README as a ping source would duplicate ATS jobs, add Simplify tra
 Two paths. Watch is ATS. Simplify is maintenance.
 
 ```text
-Watch (matcher + jobTrack only)
+Watch
   companies.yaml (enabled)
     → existing adapters (greenhouse | ashby | workday | amazon | nvidia | openai)
-    → matchesJob
-         dept → role (incl. sde) → title deny → US
-         intern language? intern 2027 season : new-grad year (yearless or 2027)
-    → jobTrack: intern → intern webhook; all other matches → new-grad webhook
-    → seen-store / soft cap 25 / fit note / Discord
+    → list-phase: dept → role (incl. sde) → title deny → US
+         intern class from TITLE only
+    → Workday/NVIDIA-style hydrate only for list-phase survivors
+         (not the whole board)
+    → season/year on title+hydrated body
+         intern title? intern 2027 season : new-grad year (yearless or 2027)
+    → jobTrack from TITLE: intern webhook vs new-grad webhook
+    → soft cap 25: intern + high-signal new-grad first, then yearless bare
+    → fit note / Discord
 
 Checklist (manual; not in watch.yml)
-  GET listings.json
-    SimplifyJobs/New-Grad-Positions (active, visible, Software Engineering)
-    SimplifyJobs/Summer2027-Internships (active, visible, SWE-equivalent)
-    → join to companies.yaml by normalized company name
-    → synthetic Job → matchesJob + jobTrack
+  GET listings.json via raw.githubusercontent.com (dev branch)
+    SimplifyJobs/New-Grad-Positions (active, visible, SWE category)
+    SimplifyJobs/Summer2027-Internships (active, visible, SWE category or role phrase)
+    → join to companies.yaml (exactly one name match, else ambiguous)
+    → synthetic Job → matchesJob + jobTrack (report only)
     → data/simplify-coverage-report.md
-    → data/companies.suggested.yaml  (delta; never overwrite companies.yaml)
+    → data/companies.suggested.yaml
+         enable: disabled + getAdapter exists (join only, not synthetic match)
+         add: missing stubs
 ```
 
 Later (not this spec): `aggregator` adapters for LinkedIn Jobs and Jobright.ai, same public-JSON trust boundary as other portals.
@@ -86,7 +96,7 @@ Later (not this spec): `aggregator` adapters for LinkedIn Jobs and Jobright.ai, 
 ### Gate order
 
 1. **Department** — unchanged. Allow whole tokens `engineering`, `software`, `swe`, `ai`. Deny `sales`, `solution`, `solutions`, `field`, `non`. Empty departments fail.
-2. **Role** — title contains `software engineer`, `software engineering`, `ai engineer`, `swe`, or **`sde`**.
+2. **Role** — title contains whole-token `software engineer`, `software engineering`, `ai engineer`, `swe`, or **`sde`** (do not match `sdet` via substring).
 3. **Title deny** — **title only** (not body). Drop if any of:
    - `senior`, `sr`, `staff`, `principal`, `lead`, `manager`, `director` as whole tokens
    - roman `ii`, `iii`, `iv` as whole tokens
@@ -95,10 +105,23 @@ Later (not this spec): `aggregator` adapters for LinkedIn Jobs and Jobright.ai, 
    - Do **not** deny `associate`, `junior`, `i`, `1`, or `engineer 0`
 4. **US location** — unchanged (`isUsLocation`).
 5. **Track and season/year**
-   - If intern/co-op language in title **or** body (`intern`, `internship`, `co op`, `coop`): intern path from PR #5 (2027 season word required; non-2027 years drop; intern webhook).
-   - Else: **new-grad path** even if the text never says “new grad”. Apply the existing new-grad year rule on title+body: no four-digit year → keep; only `2027` → keep; any other `20xx` → drop. New-grad webhook.
+   - If intern/co-op language is in the **title** (`intern`, `internship`, `co op`, `coop`): intern path from PR #5 (2027 season word required in title **or** body; non-2027 years drop; intern webhook).
+   - Else: **new-grad path** even if the text never says “new grad”. Apply the existing new-grad year rule on title+body: no four-digit year → keep; only `2027` → keep; any other `20xx` → drop. New-grad webhook. Body-only intern wording does **not** switch tracks.
 
-Intern language still wins when both intern and new-grad wording appear.
+Intern language in the **title** still wins when the title also says new-grad.
+
+### Workday / NVIDIA hydrate
+
+Sep 9 hydrate-before-season stays, with list-phase updated for this matcher:
+
+1. Run department, role, title deny, US, and **title-only** intern class on the list item (`content` may be empty).
+2. Hydrate `jobDescription` only for jobs that passed those list gates.
+3. Re-run intern season/year (intern titles) or new-grad year (everyone else) on title + hydrated body.
+4. Only then enter soft-cap / Discord.
+
+Do not hydrate the whole board. Do not apply yearless-keep as a final keep on empty Workday content when hydrate is still pending — season/year runs **after** hydrate for those adapters.
+
+Greenhouse and Ashby keep single-pass matching when content is already on the list payload.
 
 ### Keep / drop examples
 
@@ -112,7 +135,9 @@ Intern language still wins when both intern and new-grad wording appear.
 - Software Engineer 1 / Software Engineer I
 - SDE I / SDE 1
 - New Grad Software Engineer
-- AI Engineer / SWE (no intern language)
+- AI Engineer / SWE (no intern in the title)
+- Software Engineer, Python 3 (bare digit `3` is not a level deny)
+- Software Engineer, iOS 18
 
 **Keep (intern channel):** PR #5 cases (Summer/Fall/Winter/Spring 2027, dual tags, short year `'27`).
 
@@ -120,12 +145,14 @@ Intern language still wins when both intern and new-grad wording appear.
 
 - Senior / Sr / Staff / Principal / Lead Software Engineer
 - Software Engineer II / III / 2 / 3
+- SDE 2 / SWE 2 / Software Engineer 4
 - Software Engineering Manager (and director)
 - Junior Product Manager (no role phrase)
-- Engineer 1 with no SWE/SDE/AI role phrase
+- `Engineer 1` with no SWE/SDE/AI role phrase (role requires `software engineer` / `sde` / …)
 - Founding Engineer (no role phrase unless it also contains a role phrase)
 - London-only (US gate)
-- Intern with no 2027 season
+- Title is intern/co-op but no 2027 season in title or body
+- `Software Engineer` whose **body** says “internship experience preferred” and has no intern **title** — **keep, new-grad** (not intern, not drop)
 - Generic/new-grad SWE whose title or body has a non-2027 `20xx`
 
 `Junior` / `entry level` / `early career` / `college grad` do not need their own gate once the role phrase is present. They remain useful documentation; `sde` is the role addition that makes `SDE I` work.
@@ -134,13 +161,20 @@ Intern language still wins when both intern and new-grad wording appear.
 
 `jobTrack(job)`:
 
-- intern language → `"intern"`
+- intern language **in the title** → `"intern"`
 - else if `matchesJob` would pass the non-intern path → `"new-grad"`
 - pipeline already uses `jobTrack(job) ?? "new-grad"`; after this change, every `matchesJob` hit must classify as `intern` or `new-grad` (no `null` for a matching job)
 
 ### Seen-store / volume
 
-Already-keyed companies can Discord-ping newly matching open jobs (bare SWE, associate, L1) under the soft cap. That is the same matcher-widen behavior as Sep 9. No fleet-wide historical backfill. First-run silence for companies without a seen key is unchanged (except the existing custom-portal backfill allowlist).
+Already-keyed companies can Discord-ping newly matching open jobs (bare SWE, associate, L1) under the 25-post cap. No fleet-wide historical backfill. First-run silence for companies without a seen key is unchanged (except the existing custom-portal backfill allowlist).
+
+Cap fill order (still one shared 25 across both webhooks):
+
+1. Intern titles and **high-signal** new-grad titles (tokens in Decisions), fair across companies.
+2. Remaining slots: yearless bare SWE / other non-signal new-grad, fair across companies.
+
+Dry-run gate: see Decisions. Record three buckets (intern, high-signal new-grad, yearless-bare). Do not ship matcher if the ungated 25-window would be majority yearless-bare until preference is on and the **selected** 25 are not majority yearless-bare.
 
 ## Coverage checklist
 
@@ -152,22 +186,22 @@ Not an npm `start` path. Not `watch.yml`. Network only when you run it.
 
 ### Inputs
 
-Unauthenticated GET of raw `.github/scripts/listings.json` from branch `dev`:
+Unauthenticated GET of **raw.githubusercontent.com** `…/dev/.github/scripts/listings.json` (GitHub Contents API returns empty `content` for these ~13MB files — do not use it as the loader):
 
 - [SimplifyJobs/New-Grad-Positions](https://github.com/SimplifyJobs/New-Grad-Positions)
 - [SimplifyJobs/Summer2027-Internships](https://github.com/SimplifyJobs/Summer2027-Internships)
 
 Keep rows with `active: true` and `is_visible: true`.
 
-New-grad list: `category` is Software Engineering (after the same category aliases Simplify uses, if present).
+SWE-equivalent (both lists): `category` is `Software Engineering` or `Software` (case-insensitive), **or** the title matches a pinger role phrase (including `sde`). No third PM/hardware/quant skip list — `matchesJob` is the title filter after that. Do not port Simplify’s Python alias table.
 
-Internships list: `category` Software Engineering when present; otherwise title matches pinger role phrases (including `sde` and intern titles that contain those phrases). Skip PM / hardware / quant / data-only rows.
+Then classify with synthetic `matchesJob` / `jobTrack` for the **report**. `enable:` does not require synthetic match.
 
 ### Join
 
-Normalize `listing.company_name` and `companies.yaml` `name`: lowercase, strip leading `the`, strip `inc`/`llc`/`ltd`/`corp`/`corporation`, strip punctuation. First unique yaml row wins.
+Normalize `listing.company_name` and `companies.yaml` `name`: lowercase, strip leading `the`, strip `inc`/`llc`/`ltd`/`corp`/`corporation`, strip punctuation.
 
-If two yaml names normalize equal, the listing is `ambiguous` (not `enable` / `add`).
+A listing maps to a yaml row only when **exactly one** yaml name normalizes equal to the listing company. If two yaml names normalize equal, the listing is `ambiguous` (not `enable` / `add`). Zero matches → `missing`.
 
 ### Synthetic Job
 
@@ -186,12 +220,14 @@ If two yaml names normalize equal, the listing is `ambiguous` (not `enable` / `a
 
 ### Classification (first match)
 
-1. `would-ping` — yaml row exists, `enabled: true`, adapter can fetch, `matchesJob` true
-2. `matcher-drop` — enabled + fetchable, `matchesJob` false
+1. `would-ping` — yaml row exists, `enabled: true`, `getAdapter(ats)` exists, `matchesJob` true
+2. `matcher-drop` — yaml row exists, `enabled: true`, `getAdapter(ats)` exists, `matchesJob` false
 3. `disabled` — yaml row exists, `enabled: false`, and `getAdapter(ats)` exists. Never treat ids `google`, `meta`, `microsoft`, `apple` as disabled-enableable (they stay `custom-no-adapter` until a later portal spec).
 4. `custom-no-adapter` — yaml row exists but no adapter in the registry (including Google, Meta, Microsoft, Apple today)
 5. `missing` — no yaml row
 6. `ambiguous` — name collision
+
+`enable:` is the set of distinct yaml ids in class `disabled` that appeared on at least one **input-kept** listing. It is **not** filtered by `matchesJob` (synthetic match is report-only).
 
 Invalid rows (missing `company_name`, `title`, or `url`) are skipped and counted on stderr as `skipped-invalid`.
 
@@ -201,7 +237,7 @@ Overwrite each successful run:
 
 - `data/simplify-coverage-report.md` — counts by class and source list; one row per listing (company, title, url, class, `jobTrack` or n/a)
 - `data/companies.suggested.yaml` — delta only:
-  - `enable:` yaml `id`s from class `disabled` (adapter exists; includes Amazon/NVIDIA/OpenAI if still off)
+  - `enable:` yaml `id`s from class `disabled` (join + adapter; **not** synthetic `matchesJob`)
   - `add:` stubs `{ name, ats: custom, enabled: false }` for class `missing` (stable `id` slug from normalized name)
   - never `enable` `custom-no-adapter` or ids `google` / `meta` / `microsoft` / `apple`
   - never include `ambiguous`
@@ -212,7 +248,11 @@ Add to `.gitignore`: `data/simplify-coverage-report.md`, `data/companies.suggest
 
 ### Fetch auth
 
-Anonymous raw.githubusercontent.com (or GitHub contents API) first. Optional `GITHUB_TOKEN` in the environment for the script only if anonymous rate limits fail. Not a watch workflow secret. Do not add it to `watch.yml`.
+Load **only** via raw.githubusercontent.com for the two repo+path pairs above (allowlisted; no URL built from listing fields). Do not use the GitHub Contents API for these files.
+
+Anonymous first. If the response is 429/403 and `GITHUB_TOKEN` is set in the environment, **retry those two GitHub GETs once** with the token, then fail closed if still unsuccessful. If `GITHUB_TOKEN` is unset, a 429/403 is fail-closed immediately.
+
+`GITHUB_TOKEN` is attached only to those two listings.json requests. Never log it, never write it to report/yaml, never send it to `listing.url` or ATS hosts. Not a watch workflow secret. Do not add it to `watch.yml`.
 
 ## Error handling
 
@@ -220,7 +260,7 @@ Watch path: unchanged (per-company fetch isolation; missing webhook for a needed
 
 Checklist:
 
-- Either GitHub fetch fails (timeout, 404, rate limit, non-JSON) → non-zero exit, **write no output files** (fail closed).
+- GitHub fetch fails (timeout, 404, **429/403 after the Fetch-auth retry policy**, non-JSON) → non-zero exit, **write no output files** (fail closed).
 - Partial success (one list ok, one fail) → same fail closed.
 - Invalid listing rows → skip + stderr count; other rows still process.
 - Output write failure after a successful fetch → non-zero exit.
@@ -230,22 +270,24 @@ Checklist:
 
 **Matcher** (`tests/matcher.test.ts`):
 
-- Keep: `Software Engineer`; `Software Engineer, Backend`; `Associate Software Engineer`; `Junior Software Engineer`; `Entry Level Software Engineer`; `Early Career Software Engineer`; `Software Engineer 1` / `I`; `SDE I` / `SDE 1`; `New Grad Software Engineer`; `AI Engineer` (US, yearless).
-- Drop: `Senior` / `Sr` / `Staff` / `Principal` / `Lead` Software Engineer; `Software Engineer II` / `III` / `2`; `Software Engineering Manager`; `Junior Product Manager`; London-only; intern with no 2027 season; generic/new-grad SWE with explicit non-2027 year in title or body.
-- Intern: PR #5 cases still pass; intern language wins `jobTrack`.
-- `jobTrack`: intern titles → `intern`; associate / bare / junior / `Engineer 1` / new-grad → `new-grad`.
+- Keep: `Software Engineer`; `Software Engineer, Backend`; `Associate Software Engineer`; `Junior Software Engineer`; `Entry Level Software Engineer`; `Early Career Software Engineer`; `Software Engineer 1` / `I`; `SDE I` / `SDE 1`; `New Grad Software Engineer`; `AI Engineer`; `Software Engineer, Python 3`; `Software Engineer, iOS 18` (US, yearless).
+- Keep new-grad: `Software Engineer` with body “internship experience preferred” and no intern in the title (`jobTrack` `new-grad`).
+- Drop: `Senior` / `Sr` / `Staff` / `Principal` / `Lead` Software Engineer; `Software Engineer II` / `III` / `2`; `SDE 2` / `SWE 2`; `Software Engineering Manager`; `Junior Product Manager`; London-only; intern **title** with no 2027 season; generic/new-grad SWE with explicit non-2027 year in title or body.
+- Intern: PR #5 season cases still pass when intern is in the **title**; intern **title** wins `jobTrack` over new-grad wording in the title.
+- `jobTrack`: intern titles → `intern`; associate / bare / junior / `Software Engineer 1` / `SDE I` / new-grad → `new-grad`. Never treat role-less `Engineer 1` as a keep.
 
-**Pipeline:** intern webhook vs new-grad webhook for intern vs bare SWE; mixed batch still fails closed if one webhook is missing.
+**Pipeline:** intern webhook vs new-grad webhook for intern vs bare SWE; mixed batch still fails closed if one webhook is missing. Soft-cap unit tests: high-signal/intern fill before yearless-bare when both exist.
 
-**Checklist:** fixture JSON snippets, no live GitHub in CI. Cases: would-ping, matcher-drop, disabled → `enable:`, missing → `add:`, custom-no-adapter (no enable), ambiguous, skipped-invalid, fetch failure writes no files.
+**Checklist:** fixture JSON snippets, no live GitHub in CI. Cases: would-ping, matcher-drop, disabled → `enable:` even when synthetic `matchesJob` is false, missing → `add:`, custom-no-adapter (no enable), ambiguous (two yaml names), skipped-invalid, fetch failure writes no files, 429 then token retry succeeds.
 
-**Regression:** `npm test`, `npm run build`. After matcher lands, one local watch **dry-run**; record intern vs new-grad would-ping counts (expect bare SWE in new-grad). Checklist never posts Discord.
+**Regression:** `npm test`, `npm run build`. After matcher + cap preference land, one local watch **dry-run**; record intern / high-signal new-grad / yearless-bare counts; apply the Decisions dry-run gate before shipping. Checklist never posts Discord.
 
 ## Success criteria
 
-- New-grad channel can receive US `Software Engineer` / Associate / Junior / `Engineer 1` / `SDE I` that pass the year rule.
-- Senior / II / manager titles do not.
-- Intern channel behavior matches PR #5.
+- New-grad channel can receive US `Software Engineer` / Associate / Junior / `Software Engineer 1` / `SDE I` that pass the year rule.
+- Senior / II / manager titles do not. Role-less `Engineer 1` does not.
+- Intern channel: PR #5 season rules; intern class from **title** only.
+- Fleet dry-run passes the volume gate (selected 25 not majority yearless-bare).
 - `node scripts/simplify-coverage.mjs` against fixtures (CI) and, when run locally, writes report + suggested delta without touching `companies.yaml` or Discord.
 - `watch.yml` still has no Simplify / LinkedIn / Jobright fetch.
 
@@ -253,7 +295,7 @@ Checklist:
 
 1. Spec approval (this document).
 2. Implementation plan via writing-plans (matcher tests first, then checklist script).
-3. Matcher + pipeline tests → dry-run volume note → ship matcher.
+3. Matcher + pipeline tests (incl. title-only intern class, digit deny, cap preference) → fleet dry-run with volume gate → ship matcher.
 4. Checklist script + fixture tests → gitignore outputs → ship script (manual run).
 
 ## Deferred
@@ -261,4 +303,5 @@ Checklist:
 - LinkedIn Jobs and Jobright.ai as `aggregator` adapters (separate spec; public unauthenticated JSON only; no session cookies in that spec unless secrets are explicitly added later).
 - Auto-merge of `companies.suggested.yaml` into `companies.yaml`.
 - Checklist as a scheduled Action.
+- Rewriting the new-grad year extractor if dry-run shows incidental `20xx` in JDs eating keeps.
 - Using live ATS departments/JDs in the checklist (would require fetching every Simplify URL).
