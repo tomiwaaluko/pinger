@@ -56,6 +56,15 @@ const newGrad = (id: string, overrides: Partial<Job> = {}): Job =>
     ...overrides,
   });
 
+const bareSwe = (id: string, overrides: Partial<Job> = {}): Job =>
+  makeJob({
+    id,
+    title: "Software Engineer",
+    absoluteUrl: `https://job-boards.greenhouse.io/${overrides.absoluteUrl ?? "board"}/jobs/${id}`,
+    content: "",
+    ...overrides,
+  });
+
 const senior = makeJob({
   id: "senior",
   title: "Staff Software Engineer",
@@ -528,6 +537,41 @@ describe("runWatcher fleet pipeline", () => {
     expect(await readSeen(seenPath)).toEqual({ aaa: {}, zzz: {} });
   });
 
+  it("prefers intern over yearless-bare inside the dry-run 25-window", async () => {
+    const dir = vaultDirWithCareer();
+    const seenPath = join(dir, "seen-jobs.json");
+    await writeSeen(seenPath, { aaa: {}, zzz: {} });
+    const overflow = Array.from({ length: 40 }, (_, i) => bareSwe(String(i + 1)));
+    const preferred = [
+      intern("100"),
+      makeJob({
+        id: "101",
+        title: "Junior Software Engineer",
+        content: "",
+        absoluteUrl: "https://job-boards.greenhouse.io/board/jobs/101",
+      }),
+    ];
+
+    const result = await runWatcher(
+      baseOpts({
+        vaultDir: dir,
+        seenPath,
+        dryRun: true,
+        config: configWith([company("aaa", "Aaa"), company("zzz", "Zzz")]),
+        listJobs: async (c) => (c.id === "aaa" ? overflow : preferred),
+      }),
+    );
+
+    expect(result.exitCode).toBe(0);
+    expect(result.dryRunPings).toHaveLength(25);
+    expect(result.dryRunPings.filter((ping) => ping.companyId === "zzz")).toHaveLength(
+      2,
+    );
+    expect(result.dryRunPings.map((ping) => ping.capBucket)).toEqual(
+      expect.arrayContaining(["intern", "high-signal-new-grad"]),
+    );
+  });
+
   it("merge write keeps unseen disabled company keys", async () => {
     const dir = vaultDirWithCareer();
     const seenPath = join(dir, "seen-jobs.json");
@@ -743,6 +787,124 @@ describe("runWatcher fleet pipeline", () => {
     expect(generateFitNote).not.toHaveBeenCalled();
   });
 
+  it("does not Discord-ping yearless bare SWE when Workday hydrate leaves content empty", async () => {
+    const dir = vaultDirWithCareer();
+    const seenPath = join(dir, "seen-jobs.json");
+    await writeSeen(seenPath, { boeing: {} });
+    const hydrateContent = vi.fn(async () => {
+      throw new Error("detail 500");
+    });
+    setAdapterRegistryForTests({
+      workday: {
+        ats: "workday",
+        listJobs: async () => [
+          makeJob({
+            id: "JR1",
+            title: "Software Engineer",
+            location: "Seattle, WA",
+            content: "",
+          }),
+        ],
+        hydrateContent,
+      },
+    });
+    const postDiscord = vi.fn(async () => undefined);
+    const result = await runWatcher(
+      baseOpts({
+        vaultDir: dir,
+        seenPath,
+        config: {
+          vault: { careerPath: "Career/" },
+          llm: { model: "gemini-2.5-flash" },
+          companies: [
+            {
+              id: "boeing",
+              name: "Boeing",
+              ats: "workday",
+              workday: {
+                host: "boeing.wd1.myworkdayjobs.com",
+                tenant: "boeing",
+                site: "external",
+              },
+              enabled: true,
+            },
+          ],
+        },
+        postDiscord,
+      }),
+    );
+    expect(hydrateContent).toHaveBeenCalled();
+    expect(postDiscord).not.toHaveBeenCalled();
+    expect(result.exitCode).toBe(0);
+  });
+
+  it("does not dry-run ping yearless bare SWE if attempt-window hydration empties content", async () => {
+    const dir = vaultDirWithCareer();
+    const seenPath = join(dir, "seen-jobs.json");
+    await writeSeen(seenPath, { boeing: {} });
+    const hydrateContent = vi
+      .fn()
+      .mockResolvedValueOnce([
+        makeJob({
+          id: "JR1",
+          title: "Software Engineer 2027",
+          location: "Seattle, WA",
+          content: "",
+        }),
+      ])
+      .mockResolvedValueOnce([
+        makeJob({
+          id: "JR1",
+          title: "Software Engineer",
+          location: "Seattle, WA",
+          content: "",
+        }),
+      ]);
+    setAdapterRegistryForTests({
+      workday: {
+        ats: "workday",
+        listJobs: async () => [
+          makeJob({
+            id: "JR1",
+            title: "Software Engineer 2027",
+            location: "Seattle, WA",
+            content: "",
+          }),
+        ],
+        hydrateContent,
+      },
+    });
+
+    const result = await runWatcher(
+      baseOpts({
+        vaultDir: dir,
+        seenPath,
+        dryRun: true,
+        config: {
+          vault: { careerPath: "Career/" },
+          llm: { model: "gemini-2.5-flash" },
+          companies: [
+            {
+              id: "boeing",
+              name: "Boeing",
+              ats: "workday",
+              workday: {
+                host: "boeing.wd1.myworkdayjobs.com",
+                tenant: "boeing",
+                site: "external",
+              },
+              enabled: true,
+            },
+          ],
+        },
+      }),
+    );
+
+    expect(hydrateContent).toHaveBeenCalledTimes(2);
+    expect(result.exitCode).toBe(0);
+    expect(result.dryRunPings).toEqual([]);
+  });
+
   it("routes intern hits to the intern webhook and new-grad hits to the new-grad webhook", async () => {
     const dir = vaultDirWithCareer();
     const seenPath = join(dir, "seen-jobs.json");
@@ -840,5 +1002,55 @@ describe("runWatcher fleet pipeline", () => {
     expect(result.exitCode).toBe(2);
     expect(postDiscord).not.toHaveBeenCalled();
     expect(await readSeen(seenPath)).toEqual({ vercel: {} });
+  });
+
+  it("routes intern hits to the intern webhook and bare SWE to the new-grad webhook", async () => {
+    const dir = vaultDirWithCareer();
+    const seenPath = join(dir, "seen-jobs.json");
+    await writeSeen(seenPath, { vercel: {} });
+    const posted: { url: string; embed: DiscordEmbed }[] = [];
+
+    const result = await runWatcher(
+      baseOpts({
+        vaultDir: dir,
+        seenPath,
+        listJobs: async () => [intern("10"), bareSwe("20")],
+        postDiscord: async (url, embed) => {
+          posted.push({ url, embed });
+        },
+      }),
+    );
+
+    expect(result.exitCode).toBe(0);
+    expect(posted).toHaveLength(2);
+    expect(posted.find((p) => p.embed.url.endsWith("/jobs/10"))?.url).toBe(
+      "https://discord.test/webhook-intern",
+    );
+    expect(posted.find((p) => p.embed.url.endsWith("/jobs/20"))?.url).toBe(
+      "https://discord.test/webhook",
+    );
+  });
+
+  it("exits 2 and posts nothing when a mixed intern + bare SWE batch is missing one webhook", async () => {
+    const dir = vaultDirWithCareer();
+    const seenPath = join(dir, "seen-jobs.json");
+    await writeSeen(seenPath, { vercel: {} });
+    const postDiscord = vi.fn(async () => undefined);
+
+    const result = await runWatcher(
+      baseOpts({
+        vaultDir: dir,
+        seenPath,
+        env: {
+          DISCORD_WEBHOOK_URL: "https://discord.test/webhook",
+          GEMINI_API_KEY: "gemini-key",
+        },
+        listJobs: async () => [intern("10"), bareSwe("20")],
+        postDiscord,
+      }),
+    );
+
+    expect(result.exitCode).toBe(2);
+    expect(postDiscord).not.toHaveBeenCalled();
   });
 });

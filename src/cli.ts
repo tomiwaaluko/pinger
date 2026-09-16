@@ -32,11 +32,25 @@ async function main(): Promise<void> {
     writeSeen,
   });
   if (dryRun) {
+    const bucketCounts = {
+      intern: 0,
+      highSignalNewGrad: 0,
+      yearlessBare: 0,
+    };
+    for (const ping of result.dryRunPings) {
+      if (ping.capBucket === "intern") bucketCounts.intern += 1;
+      else if (ping.capBucket === "high-signal-new-grad") {
+        bucketCounts.highSignalNewGrad += 1;
+      } else {
+        bucketCounts.yearlessBare += 1;
+      }
+    }
     console.log(
       JSON.stringify(
         {
           attempt: result.dryRunPings,
           deferredSoftCapped: result.dryRunDeferred,
+          bucketCounts,
         },
         null,
         2,

@@ -6,3 +6,5 @@ dist/
 vault/
 probe-gh-boards*.tsv
 companies.generated.yaml
+data/simplify-coverage-report.md
+data/companies.suggested.yaml

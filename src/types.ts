@@ -141,6 +141,8 @@ export type DryRunPing = {
   title: string;
   absoluteUrl: string;
   location: string;
+  track?: "intern" | "new-grad";
+  capBucket?: "intern" | "high-signal-new-grad" | "yearless-bare";
 };
 
 export type RunWatcherResult = {

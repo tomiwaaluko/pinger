@@ -1,5 +1,9 @@
 import { describe, expect, it } from "vitest";
 import {
+  allowEmptyContentAfterHydrate,
+  capBucket,
+  hasRolePhrase,
+  isInternTitle,
   jobTrack,
   matchesJob,
   normalizeTitle,
@@ -7,6 +11,29 @@ import {
   passesSeasonYear,
 } from "../src/matcher.js";
 import { makeJob } from "./helpers.js";
+
+describe("isInternTitle", () => {
+  it("reads intern from the title only", () => {
+    expect(
+      isInternTitle(makeJob({ title: "Software Engineer Intern", content: "" })),
+    ).toBe(true);
+    expect(
+      isInternTitle(
+        makeJob({
+          title: "Software Engineer",
+          content: "internship experience preferred",
+        }),
+      ),
+    ).toBe(false);
+  });
+});
+
+describe("hasRolePhrase", () => {
+  it("matches whole-token sde but not sdet", () => {
+    expect(hasRolePhrase("SDE I")).toBe(true);
+    expect(hasRolePhrase("SDET")).toBe(false);
+  });
+});
 
 describe("normalizeTitle", () => {
   it("trims, lowercases, and collapses hyphens and whitespace", () => {
@@ -26,8 +53,8 @@ describe("matchesJob", () => {
     ["New Grad Software Engineer", ["Engineering"], true],
     ["New-Grad Software Engineer", ["Engineering"], true],
     ["Newgrad Software Engineer", ["Engineering"], true],
-    ["Graduate Software Engineer", ["Engineering"], false],
-    ["University Software Engineer", ["Engineering"], false],
+    ["Graduate Software Engineer", ["Engineering"], true],
+    ["University Software Engineer", ["Engineering"], true],
     ["AI Engineer Intern", ["AI"], true],
     ["AI Engineer Intern", ["AI Platform"], true],
     ["SWE Intern", ["Platform Engineering"], true],
@@ -50,13 +77,13 @@ describe("matchesJob", () => {
     ["Engineering Manager Intern", ["Engineering"], false],
     ["DevRel Engineer Intern", ["Engineering"], false],
     ["Senior Software Engineer", ["Engineering"], false],
-    ["Associate Software Engineer", ["Engineering"], false],
-    ["Junior Software Engineer", ["Engineering"], false],
+    ["Associate Software Engineer", ["Engineering"], true],
+    ["Junior Software Engineer", ["Engineering"], true],
     ["Account Executive, Commercial", ["Engineering"], false],
     ["Software Engineer, Trust & Safety", ["Security"], false],
-    ["Software Engineer, AI SDK", ["Engineering"], false],
+    ["Software Engineer, AI SDK", ["Engineering"], true],
     ["Member of the Technical Staff, Internal Agent ", ["Engineering"], false],
-    ["Undergraduate Software Engineer", ["Engineering"], false],
+    ["Undergraduate Software Engineer", ["Engineering"], true],
   ])("title %s depts %j -> %s", (title, departments, expected) => {
     const internshipContent =
       expected && /\b(?:intern|internship|co-?op|coop)\b/i.test(title)
@@ -383,3 +410,185 @@ describe("jobTrack", () => {
     ).toBe(null);
   });
 });
+
+describe("matcher widen keep/drop", () => {
+  const us = { location: "San Francisco, CA", content: "", departments: ["Engineering"] };
+
+  it.each([
+    ["Software Engineer"],
+    ["Software Engineer, Backend"],
+    ["Associate Software Engineer"],
+    ["Junior Software Engineer"],
+    ["Entry Level Software Engineer"],
+    ["Early Career Software Engineer"],
+    ["Early in Career Software Engineer"],
+    ["College Grad Software Engineer"],
+    ["University Grad Software Engineer"],
+    ["Fresh Grad Software Engineer"],
+    ["Software Engineer 1"],
+    ["Software Engineer I"],
+    ["SDE I"],
+    ["SDE 1"],
+    ["New Grad Software Engineer"],
+    ["AI Engineer"],
+    ["SWE"],
+    ["Software Engineer, Python 3"],
+    ["Software Engineer, iOS 18"],
+  ])("keeps %s as new-grad", (title) => {
+    const job = makeJob({ ...us, title });
+    expect(matchesJob(job)).toBe(true);
+    expect(jobTrack(job)).toBe("new-grad");
+  });
+
+  it("keeps body-only internship wording on the new-grad path", () => {
+    const job = makeJob({
+      ...us,
+      title: "Software Engineer",
+      content: "internship experience preferred",
+    });
+    expect(matchesJob(job)).toBe(true);
+    expect(jobTrack(job)).toBe("new-grad");
+  });
+
+  it.each([
+    ["Senior Software Engineer"],
+    ["Sr Software Engineer"],
+    ["Staff Software Engineer"],
+    ["Principal Software Engineer"],
+    ["Lead Software Engineer"],
+    ["Software Engineer II"],
+    ["Software Engineer III"],
+    ["Software Engineer 2"],
+    ["Software Engineer L2"],
+    ["L2 Software Engineer"],
+    ["Software Engineer, Level 2"],
+    ["Level 2 Software Engineer"],
+    ["Software Engineer 3"],
+    ["Software Engineer 4"],
+    ["SDE 2"],
+    ["SDE L3"],
+    ["SWE 2"],
+    ["Software Engineering Manager"],
+    ["Junior Product Manager"],
+    ["Engineer 1"],
+    ["Founding Engineer"],
+    ["SDET"],
+  ])("drops %s", (title) => {
+    expect(matchesJob(makeJob({ ...us, title }))).toBe(false);
+  });
+
+  it("drops London-only bare SWE", () => {
+    expect(
+      matchesJob(
+        makeJob({
+          title: "Software Engineer",
+          location: "London, UK",
+          content: "",
+        }),
+      ),
+    ).toBe(false);
+  });
+
+  it("drops intern title with no 2027 season", () => {
+    expect(
+      matchesJob(
+        makeJob({
+          ...us,
+          title: "Software Engineer Intern",
+          content: "Build APIs.",
+        }),
+      ),
+    ).toBe(false);
+  });
+
+  it("drops new-grad SWE with a non-2027 year", () => {
+    expect(
+      matchesJob(
+        makeJob({
+          ...us,
+          title: "Software Engineer",
+          content: "Class of 2026",
+        }),
+      ),
+    ).toBe(false);
+  });
+
+  it("intern title wins jobTrack over new-grad wording", () => {
+    const job = makeJob({
+      ...us,
+      title: "New Grad Software Engineer Intern",
+      content: "Summer 2027 internship",
+    });
+    expect(matchesJob(job)).toBe(true);
+    expect(jobTrack(job)).toBe("intern");
+  });
+});
+
+describe("capBucket", () => {
+  it("buckets intern titles as intern", () => {
+    expect(
+      capBucket(
+        makeJob({
+          title: "Software Engineer Intern",
+          content: "Summer 2027 internship",
+        }),
+      ),
+    ).toBe("intern");
+  });
+
+  it("buckets associate / SDE I as high-signal new-grad", () => {
+    expect(capBucket(makeJob({ title: "Associate Software Engineer", content: "" }))).toBe(
+      "high-signal-new-grad",
+    );
+    expect(capBucket(makeJob({ title: "SDE I", content: "" }))).toBe(
+      "high-signal-new-grad",
+    );
+  });
+
+  it("buckets yearless bare SWE as yearless-bare", () => {
+    expect(capBucket(makeJob({ title: "Software Engineer", content: "" }))).toBe(
+      "yearless-bare",
+    );
+  });
+});
+
+describe("allowEmptyContentAfterHydrate", () => {
+  it("rejects yearless empty-body SWE", () => {
+    expect(
+      allowEmptyContentAfterHydrate(
+        makeJob({ title: "Software Engineer", content: "" }),
+      ),
+    ).toBe(false);
+  });
+
+  it("keeps when the title itself is 2027-only", () => {
+    expect(
+      allowEmptyContentAfterHydrate(
+        makeJob({ title: "Software Engineer, 2027", content: "" }),
+      ),
+    ).toBe(true);
+  });
+
+  it("keeps intern titles whose title has a 2027 season, including short year", () => {
+    expect(
+      allowEmptyContentAfterHydrate(
+        makeJob({
+          title: "Software Engineer Intern Fall '27",
+          content: "",
+        }),
+      ),
+    ).toBe(true);
+  });
+
+  it("ignores intern season that exists only in the body", () => {
+    expect(
+      allowEmptyContentAfterHydrate(
+        makeJob({
+          title: "Software Engineer Intern",
+          content: "Summer 2027 internship",
+        }),
+      ),
+    ).toBe(false);
+  });
+});
+
