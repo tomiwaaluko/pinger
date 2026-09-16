@@ -134,6 +134,12 @@ async function hydrateWorkdayAttemptWindow(
   }
 }
 
+function matchesHydratedJob(job: Job): boolean {
+  if (!matchesJob(job)) return false;
+  if (job.content.trim().length > 0) return true;
+  return allowEmptyContentAfterHydrate(job);
+}
+
 export async function runWatcher(
   opts: RunWatcherOptions,
 ): Promise<RunWatcherResult> {
@@ -204,11 +210,7 @@ export async function runWatcher(
               String(err),
             );
           }
-          matched = hydrated.filter((job) => {
-            if (!matchesJob(job)) return false;
-            if (job.content.trim().length > 0) return true;
-            return allowEmptyContentAfterHydrate(job);
-          });
+          matched = hydrated.filter((job) => matchesHydratedJob(job));
         } else {
           matched = jobs.filter((job) => matchesJob(job));
         }
@@ -279,7 +281,16 @@ export async function runWatcher(
 
     if (attempt.length > 0) {
       await hydrateWorkdayAttemptWindow(attempt, enabled, opts.fetch);
-      const hydratedMatches = attempt.filter((bound) => matchesJob(bound.job));
+      const workdayCompanyIds = new Set(
+        enabled
+          .filter((company) => company.ats === "workday")
+          .map((company) => company.id),
+      );
+      const hydratedMatches = attempt.filter((bound) =>
+        workdayCompanyIds.has(bound.companyId)
+          ? matchesHydratedJob(bound.job)
+          : matchesJob(bound.job),
+      );
       if (opts.dryRun) {
         return {
           exitCode: 0,

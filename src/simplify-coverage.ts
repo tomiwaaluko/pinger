@@ -336,7 +336,8 @@ export async function runSimplifyCoverage(
       }),
     );
     return { exitCode: 0, skippedInvalid };
-  } catch {
+  } catch (err) {
+    console.error(String(err));
     return { exitCode: 2, skippedInvalid: 0 };
   }
 }

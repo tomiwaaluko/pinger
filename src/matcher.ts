@@ -24,7 +24,8 @@ const TITLE_DENY_TOKENS = [
   "iv",
 ] as const;
 
-const ROLE_LEVEL_DENY = /\b(?:engineer|sde|swe)\s+[234]\b/;
+const ROLE_LEVEL_DENY =
+  /\b(?:engineer|sde|swe)(?:\s+[234]|[\s,]+(?:l[234]|level\s+[234]))\b/;
 
 const HIGH_SIGNAL_PHRASES = [
   "junior",

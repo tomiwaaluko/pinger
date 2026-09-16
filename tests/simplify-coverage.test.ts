@@ -199,6 +199,7 @@ describe("runSimplifyCoverage", () => {
 
   it("writes no output files when a fetch fails", async () => {
     const paths = setup();
+    const consoleError = vi.spyOn(console, "error").mockImplementation(() => {});
     const result = await runSimplifyCoverage({
       fetch: async (url) => {
         const href = String(url);
@@ -214,6 +215,10 @@ describe("runSimplifyCoverage", () => {
     expect(result.exitCode).toBe(2);
     expect(existsSync(paths.reportPath)).toBe(false);
     expect(existsSync(paths.suggestedPath)).toBe(false);
+    expect(consoleError).toHaveBeenCalledWith(
+      expect.stringContaining("listings fetch 500"),
+    );
+    consoleError.mockRestore();
   });
 
   it("retries 429 once with GITHUB_TOKEN and then succeeds", async () => {
@@ -247,6 +252,7 @@ describe("runSimplifyCoverage", () => {
 
   it("fail-closes immediately on 403 when GITHUB_TOKEN is unset", async () => {
     const paths = setup();
+    const consoleError = vi.spyOn(console, "error").mockImplementation(() => {});
     const result = await runSimplifyCoverage({
       fetch: async () => new Response("nope", { status: 403 }),
       companiesYamlPath: paths.companiesYamlPath,
@@ -255,5 +261,9 @@ describe("runSimplifyCoverage", () => {
     });
     expect(result.exitCode).toBe(2);
     expect(existsSync(paths.reportPath)).toBe(false);
+    expect(consoleError).toHaveBeenCalledWith(
+      expect.stringContaining("listings fetch 403"),
+    );
+    consoleError.mockRestore();
   });
 });

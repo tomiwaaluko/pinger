@@ -838,6 +838,73 @@ describe("runWatcher fleet pipeline", () => {
     expect(result.exitCode).toBe(0);
   });
 
+  it("does not dry-run ping yearless bare SWE if attempt-window hydration empties content", async () => {
+    const dir = vaultDirWithCareer();
+    const seenPath = join(dir, "seen-jobs.json");
+    await writeSeen(seenPath, { boeing: {} });
+    const hydrateContent = vi
+      .fn()
+      .mockResolvedValueOnce([
+        makeJob({
+          id: "JR1",
+          title: "Software Engineer 2027",
+          location: "Seattle, WA",
+          content: "",
+        }),
+      ])
+      .mockResolvedValueOnce([
+        makeJob({
+          id: "JR1",
+          title: "Software Engineer",
+          location: "Seattle, WA",
+          content: "",
+        }),
+      ]);
+    setAdapterRegistryForTests({
+      workday: {
+        ats: "workday",
+        listJobs: async () => [
+          makeJob({
+            id: "JR1",
+            title: "Software Engineer 2027",
+            location: "Seattle, WA",
+            content: "",
+          }),
+        ],
+        hydrateContent,
+      },
+    });
+
+    const result = await runWatcher(
+      baseOpts({
+        vaultDir: dir,
+        seenPath,
+        dryRun: true,
+        config: {
+          vault: { careerPath: "Career/" },
+          llm: { model: "gemini-2.5-flash" },
+          companies: [
+            {
+              id: "boeing",
+              name: "Boeing",
+              ats: "workday",
+              workday: {
+                host: "boeing.wd1.myworkdayjobs.com",
+                tenant: "boeing",
+                site: "external",
+              },
+              enabled: true,
+            },
+          ],
+        },
+      }),
+    );
+
+    expect(hydrateContent).toHaveBeenCalledTimes(2);
+    expect(result.exitCode).toBe(0);
+    expect(result.dryRunPings).toEqual([]);
+  });
+
   it("routes intern hits to the intern webhook and new-grad hits to the new-grad webhook", async () => {
     const dir = vaultDirWithCareer();
     const seenPath = join(dir, "seen-jobs.json");
