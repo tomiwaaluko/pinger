@@ -8,7 +8,13 @@ import {
   WORKDAY_CONCURRENCY,
 } from "./constants.js";
 import { buildDiscordEmbed } from "./discord.js";
-import { jobTrack, matchesJob, passesBaseGates } from "./matcher.js";
+import {
+  allowEmptyContentAfterHydrate,
+  capBucket,
+  jobTrack,
+  matchesJob,
+  passesBaseGates,
+} from "./matcher.js";
 import type { JobTrack } from "./matcher.js";
 import {
   isFirstRun,
@@ -198,7 +204,11 @@ export async function runWatcher(
               String(err),
             );
           }
-          matched = hydrated.filter((job) => matchesJob(job));
+          matched = hydrated.filter((job) => {
+            if (!matchesJob(job)) return false;
+            if (job.content.trim().length > 0) return true;
+            return allowEmptyContentAfterHydrate(job);
+          });
         } else {
           matched = jobs.filter((job) => matchesJob(job));
         }
@@ -263,6 +273,8 @@ export async function runWatcher(
       title: bound.job.title,
       absoluteUrl: bound.job.absoluteUrl,
       location: bound.job.location,
+      track: jobTrack(bound.job) ?? "new-grad",
+      capBucket: capBucket(bound.job),
     });
 
     if (attempt.length > 0) {
