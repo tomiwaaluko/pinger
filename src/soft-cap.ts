@@ -1,4 +1,5 @@
 import { DISCORD_SOFT_CAP } from "./constants.js";
+import { capBucket } from "./matcher.js";
 import type { Job } from "./types.js";
 
 export type BoundJob = { companyId: string; job: Job };
@@ -12,9 +13,14 @@ export function compareJobIds(a: string, b: string): number {
   return a.localeCompare(b);
 }
 
-export function selectAttemptWindow(
+function isPreferred(job: Job): boolean {
+  const bucket = capBucket(job);
+  return bucket === "intern" || bucket === "high-signal-new-grad";
+}
+
+function roundRobinFair(
   bound: BoundJob[],
-  cap: number = DISCORD_SOFT_CAP,
+  cap: number,
 ): { attempt: BoundJob[]; deferred: BoundJob[] } {
   const groups = new Map<string, BoundJob[]>();
   for (const item of bound) {
@@ -40,7 +46,19 @@ export function selectAttemptWindow(
     }
   }
 
-  const deferred = queues.flat();
+  return { attempt, deferred: queues.flat() };
+}
 
-  return { attempt, deferred };
+export function selectAttemptWindow(
+  bound: BoundJob[],
+  cap: number = DISCORD_SOFT_CAP,
+): { attempt: BoundJob[]; deferred: BoundJob[] } {
+  const preferred = bound.filter((item) => isPreferred(item.job));
+  const overflow = bound.filter((item) => !isPreferred(item.job));
+  const first = roundRobinFair(preferred, cap);
+  const second = roundRobinFair(overflow, cap - first.attempt.length);
+  return {
+    attempt: [...first.attempt, ...second.attempt],
+    deferred: [...first.deferred, ...second.deferred],
+  };
 }
