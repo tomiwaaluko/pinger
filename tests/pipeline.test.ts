@@ -324,6 +324,77 @@ describe("runWatcher fleet pipeline", () => {
     });
   });
 
+  it("pings a multi-location new-grad role once and records every sibling id", async () => {
+    const dir = vaultDirWithCareer();
+    const seenPath = join(dir, "seen-jobs.json");
+    await writeSeen(seenPath, { visa: {} });
+    const posted: DiscordEmbed[] = [];
+    const foster = makeJob({
+      id: "REF088543W",
+      title: "Software Engineer, New College Grad - 2027 Foster City, CA",
+      location: "US - Foster City, CA",
+      content: "",
+      absoluteUrl:
+        "https://visa.wd1.myworkdayjobs.com/job/Foster-City/REF088543W",
+    });
+    const jobs = [
+      makeJob({
+        id: "REF088530W",
+        title: "Software Engineer, New College Grad, Bellevue - 2027",
+        location: "US - Bellevue, WA",
+        content: "",
+        absoluteUrl:
+          "https://visa.wd1.myworkdayjobs.com/job/Bellevue/REF088530W",
+      }),
+      ...Array.from({ length: 12 }, () => foster),
+      makeJob({
+        id: "REF088586W",
+        title: "Software Engineer, New College Grad - 2027, Austin, TX",
+        location: "US - Austin, TX",
+        content: "",
+        absoluteUrl:
+          "https://visa.wd1.myworkdayjobs.com/job/Austin/REF088586W",
+      }),
+    ];
+
+    const result = await runWatcher(
+      baseOpts({
+        vaultDir: dir,
+        seenPath,
+        config: configWith([company("visa", "Visa")]),
+        listJobs: async () => jobs,
+        postDiscord: async (_url, embed) => {
+          posted.push(embed);
+        },
+      }),
+    );
+
+    expect(result.exitCode).toBe(0);
+    expect(posted).toHaveLength(1);
+    expect(posted[0]?.title).toBe(
+      "Software Engineer, New College Grad, Bellevue - 2027",
+    );
+    expect(field(posted[0]!, "Location")).toBe(
+      "US - Austin, TX; US - Bellevue, WA; US - Foster City, CA",
+    );
+    expect(await readSeen(seenPath)).toEqual({
+      visa: {
+        REF088530W: {
+          title: "Software Engineer, New College Grad, Bellevue - 2027",
+          firstSeenAt: now,
+        },
+        REF088543W: {
+          title: "Software Engineer, New College Grad - 2027 Foster City, CA",
+          firstSeenAt: now,
+        },
+        REF088586W: {
+          title: "Software Engineer, New College Grad - 2027, Austin, TX",
+          firstSeenAt: now,
+        },
+      },
+    });
+  });
+
   it("continues processing other companies when one fetch rejects", async () => {
     const dir = vaultDirWithCareer();
     const seenPath = join(dir, "seen-jobs.json");
@@ -541,7 +612,11 @@ describe("runWatcher fleet pipeline", () => {
     const dir = vaultDirWithCareer();
     const seenPath = join(dir, "seen-jobs.json");
     await writeSeen(seenPath, { aaa: {}, zzz: {} });
-    const overflow = Array.from({ length: 40 }, (_, i) => bareSwe(String(i + 1)));
+    const overflow = Array.from({ length: 40 }, (_, i) =>
+      bareSwe(String(i + 1), {
+        title: `Software Engineer Product ${i + 1}`,
+      }),
+    );
     const preferred = [
       intern("100"),
       makeJob({
