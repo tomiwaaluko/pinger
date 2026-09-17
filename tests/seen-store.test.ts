@@ -45,6 +45,28 @@ describe("newMatchingJobs", () => {
     };
     expect(newMatchingJobs([intern], seen)).toEqual([]);
   });
+
+  it("reports a repeated id only once", () => {
+    const copies = [intern, intern, intern];
+    expect(newMatchingJobs(copies, {}).map((job) => job.id)).toEqual([
+      "5474915004",
+    ]);
+  });
+
+  it("skips a new Workday id when a seen title is the same role in another city", () => {
+    const seen = {
+      REF088530W: {
+        title: "Software Engineer, New College Grad, Bellevue - 2027",
+        firstSeenAt: "2026-09-17T16:32:57.182Z",
+      },
+    };
+    const austin = makeJob({
+      id: "REF088586W",
+      title: "Software Engineer, New College Grad - 2027, Austin, TX",
+      location: "US - Austin, TX",
+    });
+    expect(newMatchingJobs([austin], seen)).toEqual([]);
+  });
 });
 
 describe("readSeen / writeSeen / recordJob", () => {

@@ -2,7 +2,11 @@ import { DISCORD_SOFT_CAP } from "./constants.js";
 import { capBucket } from "./matcher.js";
 import type { Job } from "./types.js";
 
-export type BoundJob = { companyId: string; job: Job };
+export type BoundJob = {
+  companyId: string;
+  job: Job;
+  recordJobs?: Job[];
+};
 
 export function compareJobIds(a: string, b: string): number {
   const aNum = Number(a);

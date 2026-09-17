@@ -18,7 +18,7 @@ import {
 import type { JobTrack } from "./matcher.js";
 import {
   isFirstRun,
-  newMatchingJobs,
+  newMatchingJobGroups,
   recordJob,
 } from "./seen-store.js";
 import { compareJobIds, selectAttemptWindow } from "./soft-cap.js";
@@ -221,8 +221,15 @@ export async function runWatcher(
               nextStore[company.id] = {};
               firstRunCompanyIds.add(company.id);
             }
-            for (const job of matched) {
-              discordBound.push({ companyId: company.id, job });
+            for (const { job, siblings } of newMatchingJobGroups(
+              matched,
+              {},
+            )) {
+              discordBound.push({
+                companyId: company.id,
+                job,
+                recordJobs: siblings,
+              });
             }
             return;
           }
@@ -237,11 +244,16 @@ export async function runWatcher(
           return;
         }
 
-        const newJobs = newMatchingJobs(matched, store[company.id] ?? {}).sort(
-          (a, b) => compareJobIds(a.id, b.id),
-        );
-        for (const job of newJobs) {
-          discordBound.push({ companyId: company.id, job });
+        const newJobs = newMatchingJobGroups(
+          matched,
+          store[company.id] ?? {},
+        ).sort((a, b) => compareJobIds(a.job.id, b.job.id));
+        for (const { job, siblings } of newJobs) {
+          discordBound.push({
+            companyId: company.id,
+            job,
+            recordJobs: siblings,
+          });
         }
       } catch (err) {
         console.error(
@@ -323,7 +335,7 @@ export async function runWatcher(
         return { exitCode: 2, dryRunPings: [], dryRunDeferred: [] };
       }
 
-      for (const { companyId, job } of hydratedMatches) {
+      for (const { companyId, job, recordJobs } of hydratedMatches) {
         const companyName = nameById.get(companyId) ?? companyId;
         const branding = brandingById.get(companyId);
         const fit = truncate(await fitForJob(opts, vault, job), FIT_NOTE_CAP);
@@ -340,7 +352,9 @@ export async function runWatcher(
               logoUrl: branding?.logoUrl,
             }),
           );
-          recordJob(nextStore, companyId, job, opts.now().toISOString());
+          for (const sibling of recordJobs ?? [job]) {
+            recordJob(nextStore, companyId, sibling, opts.now().toISOString());
+          }
           postDirty = true;
         } catch (err) {
           console.error(`Discord post failed for job ${job.id}:`, String(err));

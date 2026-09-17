@@ -1,3 +1,8 @@
+import {
+  collapseJobGroups,
+  jobFingerprint,
+  type CollapsedJob,
+} from "./job-fingerprint.js";
 import { readFile, writeFile } from "node:fs/promises";
 import type { Job, SeenJob, SeenStore } from "./types.js";
 
@@ -37,11 +42,32 @@ export function isFirstRun(store: SeenStore, companyId: string): boolean {
   return store[companyId] === undefined;
 }
 
+export function newMatchingJobGroups(
+  matched: Job[],
+  companySeen: Record<string, SeenJob>,
+): CollapsedJob[] {
+  const seenFingerprints = new Set(
+    Object.values(companySeen).map((entry) =>
+      jobFingerprint({ title: entry.title }),
+    ),
+  );
+  return collapseJobGroups(matched).filter(({ job, siblings }) => {
+    if (siblings.some((sibling) => sibling.id in companySeen)) {
+      return false;
+    }
+    if (job.id in companySeen) {
+      return false;
+    }
+    const original = siblings[0] ?? job;
+    return !seenFingerprints.has(jobFingerprint(original));
+  });
+}
+
 export function newMatchingJobs(
   matched: Job[],
   companySeen: Record<string, SeenJob>,
 ): Job[] {
-  return matched.filter((job) => !(job.id in companySeen));
+  return newMatchingJobGroups(matched, companySeen).map((group) => group.job);
 }
 
 export function recordJob(
