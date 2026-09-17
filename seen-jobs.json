@@ -26,6 +26,14 @@
     "0320a8db-cb1b-407b-bd62-b23734b83330": {
       "title": "Software Engineer, Pretraining ",
       "firstSeenAt": "2026-09-17T01:17:50.680Z"
+    },
+    "0aa0650b-f93c-416e-9e2f-4fdf1556fd14": {
+      "title": "Software Engineer, ML Research ",
+      "firstSeenAt": "2026-09-17T20:11:58.356Z"
+    },
+    "0ec39ed7-a5dc-4551-bb26-b7f4f9fb4a74": {
+      "title": "Software Engineer, Growth ",
+      "firstSeenAt": "2026-09-17T20:14:09.003Z"
     }
   },
   "airbnb": {},
@@ -43,6 +51,14 @@
     "5021015008": {
       "title": "Applied AI Engineer, Beneficial Deployments (Life Sciences)",
       "firstSeenAt": "2026-09-17T16:35:14.376Z"
+    },
+    "5057647008": {
+      "title": "Applied AI Engineer, Enterprise Tech",
+      "firstSeenAt": "2026-09-17T20:11:39.586Z"
+    },
+    "5098025008": {
+      "title": "Model Performance Software Engineer, Claude Code",
+      "firstSeenAt": "2026-09-17T20:14:02.993Z"
     }
   },
   "posthog": {},
@@ -52,6 +68,14 @@
     "17330e14-83db-49a4-ae31-411690d97dba": {
       "title": "Software Engineer, AI Workflows",
       "firstSeenAt": "2026-09-17T01:16:18.463Z"
+    },
+    "1fc309c8-da20-4ff2-84c7-8b863ece2b0a": {
+      "title": "Software Engineer, Developer Platform",
+      "firstSeenAt": "2026-09-17T20:12:42.873Z"
+    },
+    "5d8c1ec6-e9ea-416b-9715-880bf5037abc": {
+      "title": "Software Engineer, Collections Experience",
+      "firstSeenAt": "2026-09-17T20:14:26.739Z"
     }
   },
   "automox": {},
@@ -88,6 +112,14 @@
     "37f81c18-c742-4f7d-bf81-34c3f5142973": {
       "title": "Software Engineer, Growth Infrastructure",
       "firstSeenAt": "2026-09-17T01:16:49.213Z"
+    },
+    "447a6e11-b06b-4cc5-9203-cd55883f2af4": {
+      "title": "Software Engineer, Growth",
+      "firstSeenAt": "2026-09-17T20:13:19.751Z"
+    },
+    "7b4bc2fe-5860-4f56-8746-aabb852cf0e1": {
+      "title": "Software Engineer, Enterprise Platform",
+      "firstSeenAt": "2026-09-17T20:14:55.513Z"
     }
   },
   "ramp": {
@@ -98,6 +130,14 @@
     "198150d6-789a-4ef8-999f-93a49656d4f1": {
       "title": "Software Engineer, Engineering Platform",
       "firstSeenAt": "2026-09-17T01:16:35.653Z"
+    },
+    "2a4968ae-220c-471b-b890-a011de570bbb": {
+      "title": "Software Engineer, Bill Pay & Procurement",
+      "firstSeenAt": "2026-09-17T20:13:03.064Z"
+    },
+    "42527ca9-03b9-499e-a5c4-18e4245af138": {
+      "title": "Software Engineer, Developer API",
+      "firstSeenAt": "2026-09-17T20:14:44.556Z"
     }
   },
   "block": {},
@@ -116,6 +156,10 @@
     "8523205002": {
       "title": "Software Engineer, Forward Deployed Agent Builder",
       "firstSeenAt": "2026-09-17T16:35:21.615Z"
+    },
+    "8606845002": {
+      "title": "AI Engineer, Product",
+      "firstSeenAt": "2026-09-17T20:11:49.622Z"
     }
   },
   "buildkite": {},
@@ -136,6 +180,10 @@
     "8642213002": {
       "title": "Software Engineer, Notifications",
       "firstSeenAt": "2026-09-17T01:15:19.972Z"
+    },
+    "8806163002": {
+      "title": "Software Engineer, Distributed Systems",
+      "firstSeenAt": "2026-09-17T20:12:05.142Z"
     }
   },
   "coinbase": {},
@@ -182,6 +230,10 @@
     "6101145004": {
       "title": "Software Engineer - Product",
       "firstSeenAt": "2026-09-17T01:15:38.350Z"
+    },
+    "6150432004": {
+      "title": "Software Engineer - Infrastructure",
+      "firstSeenAt": "2026-09-17T20:12:16.611Z"
     }
   },
   "intercom": {},
@@ -190,6 +242,10 @@
     "8064216": {
       "title": "Software Engineer, AI Platform",
       "firstSeenAt": "2026-09-17T01:15:59.979Z"
+    },
+    "8162414": {
+      "title": "Software Engineer, Distributed Systems ",
+      "firstSeenAt": "2026-09-17T20:12:28.122Z"
     }
   },
   "neo4j": {},
@@ -201,12 +257,28 @@
     "4009936009": {
       "title": "Software Engineer - Sharded Postgres (Neki)",
       "firstSeenAt": "2026-09-17T01:16:28.439Z"
+    },
+    "4107018009": {
+      "title": "Software Engineer - Insights",
+      "firstSeenAt": "2026-09-17T20:12:52.255Z"
+    },
+    "4280570009": {
+      "title": "Software Engineer - Neki Orchestration",
+      "firstSeenAt": "2026-09-17T20:14:35.489Z"
     }
   },
   "neuralink": {
     "6353417003": {
       "title": "Software Engineer, Implant Manufacturing",
       "firstSeenAt": "2026-09-17T01:16:09.224Z"
+    },
+    "6569010003": {
+      "title": "Software Engineer, Implant",
+      "firstSeenAt": "2026-09-17T20:12:35.557Z"
+    },
+    "7655221003": {
+      "title": "Software Engineer, Robot Manufacturing",
+      "firstSeenAt": "2026-09-17T20:14:18.038Z"
     }
   },
   "pagerduty": {},
@@ -223,6 +295,10 @@
     "6469397": {
       "title": "Software Engineer, Ads",
       "firstSeenAt": "2026-09-17T01:16:42.771Z"
+    },
+    "8172457": {
+      "title": "Software Engineer, Consumer Engineering",
+      "firstSeenAt": "2026-09-17T20:13:10.299Z"
     }
   },
   "okta": {},
@@ -254,6 +330,14 @@
     "8072713": {
       "title": "[Summer 2027] Software Engineer Intern",
       "firstSeenAt": "2026-08-30T08:28:17.017Z"
+    },
+    "8083944": {
+      "title": "Software Engineer, Communications",
+      "firstSeenAt": "2026-09-17T20:13:28.950Z"
+    },
+    "8097701": {
+      "title": "Software Engineer, Account Authentication",
+      "firstSeenAt": "2026-09-17T20:15:06.796Z"
     }
   },
   "samsara": {},
@@ -275,6 +359,10 @@
     "4254100003": {
       "title": "Software Engineer",
       "firstSeenAt": "2026-09-17T01:17:10.991Z"
+    },
+    "5498525003": {
+      "title": "Software Engineer, UI",
+      "firstSeenAt": "2026-09-17T20:13:46.311Z"
     }
   },
   "workato": {},
@@ -290,6 +378,10 @@
     "5179639004": {
       "title": "Software Engineer, CDN",
       "firstSeenAt": "2026-09-17T01:17:05.092Z"
+    },
+    "5428982004": {
+      "title": "Software Engineer, Observability",
+      "firstSeenAt": "2026-09-17T20:13:36.949Z"
     }
   },
   "webflow": {},
@@ -321,6 +413,10 @@
     "4946696007": {
       "title": "Software Engineer - Networking Software and Services",
       "firstSeenAt": "2026-09-17T01:17:21.407Z"
+    },
+    "4956028007": {
+      "title": "Exceptional Software Engineer",
+      "firstSeenAt": "2026-09-17T20:13:53.272Z"
     }
   },
   "zscaler": {},
@@ -427,6 +523,10 @@
     "2502346": {
       "title": "Software Engineer Intern",
       "firstSeenAt": "2026-08-30T08:32:17.891Z"
+    },
+    "2603760": {
+      "title": "SRAM Software Engineer Intern, BS - Summer 2027",
+      "firstSeenAt": "2026-09-17T20:11:29.399Z"
     }
   },
   "mastercard": {},
