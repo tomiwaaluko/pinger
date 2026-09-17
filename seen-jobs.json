@@ -6,23 +6,50 @@
   "abnormalsecurity": {},
   "clerk": {},
   "adyen": {},
-  "cognition": {},
+  "cognition": {
+    "811c3f5a-b26d-4162-b49b-93890a91794d": {
+      "title": "Applied AI Engineer",
+      "firstSeenAt": "2026-09-17T01:14:55.832Z"
+    }
+  },
   "alphasense": {},
   "affirm": {},
   "cursor": {
     "d0e5b41d-84ab-4887-bd3a-55589b11dd7b": {
       "title": "Software Engineer, New Grad 2027",
       "firstSeenAt": "2026-09-10T01:00:47.783Z"
+    },
+    "010063bd-6083-4fc0-a455-e6f0193b5347": {
+      "title": "Software Engineer, Developer Productivity",
+      "firstSeenAt": "2026-09-17T01:15:13.031Z"
+    },
+    "0320a8db-cb1b-407b-bd62-b23734b83330": {
+      "title": "Software Engineer, Pretraining ",
+      "firstSeenAt": "2026-09-17T01:17:50.680Z"
     }
   },
   "airbnb": {},
   "applied-intuition": {},
   "ashby": {},
-  "anthropic": {},
+  "anthropic": {
+    "4926242008": {
+      "title": "Software Engineer, ML Networking",
+      "firstSeenAt": "2026-09-17T01:14:28.829Z"
+    },
+    "4981828008": {
+      "title": "Software Engineer, Research Tools",
+      "firstSeenAt": "2026-09-17T01:17:29.384Z"
+    }
+  },
   "posthog": {},
   "linear": {},
   "perplexity": {},
-  "notion": {},
+  "notion": {
+    "17330e14-83db-49a4-ae31-411690d97dba": {
+      "title": "Software Engineer, AI Workflows",
+      "firstSeenAt": "2026-09-17T01:16:18.463Z"
+    }
+  },
   "automox": {},
   "apollo": {},
   "bigid": {},
@@ -34,29 +61,55 @@
     "b7470435-0600-4597-a9b9-bb4ebb569283": {
       "title": "Software Engineer, New Grad",
       "firstSeenAt": "2026-08-30T08:28:15.365Z"
+    },
+    "80f8c81d-394f-4892-8f06-97a880563cc7": {
+      "title": "Software Engineer, Backend",
+      "firstSeenAt": "2026-09-17T01:15:48.719Z"
     }
   },
   "bitwarden": {},
-  "asana": {},
+  "asana": {
+    "7961475": {
+      "title": "Software Engineer",
+      "firstSeenAt": "2026-09-17T01:14:37.255Z"
+    }
+  },
   "railway": {},
   "supabase": {},
   "replit": {
     "b5e81eae-06f9-4798-8988-2d06ca936dbc": {
       "title": "Software Engineer - New Grad (Summer 2027)",
       "firstSeenAt": "2026-09-09T19:44:54.252Z"
+    },
+    "37f81c18-c742-4f7d-bf81-34c3f5142973": {
+      "title": "Software Engineer, Growth Infrastructure",
+      "firstSeenAt": "2026-09-17T01:16:49.213Z"
     }
   },
   "ramp": {
     "67fadb77-43d8-4449-954b-d4cf2c6d3b8b": {
       "title": "Software Engineer Internship, Android ",
       "firstSeenAt": "2026-08-30T08:28:15.490Z"
+    },
+    "198150d6-789a-4ef8-999f-93a49656d4f1": {
+      "title": "Software Engineer, Engineering Platform",
+      "firstSeenAt": "2026-09-17T01:16:35.653Z"
     }
   },
   "block": {},
   "bugcrowd": {},
   "calendly": {},
   "circleci": {},
-  "brex": {},
+  "brex": {
+    "8523177002": {
+      "title": "Software Engineer, Forward Deployed Agent Builder",
+      "firstSeenAt": "2026-09-17T01:14:45.768Z"
+    },
+    "8523203002": {
+      "title": "Software Engineer, Forward Deployed Agent Builder",
+      "firstSeenAt": "2026-09-17T01:17:40.817Z"
+    }
+  },
   "buildkite": {},
   "censys": {},
   "cockroachlabs": {},
@@ -64,9 +117,19 @@
   "braze": {},
   "cloudflare": {},
   "deepmind": {},
-  "cribl": {},
+  "cribl": {
+    "6144377004": {
+      "title": "Software Engineer, Edge",
+      "firstSeenAt": "2026-09-17T01:15:06.045Z"
+    }
+  },
   "descope": {},
-  "discord": {},
+  "discord": {
+    "8642213002": {
+      "title": "Software Engineer, Notifications",
+      "firstSeenAt": "2026-09-17T01:15:19.972Z"
+    }
+  },
   "coinbase": {},
   "corelight": {},
   "coreweave": {},
@@ -101,18 +164,43 @@
   "gitlab": {},
   "fivetran": {},
   "honeycomb": {},
-  "lightmatter": {},
-  "mercury": {},
+  "lightmatter": {
+    "5419848008": {
+      "title": "Embedded Software Engineer, Lasers",
+      "firstSeenAt": "2026-09-17T01:15:29.402Z"
+    }
+  },
+  "mercury": {
+    "6101145004": {
+      "title": "Software Engineer - Product",
+      "firstSeenAt": "2026-09-17T01:15:38.350Z"
+    }
+  },
   "intercom": {},
   "launchdarkly": {},
-  "mixpanel": {},
+  "mixpanel": {
+    "8064216": {
+      "title": "Software Engineer, AI Platform",
+      "firstSeenAt": "2026-09-17T01:15:59.979Z"
+    }
+  },
   "neo4j": {},
   "hightouch": {},
   "mongodb": {},
   "jetbrains": {},
   "prisma": {},
-  "planetscale": {},
-  "neuralink": {},
+  "planetscale": {
+    "4009936009": {
+      "title": "Software Engineer - Sharded Postgres (Neki)",
+      "firstSeenAt": "2026-09-17T01:16:28.439Z"
+    }
+  },
+  "neuralink": {
+    "6353417003": {
+      "title": "Software Engineer, Implant Manufacturing",
+      "firstSeenAt": "2026-09-17T01:16:09.224Z"
+    }
+  },
   "pagerduty": {},
   "netlify": {},
   "newrelic": {},
@@ -123,7 +211,12 @@
     }
   },
   "netskope": {},
-  "reddit": {},
+  "reddit": {
+    "6469397": {
+      "title": "Software Engineer, Ads",
+      "firstSeenAt": "2026-09-17T01:16:42.771Z"
+    }
+  },
   "okta": {},
   "stabilityai": {},
   "singlestore": {},
@@ -142,6 +235,14 @@
     }
   },
   "roblox": {
+    "8060254": {
+      "title": "Software Engineer, Economy Platform",
+      "firstSeenAt": "2026-09-17T01:16:57.358Z"
+    },
+    "8072244": {
+      "title": "[2027] Software Engineer, Early Career",
+      "firstSeenAt": "2026-09-17T01:14:18.728Z"
+    },
     "8072713": {
       "title": "[Summer 2027] Software Engineer Intern",
       "firstSeenAt": "2026-08-30T08:28:17.017Z"
@@ -162,7 +263,12 @@
   "wizinc": {},
   "veracode": {},
   "upbound": {},
-  "watershed": {},
+  "watershed": {
+    "4254100003": {
+      "title": "Software Engineer",
+      "firstSeenAt": "2026-09-17T01:17:10.991Z"
+    }
+  },
   "workato": {},
   "vercel": {
     "6181755004": {
@@ -172,6 +278,10 @@
     "6181759004": {
       "title": "Software Engineering Intern - Summer '27",
       "firstSeenAt": "2026-09-08T16:16:14.411Z"
+    },
+    "5179639004": {
+      "title": "Software Engineer, CDN",
+      "firstSeenAt": "2026-09-17T01:17:05.092Z"
     }
   },
   "webflow": {},
@@ -199,7 +309,12 @@
   },
   "waymo": {},
   "yugabyte": {},
-  "xai": {},
+  "xai": {
+    "4946696007": {
+      "title": "Software Engineer - Networking Software and Services",
+      "firstSeenAt": "2026-09-17T01:17:21.407Z"
+    }
+  },
   "zscaler": {},
   "at-t": {},
   "applied-materials": {
