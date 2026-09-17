@@ -43,8 +43,9 @@ const TITLE_KEEP = new Set([
 
 function tidyTitle(value: string): string {
   const strippedCityState = value.replace(
-    /\b[a-z][a-z .']*,\s*[a-z]{2}\b/g,
-    " ",
+    /\b([a-z][a-z .']*),\s*([a-z]{2})\b/g,
+    (all, _city: string, suffix: string) =>
+      TITLE_KEEP.has(suffix) ? all : " ",
   );
   const strippedCityYear = strippedCityState.replace(
     /,\s*([a-z]+(?:\s+[a-z]+)?)\s+(20\d{2})\b/g,

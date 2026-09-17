@@ -32,6 +32,14 @@ describe("canonicalJobTitle", () => {
       canonicalJobTitle("Software Engineer, Frontend", "San Francisco, CA"),
     );
   });
+
+  it("keeps distinct two-letter TITLE_KEEP suffixes such as AI", () => {
+    const softwareAi = canonicalJobTitle("Software Engineer, AI", "Austin, TX");
+    const productAi = canonicalJobTitle("Product Engineer, AI", "Austin, TX");
+    expect(softwareAi).toBe("software engineer ai");
+    expect(productAi).toBe("product engineer ai");
+    expect(softwareAi).not.toBe(productAi);
+  });
 });
 
 describe("collapseJobsByFingerprint", () => {
@@ -72,6 +80,25 @@ describe("collapseJobsByFingerprint", () => {
     expect(collapsed[0]?.location).toBe(
       "US - Austin, TX; US - Bellevue, WA; US - Foster City, CA",
     );
+  });
+
+  it("does not merge distinct roles that both end in , AI", () => {
+    const collapsed = collapseJobsByFingerprint([
+      makeJob({
+        id: "ai-swe",
+        title: "Software Engineer, AI",
+        location: "Austin, TX",
+      }),
+      makeJob({
+        id: "ai-product",
+        title: "Product Engineer, AI",
+        location: "Austin, TX",
+      }),
+    ]);
+    expect(collapsed.map((job) => job.id).sort()).toEqual([
+      "ai-product",
+      "ai-swe",
+    ]);
   });
 });
 
