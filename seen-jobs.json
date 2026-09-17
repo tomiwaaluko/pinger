@@ -39,6 +39,10 @@
     "4981828008": {
       "title": "Software Engineer, Research Tools",
       "firstSeenAt": "2026-09-17T01:17:29.384Z"
+    },
+    "5021015008": {
+      "title": "Applied AI Engineer, Beneficial Deployments (Life Sciences)",
+      "firstSeenAt": "2026-09-17T16:35:14.376Z"
     }
   },
   "posthog": {},
@@ -108,6 +112,10 @@
     "8523203002": {
       "title": "Software Engineer, Forward Deployed Agent Builder",
       "firstSeenAt": "2026-09-17T01:17:40.817Z"
+    },
+    "8523205002": {
+      "title": "Software Engineer, Forward Deployed Agent Builder",
+      "firstSeenAt": "2026-09-17T16:35:21.615Z"
     }
   },
   "buildkite": {},
@@ -622,5 +630,18 @@
   },
   "samsung": {},
   "target": {},
-  "visa": {}
+  "visa": {
+    "REF088530W": {
+      "title": "Software Engineer, New College Grad, Bellevue - 2027",
+      "firstSeenAt": "2026-09-17T16:32:57.182Z"
+    },
+    "REF088543W": {
+      "title": "Software Engineer, New College Grad - 2027 Foster City, CA",
+      "firstSeenAt": "2026-09-17T16:34:03.054Z"
+    },
+    "REF088586W": {
+      "title": "Software Engineer, New College Grad - 2027, Austin, TX",
+      "firstSeenAt": "2026-09-17T16:35:04.050Z"
+    }
+  }
 }
