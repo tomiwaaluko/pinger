@@ -34,6 +34,18 @@
     "0ec39ed7-a5dc-4551-bb26-b7f4f9fb4a74": {
       "title": "Software Engineer, Growth ",
       "firstSeenAt": "2026-09-17T20:14:09.003Z"
+    },
+    "167f0e93-6915-4d56-803a-be89d1441fb5": {
+      "title": "Software Engineer, ML Platform",
+      "firstSeenAt": "2026-09-18T01:13:10.116Z"
+    },
+    "299ce422-0281-4282-aadd-bc22553be0b5": {
+      "title": "Software Engineer, Storage",
+      "firstSeenAt": "2026-09-18T01:14:41.149Z"
+    },
+    "2bbe9f02-83a5-4173-98be-9085d1cb5693": {
+      "title": "Software Engineer, Agent Evaluation and Quality",
+      "firstSeenAt": "2026-09-18T01:16:04.159Z"
     }
   },
   "airbnb": {},
@@ -59,6 +71,18 @@
     "5098025008": {
       "title": "Model Performance Software Engineer, Claude Code",
       "firstSeenAt": "2026-09-17T20:14:02.993Z"
+    },
+    "5186067008": {
+      "title": "Full-Stack Software Engineer, Reinforcement Learning",
+      "firstSeenAt": "2026-09-18T01:13:00.143Z"
+    },
+    "5191226008": {
+      "title": "Software Engineer, Research Data Platform",
+      "firstSeenAt": "2026-09-18T01:14:33.191Z"
+    },
+    "5283063008": {
+      "title": "Software Engineer, Research Infrastructure",
+      "firstSeenAt": "2026-09-18T01:15:54.193Z"
     }
   },
   "posthog": {},
@@ -76,6 +100,18 @@
     "5d8c1ec6-e9ea-416b-9715-880bf5037abc": {
       "title": "Software Engineer, Collections Experience",
       "firstSeenAt": "2026-09-17T20:14:26.739Z"
+    },
+    "a9d4a192-d31c-48d2-8156-e2a75d98eec1": {
+      "title": "Software Engineer, AI Platform",
+      "firstSeenAt": "2026-09-18T01:13:31.415Z"
+    },
+    "ca74504a-9b91-4ce3-b0df-97919b46e749": {
+      "title": "Software Engineer, Product Infrastructure",
+      "firstSeenAt": "2026-09-18T01:15:02.841Z"
+    },
+    "def3f337-5593-491c-b34d-e0b53f2a5cac": {
+      "title": "Software Engineer, AI Product Security",
+      "firstSeenAt": "2026-09-18T01:16:21.161Z"
     }
   },
   "automox": {},
@@ -120,6 +156,18 @@
     "7b4bc2fe-5860-4f56-8746-aabb852cf0e1": {
       "title": "Software Engineer, Enterprise Platform",
       "firstSeenAt": "2026-09-17T20:14:55.513Z"
+    },
+    "8fbbe594-596a-4a4f-844b-dc00111e717f": {
+      "title": "Software Engineer, Mobile",
+      "firstSeenAt": "2026-09-18T01:13:57.849Z"
+    },
+    "b7f12834-78d2-424d-bf83-0c942815fbf7": {
+      "title": "Software Engineer, Enterprise",
+      "firstSeenAt": "2026-09-18T01:15:21.320Z"
+    },
+    "d0e0dd7d-59d1-4de8-afbb-54aea680b51d": {
+      "title": "Software Engineer, Developer Experience",
+      "firstSeenAt": "2026-09-18T01:16:36.590Z"
     }
   },
   "ramp": {
@@ -138,6 +186,18 @@
     "42527ca9-03b9-499e-a5c4-18e4245af138": {
       "title": "Software Engineer, Developer API",
       "firstSeenAt": "2026-09-17T20:14:44.556Z"
+    },
+    "428f41e2-48e8-409d-b5e3-8053f7fc7a27": {
+      "title": "Software Engineer, Backend, Growth",
+      "firstSeenAt": "2026-09-18T01:13:50.559Z"
+    },
+    "4e64ab86-4e30-403b-b1b9-41dc052570ce": {
+      "title": "Software Engineer, Frontend",
+      "firstSeenAt": "2026-09-18T01:15:12.128Z"
+    },
+    "5598f7b8-4ae2-4105-a2b4-2d0f55c54c40": {
+      "title": "Software Engineer, Credit",
+      "firstSeenAt": "2026-09-18T01:16:28.283Z"
     }
   },
   "block": {},
@@ -265,6 +325,10 @@
     "4280570009": {
       "title": "Software Engineer - Neki Orchestration",
       "firstSeenAt": "2026-09-17T20:14:35.489Z"
+    },
+    "4389100009": {
+      "title": "Software Engineer - Internal Tools",
+      "firstSeenAt": "2026-09-18T01:13:39.264Z"
     }
   },
   "neuralink": {
@@ -279,6 +343,18 @@
     "7655221003": {
       "title": "Software Engineer, Robot Manufacturing",
       "firstSeenAt": "2026-09-17T20:14:18.038Z"
+    },
+    "7656401003": {
+      "title": "Software Engineer, Pathology and Digital Imaging ",
+      "firstSeenAt": "2026-09-18T01:13:20.153Z"
+    },
+    "7743087003": {
+      "title": "Software Engineer, ASIC",
+      "firstSeenAt": "2026-09-18T01:14:52.676Z"
+    },
+    "7743089003": {
+      "title": "Software Engineer, CI/CD",
+      "firstSeenAt": "2026-09-18T01:16:13.941Z"
     }
   },
   "pagerduty": {},
@@ -338,6 +414,14 @@
     "8097701": {
       "title": "Software Engineer, Account Authentication",
       "firstSeenAt": "2026-09-17T20:15:06.796Z"
+    },
+    "8113334": {
+      "title": "Software Engineer, Creator Business ",
+      "firstSeenAt": "2026-09-18T01:14:06.420Z"
+    },
+    "8115917": {
+      "title": "Software Engineer, Creator",
+      "firstSeenAt": "2026-09-18T01:15:28.905Z"
     }
   },
   "samsara": {},
@@ -382,6 +466,14 @@
     "5428982004": {
       "title": "Software Engineer, Observability",
       "firstSeenAt": "2026-09-17T20:13:36.949Z"
+    },
+    "5430088004": {
+      "title": "Software Engineer, Backend",
+      "firstSeenAt": "2026-09-18T01:14:15.303Z"
+    },
+    "5474915004": {
+      "title": "Software Engineer, AI SDK",
+      "firstSeenAt": "2026-09-18T01:15:36.415Z"
     }
   },
   "webflow": {},
@@ -417,6 +509,14 @@
     "4956028007": {
       "title": "Exceptional Software Engineer",
       "firstSeenAt": "2026-09-17T20:13:53.272Z"
+    },
+    "5109691007": {
+      "title": "Software Engineer - Consumer Subscriptions",
+      "firstSeenAt": "2026-09-18T01:14:22.989Z"
+    },
+    "5125621007": {
+      "title": "Software Engineer - Search Ranking",
+      "firstSeenAt": "2026-09-18T01:15:45.744Z"
     }
   },
   "zscaler": {},
