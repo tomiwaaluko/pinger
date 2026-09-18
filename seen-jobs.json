@@ -66,6 +66,46 @@
     "6d576a09-f30d-4e5e-bb58-5d7ef56cb511": {
       "title": "Software Engineer, Infrastructure",
       "firstSeenAt": "2026-09-18T16:08:36.878Z"
+    },
+    "6e6f5bc2-eb32-40e2-bba9-cfa56479600d": {
+      "title": "Software Engineer, Agent Harness",
+      "firstSeenAt": "2026-09-18T19:34:58.611Z"
+    },
+    "6eef7144-f2cc-48a8-b065-01f04e4c70ff": {
+      "title": "Software Engineer, Services Platform",
+      "firstSeenAt": "2026-09-18T19:35:28.939Z"
+    },
+    "77bf35db-119c-4533-8187-1e8d5ae08c45": {
+      "title": "Software Engineer, Core Services",
+      "firstSeenAt": "2026-09-18T19:36:08.743Z"
+    },
+    "88d47f97-0bea-448c-9abb-4720e4acf17a": {
+      "title": "Software Engineer, Bugbot",
+      "firstSeenAt": "2026-09-18T19:36:46.437Z"
+    },
+    "94cc6684-9dbf-43f9-8ffc-405614e64ddd": {
+      "title": "Software Engineer, Security",
+      "firstSeenAt": "2026-09-18T19:37:15.847Z"
+    },
+    "9a175381-45e2-42b6-bd64-6c84532365f9": {
+      "title": "Software Engineer, RL Data ",
+      "firstSeenAt": "2026-09-18T19:37:32.787Z"
+    },
+    "b6807f07-c4b7-4435-8c4c-0bef35865ad7": {
+      "title": "Software Engineer, Enterprise Platform",
+      "firstSeenAt": "2026-09-18T19:37:52.232Z"
+    },
+    "c1ac67d4-645a-4632-a178-ea6b5f49bb26": {
+      "title": "Software Engineer, Research Tools",
+      "firstSeenAt": "2026-09-18T19:38:09.064Z"
+    },
+    "c66cde5e-9cb6-4a2e-a330-9323e1edf2a9": {
+      "title": "Software Engineer, ML Infrastructure",
+      "firstSeenAt": "2026-09-18T19:38:22.396Z"
+    },
+    "c68b3d8f-360d-41f0-84fd-1cb225b19e23": {
+      "title": "Software Engineer, RL Environments",
+      "firstSeenAt": "2026-09-18T19:38:29.347Z"
     }
   },
   "airbnb": {},
@@ -250,6 +290,38 @@
     "9916e9da-7491-4c99-afd1-e4b8158fa58b": {
       "title": "Software Engineer, Forward Deployed",
       "firstSeenAt": "2026-09-18T16:08:10.309Z"
+    },
+    "b614563f-3ce6-4dca-b5ba-0e5a6c8bda27": {
+      "title": "Software Engineer, Forward Deployed AI Solutions",
+      "firstSeenAt": "2026-09-18T19:35:04.712Z"
+    },
+    "bca0346c-b843-4795-96df-6091f51e421b": {
+      "title": "Software Engineer, Data Platform ",
+      "firstSeenAt": "2026-09-18T19:35:37.116Z"
+    },
+    "be496b52-cfbf-494e-b862-61fb4a188b24": {
+      "title": "Software Engineer, Production Engineering",
+      "firstSeenAt": "2026-09-18T19:36:18.059Z"
+    },
+    "d1183b00-6590-4fe4-a585-28d84e578fe3": {
+      "title": "Software Engineer, Security, Stablecoin",
+      "firstSeenAt": "2026-09-18T19:36:56.057Z"
+    },
+    "d204e136-2749-42de-82b4-88a0dd352090": {
+      "title": "Applied AI Engineer",
+      "firstSeenAt": "2026-09-18T19:37:23.387Z"
+    },
+    "deca582c-a1d0-4705-9975-60aed81ba89f": {
+      "title": "Software Engineer, Enterprise Product",
+      "firstSeenAt": "2026-09-18T19:37:42.209Z"
+    },
+    "f1b3ca8d-d55f-4159-9a3b-f69ad0d981bc": {
+      "title": "Software Engineer, Onboarding",
+      "firstSeenAt": "2026-09-18T19:37:59.776Z"
+    },
+    "f5b60cf1-c0ec-42c1-89db-ece853e998ab": {
+      "title": "Software Engineer, Growth Platform",
+      "firstSeenAt": "2026-09-18T19:38:17.085Z"
     }
   },
   "block": {},
@@ -559,6 +631,18 @@
     "6098390004": {
       "title": "Software Engineer, eve",
       "firstSeenAt": "2026-09-18T16:08:19.335Z"
+    },
+    "6105394004": {
+      "title": "Software Engineer, CDN Content",
+      "firstSeenAt": "2026-09-18T19:35:14.274Z"
+    },
+    "6195280004": {
+      "title": "Software Engineer, Platform ",
+      "firstSeenAt": "2026-09-18T19:35:46.547Z"
+    },
+    "6199608004": {
+      "title": "Software Engineer, Agentic Infrastructure",
+      "firstSeenAt": "2026-09-18T19:36:27.625Z"
     }
   },
   "webflow": {},
@@ -618,6 +702,22 @@
     "5188230007": {
       "title": "Software Engineer - Evals",
       "firstSeenAt": "2026-09-18T16:08:29.863Z"
+    },
+    "5191142007": {
+      "title": "Software Engineer - Platform Infrastructure (Rust, C++)",
+      "firstSeenAt": "2026-09-18T19:35:21.509Z"
+    },
+    "5202187007": {
+      "title": "Software Engineer - Linux Kernel (C++, C)",
+      "firstSeenAt": "2026-09-18T19:35:58.077Z"
+    },
+    "5204788007": {
+      "title": "Software Engineer - X Developer Platform",
+      "firstSeenAt": "2026-09-18T19:36:36.015Z"
+    },
+    "5205179007": {
+      "title": "Software Engineer - Search Infrastructure",
+      "firstSeenAt": "2026-09-18T19:37:04.405Z"
     }
   },
   "zscaler": {},
