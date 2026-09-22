@@ -330,6 +330,10 @@
     "f5b60cf1-c0ec-42c1-89db-ece853e998ab": {
       "title": "Software Engineer, Growth Platform",
       "firstSeenAt": "2026-09-18T19:38:17.085Z"
+    },
+    "7cd46077-05fe-4cd7-816f-5528638342f1": {
+      "title": "Software Engineer, Frontend, Growth",
+      "firstSeenAt": "2026-09-22T01:35:37.410Z"
     }
   },
   "block": {},
@@ -511,7 +515,16 @@
   },
   "okta": {},
   "stabilityai": {},
-  "singlestore": {},
+  "singlestore": {
+    "8220863": {
+      "title": "MIT-Software Engineer-New Grad |Engine|",
+      "firstSeenAt": "2026-09-22T01:35:22.614Z"
+    },
+    "8220882": {
+      "title": "MIT-Software Engineer-New Grad |Helios|",
+      "firstSeenAt": "2026-09-22T01:35:30.452Z"
+    }
+  },
   "securityscorecard": {},
   "robinhood": {},
   "stacklok": {},
