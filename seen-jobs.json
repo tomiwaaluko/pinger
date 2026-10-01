@@ -206,7 +206,12 @@
       "firstSeenAt": "2026-09-24T01:16:41.166Z"
     }
   },
-  "automox": {},
+  "automox": {
+    "5440188008": {
+      "title": "Full-Stack Software Engineer",
+      "firstSeenAt": "2026-10-01T01:57:37.977Z"
+    }
+  },
   "apollo": {},
   "bigid": {},
   "aviatrix": {},
@@ -228,6 +233,14 @@
     "7961475": {
       "title": "Software Engineer",
       "firstSeenAt": "2026-09-17T01:14:37.255Z"
+    },
+    "7962412": {
+      "title": "Software Engineer, Data Loading Infrastructure ",
+      "firstSeenAt": "2026-10-01T01:57:32.413Z"
+    },
+    "8078102": {
+      "title": "Software Engineer, AI Teammates Platform",
+      "firstSeenAt": "2026-10-01T01:57:52.868Z"
     },
     "8155344": {
       "title": "Software Engineer, AI Teammates Experience",
@@ -611,6 +624,10 @@
     "8171506": {
       "title": "Software Engineer, Engine Infrastructure",
       "firstSeenAt": "2026-09-18T16:07:32.865Z"
+    },
+    "8226958": {
+      "title": "Software Engineer, Engine Scalability",
+      "firstSeenAt": "2026-10-01T01:57:44.876Z"
     }
   },
   "samsara": {},
