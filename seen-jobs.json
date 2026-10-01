@@ -163,6 +163,10 @@
     "5017202008": {
       "title": "Software Engineer, Labs",
       "firstSeenAt": "2026-09-23T16:23:33.336Z"
+    },
+    "5440427008": {
+      "title": "Software Engineer, Sandboxing",
+      "firstSeenAt": "2026-10-01T18:16:44.751Z"
     }
   },
   "posthog": {},
@@ -204,6 +208,10 @@
     "ab383335-1dd5-4d6a-971f-439cebf48a9d": {
       "title": "Software Engineer, Model Capabilities",
       "firstSeenAt": "2026-09-24T01:16:41.166Z"
+    },
+    "95800771-37a4-4226-b03f-d4fc6ea88f65": {
+      "title": "Software Engineer, Mobile Platform (iOS)",
+      "firstSeenAt": "2026-10-01T18:16:45.332Z"
     }
   },
   "automox": {
@@ -548,6 +556,10 @@
     "8172457": {
       "title": "Software Engineer, Consumer Engineering",
       "firstSeenAt": "2026-09-17T20:13:10.299Z"
+    },
+    "8243443": {
+      "title": "Software Engineer",
+      "firstSeenAt": "2026-10-01T18:16:58.177Z"
     }
   },
   "okta": {},
@@ -1157,6 +1169,14 @@
     "01871084": {
       "title": "Flight Control Software Engineering Intern (Summer 2027)",
       "firstSeenAt": "2026-09-28T19:28:23.275Z"
+    },
+    "01870974": {
+      "title": "Flight Control Software Engineering Intern (Summer 2027) (Open)",
+      "firstSeenAt": "2026-10-01T18:16:30.611Z"
+    },
+    "01878014": {
+      "title": "Summer 2027 Embedded Software Engineering Intern (Onsite)",
+      "firstSeenAt": "2026-10-01T18:16:34.774Z"
     }
   },
   "samsung": {},
