@@ -212,6 +212,10 @@
     "95800771-37a4-4226-b03f-d4fc6ea88f65": {
       "title": "Software Engineer, Mobile Platform (iOS)",
       "firstSeenAt": "2026-10-01T18:16:45.332Z"
+    },
+    "d82a0b31-59b8-4699-ae8d-6fb3fe47518c": {
+      "title": "Software Engineer, Mobile Core (Android)",
+      "firstSeenAt": "2026-10-02T02:10:26.251Z"
     }
   },
   "automox": {
@@ -1177,6 +1181,18 @@
     "01878014": {
       "title": "Summer 2027 Embedded Software Engineering Intern (Onsite)",
       "firstSeenAt": "2026-10-01T18:16:34.774Z"
+    },
+    "01873555": {
+      "title": "Software Engineer, DevSecOps Co-Op (Summer/Fall 2027) (Hybrid)",
+      "firstSeenAt": "2026-10-02T02:10:00.149Z"
+    },
+    "01874124": {
+      "title": "Software Engineering Co-Op (Summer/Fall 2027) (Hybrid)",
+      "firstSeenAt": "2026-10-02T02:10:08.193Z"
+    },
+    "01874664": {
+      "title": "Software Engineering Co-Op (Avionics) (Summer/Fall 2027) (Hybrid)",
+      "firstSeenAt": "2026-10-02T02:10:14.759Z"
     }
   },
   "samsung": {},
