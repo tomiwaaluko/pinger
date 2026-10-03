@@ -13,7 +13,12 @@
     }
   },
   "alphasense": {},
-  "affirm": {},
+  "affirm": {
+    "8011590003": {
+      "title": "Software Engineer Intern (Summer 2027)",
+      "firstSeenAt": "2026-10-03T01:53:02.867Z"
+    }
+  },
   "cursor": {
     "d0e5b41d-84ab-4887-bd3a-55589b11dd7b": {
       "title": "Software Engineer, New Grad 2027",
@@ -406,6 +411,10 @@
     "6144377004": {
       "title": "Software Engineer, Edge",
       "firstSeenAt": "2026-09-17T01:15:06.045Z"
+    },
+    "6143413004": {
+      "title": "Software Engineer, Core Platform",
+      "firstSeenAt": "2026-10-03T01:53:26.951Z"
     }
   },
   "descope": {},
@@ -564,6 +573,10 @@
     "8243443": {
       "title": "Software Engineer",
       "firstSeenAt": "2026-10-01T18:16:58.177Z"
+    },
+    "8250125": {
+      "title": "iOS Software Engineer, Consumer Engineering",
+      "firstSeenAt": "2026-10-03T01:53:36.095Z"
     }
   },
   "okta": {},
@@ -820,6 +833,14 @@
     "5205179007": {
       "title": "Software Engineer - Search Infrastructure",
       "firstSeenAt": "2026-09-18T19:37:04.405Z"
+    },
+    "5252108007": {
+      "title": "Spring 2027 Software Engineering Internship/Co-op",
+      "firstSeenAt": "2026-10-03T01:53:10.229Z"
+    },
+    "5255111007": {
+      "title": "Summer 2027 Software Engineering Internship/Co-op",
+      "firstSeenAt": "2026-10-03T01:53:17.388Z"
     }
   },
   "zscaler": {},
