@@ -21,6 +21,10 @@
     "8008649003": {
       "title": "Software Engineer, Early Career (NYC)",
       "firstSeenAt": "2026-10-07T02:16:09.081Z"
+    },
+    "8017340003": {
+      "title": "Software Engineer I, Fullstack (Search)",
+      "firstSeenAt": "2026-10-16T01:09:17.986Z"
     }
   },
   "cursor": {
@@ -188,6 +192,14 @@
     "5445410008": {
       "title": "Applied AI Engineer, Public Sector ",
       "firstSeenAt": "2026-10-07T02:16:17.030Z"
+    },
+    "5454650008": {
+      "title": "Applied AI Engineer, Startups (Life Sciences)",
+      "firstSeenAt": "2026-10-16T01:09:28.929Z"
+    },
+    "5454673008": {
+      "title": "Applied AI Engineer, Startups (Physical AI)",
+      "firstSeenAt": "2026-10-16T01:09:38.888Z"
     }
   },
   "posthog": {},
