@@ -515,7 +515,12 @@
     }
   },
   "intercom": {},
-  "launchdarkly": {},
+  "launchdarkly": {
+    "8015117003": {
+      "title": "Backend Software Engineer, SDK",
+      "firstSeenAt": "2026-10-20T01:43:55.319Z"
+    }
+  },
   "mixpanel": {
     "8064216": {
       "title": "Software Engineer, AI Platform",
