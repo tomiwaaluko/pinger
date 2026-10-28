@@ -538,6 +538,10 @@
       "title": "Software Engineer, AI Platform",
       "firstSeenAt": "2026-09-17T01:15:59.979Z"
     },
+    "8157627": {
+      "title": "Software Engineer, Growth",
+      "firstSeenAt": "2026-10-28T02:11:00.396Z"
+    },
     "8162414": {
       "title": "Software Engineer, Distributed Systems ",
       "firstSeenAt": "2026-09-17T20:12:28.122Z"
@@ -763,6 +767,10 @@
     "8262223": {
       "title": "Software Engineer, ROS",
       "firstSeenAt": "2026-10-10T02:16:30.087Z"
+    },
+    "8283641": {
+      "title": "Software Engineer, Creator Services Communication",
+      "firstSeenAt": "2026-10-28T02:11:12.169Z"
     },
     "8283707": {
       "title": "Software Engineer, Reliability ",
@@ -1160,6 +1168,14 @@
     "R10257768": {
       "title": "2027 Associate Software Engineer / Software Engineer - Colorado Springs CO",
       "firstSeenAt": "2026-10-27T17:44:10.147Z"
+    },
+    "R10257890": {
+      "title": "2027 Associate Software Engineer - Azusa CA",
+      "firstSeenAt": "2026-10-28T02:10:41.693Z"
+    },
+    "R10257908": {
+      "title": "2027 Associate Software Engineer - Boulder CO",
+      "firstSeenAt": "2026-10-28T02:10:52.020Z"
     }
   },
   "paypal": {
@@ -1360,6 +1376,10 @@
     "01884782": {
       "title": "Embedded Software Engineering Intern (Summer 2027)",
       "firstSeenAt": "2026-10-27T17:44:15.040Z"
+    },
+    "01885187": {
+      "title": "Receiver, Exciter, & Processing Architecture Software Engineer Intern (Summer 2027) - Onsite",
+      "firstSeenAt": "2026-10-28T02:10:46.754Z"
     }
   },
   "samsung": {},
