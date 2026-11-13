@@ -216,6 +216,10 @@
     "5454673008": {
       "title": "Applied AI Engineer, Startups (Physical AI)",
       "firstSeenAt": "2026-10-16T01:09:38.888Z"
+    },
+    "5437172008": {
+      "title": "Applied AI Engineer, Beneficial Deployments, Life Sciences (Molecular Design)",
+      "firstSeenAt": "2026-11-13T03:19:08.733Z"
     }
   },
   "posthog": {},
@@ -464,6 +468,18 @@
     "f564dcf9-9390-4a3f-896f-8047a5086040": {
       "title": "Software Engineer, Android",
       "firstSeenAt": "2026-11-10T04:39:02.164Z"
+    },
+    "34413f8d-26bf-4bbc-8ade-eb309a0e2245": {
+      "title": " Software Engineer, Security, Cloud",
+      "firstSeenAt": "2026-11-13T03:19:17.291Z"
+    },
+    "7c26780b-7923-42d5-8111-9825ff996966": {
+      "title": "Software Engineer, Security, Product",
+      "firstSeenAt": "2026-11-13T03:19:23.865Z"
+    },
+    "95f450a1-0d38-4d58-9aac-9d7e655adc36": {
+      "title": "Software Engineer, Security, Privacy",
+      "firstSeenAt": "2026-11-13T03:19:30.370Z"
     }
   },
   "block": {},
