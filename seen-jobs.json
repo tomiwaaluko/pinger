@@ -480,6 +480,10 @@
     "95f450a1-0d38-4d58-9aac-9d7e655adc36": {
       "title": "Software Engineer, Security, Privacy",
       "firstSeenAt": "2026-11-13T03:19:30.370Z"
+    },
+    "6e717b06-6613-42ad-a1ee-f852a305fa37": {
+      "title": "Software Engineer, Fullstack, Spend Controls",
+      "firstSeenAt": "2026-11-14T02:57:37.551Z"
     }
   },
   "block": {},
@@ -506,6 +510,10 @@
     "8936403002": {
       "title": "Software Engineer, Intern  (Summer 2027)",
       "firstSeenAt": "2026-11-11T19:27:08.173Z"
+    },
+    "8606885002": {
+      "title": "AI Engineer, Ecosystem",
+      "firstSeenAt": "2026-11-14T02:57:30.365Z"
     }
   },
   "buildkite": {},
