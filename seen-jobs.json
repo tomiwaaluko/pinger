@@ -220,6 +220,10 @@
     "5437172008": {
       "title": "Applied AI Engineer, Beneficial Deployments, Life Sciences (Molecular Design)",
       "firstSeenAt": "2026-11-13T03:19:08.733Z"
+    },
+    "5484171008": {
+      "title": "Software Engineer, Datacenter Server Lifecycle",
+      "firstSeenAt": "2026-11-17T04:58:49.186Z"
     }
   },
   "posthog": {},
@@ -1067,6 +1071,14 @@
     "5295932007": {
       "title": "Software Engineer, Super Intelligence",
       "firstSeenAt": "2026-11-16T21:42:16.722Z"
+    },
+    "5297311007": {
+      "title": "Software Engineer, Ads Serving",
+      "firstSeenAt": "2026-11-17T04:58:56.676Z"
+    },
+    "5297316007": {
+      "title": "Software Engineer, Safety",
+      "firstSeenAt": "2026-11-17T04:59:04.759Z"
     }
   },
   "zscaler": {},
