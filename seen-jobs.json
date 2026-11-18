@@ -224,6 +224,10 @@
     "5484171008": {
       "title": "Software Engineer, Datacenter Server Lifecycle",
       "firstSeenAt": "2026-11-17T04:58:49.186Z"
+    },
+    "5483945008": {
+      "title": "Applied AI Engineer, Commercial",
+      "firstSeenAt": "2026-11-18T20:04:26.795Z"
     }
   },
   "posthog": {},
@@ -880,7 +884,12 @@
   "sumologic": {},
   "tines": {},
   "tailscale": {},
-  "twilio": {},
+  "twilio": {
+    "8026211": {
+      "title": "Software Engineer, Platform Access (L2)",
+      "firstSeenAt": "2026-11-18T20:04:47.044Z"
+    }
+  },
   "togetherai": {
     "5211582007": {
       "title": "Software Engineer, New Grad (2027)",
@@ -984,6 +993,10 @@
     "6242246004": {
       "title": "Software Engineer, Agent Auth",
       "firstSeenAt": "2026-11-03T19:20:03.348Z"
+    },
+    "6264524004": {
+      "title": "Software Engineer, Vercel Agent",
+      "firstSeenAt": "2026-11-18T20:05:07.215Z"
     }
   },
   "webflow": {},
