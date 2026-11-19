@@ -285,6 +285,10 @@
     "06c2599d-4dd5-4f97-843f-7194b546f042": {
       "title": "Software Engineer, Web Infrastructure",
       "firstSeenAt": "2026-11-09T22:08:35.624Z"
+    },
+    "0fb1f7e2-ffe4-433c-a27d-62fa7f1d880f": {
+      "title": "Software Engineer, Collections Infra",
+      "firstSeenAt": "2026-11-19T20:03:45.290Z"
     }
   },
   "automox": {
@@ -496,6 +500,10 @@
     "3cfbf693-58e3-423f-87a8-a93dbd0839b0": {
       "title": "Software Engineer, Backend, AI Ventures",
       "firstSeenAt": "2026-11-17T20:32:31.895Z"
+    },
+    "da40ed6e-1c32-4284-89f5-2ad0813b8d49": {
+      "title": "Software Engineer, Production Engineering, FinOps",
+      "firstSeenAt": "2026-11-19T20:03:54.117Z"
     }
   },
   "block": {},
